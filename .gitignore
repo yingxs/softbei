@@ -4,3 +4,5 @@ RemoteSystemsTempFiles
 .buildpath
 .project
 .idea/
+b/
+*test.html
