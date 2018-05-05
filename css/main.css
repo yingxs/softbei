@@ -1,11 +1,17 @@
+
+
 *{
     margin: 0;
     padding: 0;
+}
+ul,li{
+    list-style: none;
 }
 html, body {
     height: 100%;
     width: 100%;
     position: absolute;
+    font-size:10px;
 }
 #map {
     position: absolute;
@@ -19,7 +25,7 @@ html, body {
     filter: alpha(opacity=0);
 }
 
-/*Çå³þ×óÏÂ½ÇµÄ¸ßµÂlogoºÍÉùÃ÷*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ÇµÄ¸ßµï¿½logoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 
 .amap-logo img{
     display: none;
@@ -27,5 +33,89 @@ html, body {
 .amap-mcode{
     display: none;
 
+}
+
+#left_bar{
+    position: relative;
+    width: 35px;
+    height: 100%;
+    background: #F7F7F7;
+    box-shadow: 0 0 4px #dbdada;
+    z-index: 10;
+    top: 0;
+    left: 0;
+}
+
+#left_bar .menu_ul{
+    padding-top: 20px;
+    width: 100%;
+}
+
+#left_bar .menu_ul li{
+    width: 100%;
+    margin: 15px 0px;
+
+}
+#left_bar .menu_ul li:hover{
+    background: #e0e0e0;
+}
+
+#left_bar .menu_ul img{
+    width: 55%;
+    margin-top: 5px;
+    margin-left: 25%;
+}
+
+
+
+
+
+#left_bar .diolg_ul {
+    position: relative;
+    width: 160px;
+    top: -224px;
+    left:35px;
+}
+#left_bar .diolg_ul li{
+    background: url("../svg/diog.svg") 100% 100%;
+    background-size: 100%;
+}
+
+#left_bar .diolg_ul img{
+    width: 100%;
+}
+
+#left_bar .diolg_ul li{
+    position: absolute;
+    width: 80px;
+    height: 35px;
+
+    display: block;
+    line-height: 35px;
+    text-align: center;
+    font-size: 1.35rem;
+    color: #666;
+    margin-top: 10px;
+    /*opacity: 0;*/
+    top: 3px;
+    left: -150px;
+    z-index: -1;
+}
+#left_bar .diolg_ul li:nth-child(2){
+    top:45px;
+    left: -150px;
+}
+#left_bar .diolg_ul li:nth-child(3){
+    top:86px;
+    left: -150px;
+}
+#left_bar .diolg_ul li:nth-child(4){
+    top:127px;
+    left: -150px;
+}
+
+#left_bar .diolg_ul li:nth-child(5){
+    top:169px;
+    left: -150px;
 }
 

@@ -1,10 +1,10 @@
 
 $(function(){
-	alert('DOM加载完成');
+	//alert('DOM加载完成');
 	//初始化显示地图
 	init();
+	load();
 
-	$('')
 });
 
 
@@ -17,10 +17,36 @@ function init(){
 
 }
 
+function load(){
+
+	$('#left_bar .menu_ul li').hover(function(){
+		$('#left_bar .diolg_ul li').eq($(this).index()).animate({
+			t:30,
+			step:10,
+			mul:{
+				x:10,
+				o:100
+			}
+		});
+	},function(){
+		$('#left_bar .diolg_ul li').eq($(this).index()).animate({
+			t:30,
+			step:10,
+			mul:{
+				x:-150,
+				o:0
+			}
+		});
+	});
+
+
+}
+
 function onApiLoaded(){
 	var map = new AMap.Map('map', {
 		center: [117.000923, 36.675807],
 		zoom: 2,
+		mapStyle:'amap://styles/80e8a8b8a906b27a1fd674f29f31aabc'
 	});
 
 //        添加控制按钮
@@ -29,7 +55,7 @@ function onApiLoaded(){
 //        });
 
 	map.on('complete', function() {
-		alert('地图加载完成');
+		//alert('地图加载完成');
 		$('#map').animate({
 			attr:'o',
 			target:100,

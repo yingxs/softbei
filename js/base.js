@@ -318,3 +318,29 @@ Base.prototype.animate = function(obj){
 
 };
 
+//设置鼠标移入移出方法
+Base.prototype.hover = function(over,out){
+	for(var i=0;i<this.elements.length;i++){
+		addEvent(this.elements[i],'mouseover',over);
+		addEvent(this.elements[i],'mouseout',out);
+	}
+	return this;
+};
+
+
+//获取某一个节点在整个节点组中是第几个索引
+Base.prototype.index = function(){
+	var children = this.elements[0].parentNode.children;
+	for(var i=0;i<children.length;i++){
+		if(this.elements[0] == children[i]) return i;
+	}
+};
+
+
+//获取某个节点，并返回Base对象
+Base.prototype.eq = function(num){
+	var element = this.elements[num];
+	this.elements = [];
+	this.elements[0] = element;
+	return this;
+};
