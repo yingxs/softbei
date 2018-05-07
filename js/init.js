@@ -29,26 +29,80 @@ function init(){
 
 function load(){
 
+	var left_box = {
+		menu:$('#left_bar span'),
+		search:$('#left_flat span').eq(0),
+		filter:$('#left_flat span').eq(1)
+	};
+
+	function leftBox_anim(obj,t,step,x,o){
+		obj.animate({
+			t:t,
+			step:step,
+			mul:{
+				x:x,
+				o:o
+			}
+		});
+	}
+
+
+
 	//左边标志栏
 	$('#left_bar .menu_ul li').hover(function(){
-		$('#left_bar .diolg_ul li').eq($(this).index()).animate({
-			t:30,
-			step:10,
-			mul:{
-				x:10,
-				o:100
-			}
-		});
+		//鼠标悬停时，判断相应的滑块当前是否显示，若未显示，就显示提示，反之不显示提示信息
+		if($(this).index() == 0 && parseInt( left_box.menu.css('left')) < 0 ){
+			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
+		}else if($(this).index() == 1 && parseInt( left_box.search.css('left')) < 0 ){
+			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
+		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left')) < 0 ){
+			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
+		}else if($(this).index() == 3 && parseInt( left_box.filter.css('left')) < 0 ){
+			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
+		}else if($(this).index() == 4 && parseInt( left_box.filter.css('left')) < 0 ){
+			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
+		}
+
 	},function(){
-		$('#left_bar .diolg_ul li').eq($(this).index()).animate({
-			t:30,
-			step:10,
-			mul:{
-				x:-150,
-				o:0
-			}
-		});
+		leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,-150,0);
+
 	});
+
+	$('#map').click(function(){
+		leftBox_anim(left_box.menu,10,30,-155,100);
+		leftBox_anim(left_box.search,10,30,-100,100);
+		leftBox_anim(left_box.filter,10,30,-100,100);
+	});
+
+
+	//左边菜单块
+	$('#left_bar .menu_ul li').click(function(){
+
+		if( $(this).index() == 0 && parseInt( left_box.menu.css('left') )<0 ) {
+			//当点击菜单按钮时，显示菜单块
+			leftBox_anim(left_box.menu,10,30,0,100);
+		}else if($(this).index() == 1 && parseInt( left_box.search.css('left') )<0){
+			//显示之前隐藏信息提示框
+			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,-150,0);
+			//显示搜索块
+			leftBox_anim(left_box.search,10,30,35,100);
+			//隐藏筛选块
+			leftBox_anim(left_box.filter,10,30,-100,100);
+		}else if($(this).index() == 1 && parseInt( left_box.search.css('left') )>0){
+			leftBox_anim(left_box.search,10,30,-100,100);
+		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left') )<0){
+			//显示之前隐藏信息提示框
+			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,-150,0);
+			//显示筛选块
+			leftBox_anim(left_box.filter,10,30,35,100);
+			//隐藏搜索块
+			leftBox_anim(left_box.search,10,30,-100,100);
+		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left') )>0){
+			leftBox_anim(left_box.filter,10,30,-100,100);
+		}
+
+	});
+
 
 }
 
