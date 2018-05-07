@@ -407,3 +407,22 @@ Base.prototype.resize = function(fn){
 	}
 	return this;
 };
+
+//设置隐藏
+Base.prototype.hide = function(){
+	for(var i=0;i<this.elements.length;i++){
+		this.elements[i].style.display = 'none';
+
+	}
+	return this;
+};
+
+
+//设置显示
+Base.prototype.show = function(){
+	for(var i=0;i<this.elements.length;i++){
+		this.elements[i].style.display = 'block';
+
+	}
+	return this;
+};
