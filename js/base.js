@@ -344,3 +344,66 @@ Base.prototype.eq = function(num){
 	this.elements[0] = element;
 	return this;
 };
+
+//遮罩锁屏功能
+Base.prototype.lock = function(){
+	for(var i=0;i<this.elements.length;i++){
+		fixedScroll.top = getScroll().top;
+		fixedScroll.left = getScroll().left;
+
+
+		this.elements[i].style.width = getInner().width+ getScroll().left +'px';
+		this.elements[i].style.height = getInner().height+getScroll().top+'px';
+
+		this.elements[i].style.display = 'block';
+
+		parseFloat(sys.firefox) < 4 ? document.body.style.overflow = 'hidden' : document.documentElement.style.overflow = 'hidden';
+		addEvent(this.elements[i],'mousedown',predef);
+		addEvent(this.elements[i],'mouseup',predef);
+		addEvent(this.elements[i],'selectstart',predef);
+		addEvent(window,'scroll',fixedScroll);
+
+
+	}
+
+	return this;
+};
+
+//解除遮罩锁屏
+Base.prototype.unlock = function(){
+	for(var i=0;i<this.elements.length;i++){
+		this.elements[i].style.display = 'none';
+		parseFloat(sys.firefox) < 4 ? document.body.style.overflow = 'auto' : document.documentElement.style.overflow = 'auto';
+		removeEvent(this.elements[i],'mousedown',predef);
+		removeEvent(this.elements[i],'mouseup',predef);
+		removeEvent(this.elements[i],'selectstart',predef);
+		removeEvent(window,'scroll',fixedScroll);
+	}
+
+	return this;
+};
+
+
+//触发浏览器窗口大小改变事件
+Base.prototype.resize = function(fn){
+	for(var i=0;i<this.elements.length;i++){
+		var element = this.elements[i];
+		addEvent(window,'resize',function(){
+			fn();
+			if(element.offsetLeft > getInner().width + getScroll().left - element.offsetWidth){
+				element.style.left = getInner().width+getScroll().left- element.offsetWidth+'px';
+				if(element.offsetLeft<=0+getScroll().left){
+					element.style.left=0+getScroll().left+"px";
+				}
+			}
+			if(element.offsetTop > getInner().height+getScroll().top - element.offsetHeight){
+				element.style.top = getInner().height +getScroll().top- element.offsetHeight+'px';
+				if(element.offsetTop<=0+getScroll().top){
+					element.style.top=0+getScroll().top+"px";
+				}
+			}
+		});
+
+	}
+	return this;
+};

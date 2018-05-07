@@ -119,3 +119,73 @@ html, body {
     left: -150px;
 }
 
+
+#screen{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #000;
+    z-index: 9998;
+    filter:alpha(opacity=0);
+    opacity: 0;
+    display: none;
+
+}
+
+#loading {
+    position: absolute;
+    width: 200px;
+    height: 110px;
+    text-align: center;
+    font-size: 10px;
+    left: 40%;
+    top: 40%;
+    /*border: 1px solid red;*/
+    z-index: 9999;
+}
+
+#loading > div {
+    background-color: #666;
+    height: 100%;
+    margin-left: 2%;
+    width: 8px;
+    display: inline-block;
+    border-radius: 25px;
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+#loading .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+#loading .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+#loading .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+#loading .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+    0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+    20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes stretchdelay {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }  20% {
+           transform: scaleY(1.0);
+           -webkit-transform: scaleY(1.0);
+       }
+}

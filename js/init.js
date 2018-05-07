@@ -2,8 +2,18 @@
 $(function(){
 	//alert('DOM加载完成');
 	//初始化显示地图
-	init();
+	//遮罩画布
+	var screen = $('#screen');
+	window.screen=screen;
+	screen.lock().resize(function(){
+		screen.lock();
+	}).opacity(30);
+	init(screen);
 	load();
+
+	function getScreen(){
+		return screen;
+	}
 
 });
 
@@ -19,6 +29,7 @@ function init(){
 
 function load(){
 
+	//左边标志栏
 	$('#left_bar .menu_ul li').hover(function(){
 		$('#left_bar .diolg_ul li').eq($(this).index()).animate({
 			t:30,
@@ -39,10 +50,12 @@ function load(){
 		});
 	});
 
-
 }
 
 function onApiLoaded(){
+
+
+
 	var map = new AMap.Map('map', {
 		center: [117.000923, 36.675807],
 		zoom: 2,
@@ -55,12 +68,34 @@ function onApiLoaded(){
 //        });
 
 	map.on('complete', function() {
+
+		window.screen.animate({
+			attr:'o',
+			target:0,
+			step:30,
+			t:10,
+			fn:function(){
+				window.screen.unlock();
+			}
+		});
+
+		$('#loading').animate({
+			attr:'o',
+			target:0,
+			step:30,
+			t:10,
+			fn:function(){
+				$('#loading').hide();
+			}
+		});
+
 		//alert('地图加载完成');
 		$('#map').animate({
 			attr:'o',
 			target:100,
 			step:10,
 			t:10
+
 		});
 
 //        document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
