@@ -426,3 +426,11 @@ Base.prototype.show = function(){
 	}
 	return this;
 };
+
+//设置事件发生器
+Base.prototype.bind = function(event,fn){
+	for(var i=0;i<this.elements.length;i++){
+		addEvent(this.elements[i],event,fn);
+	}
+	return this;
+};

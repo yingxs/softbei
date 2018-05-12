@@ -51,17 +51,17 @@ function load(){
 	//左边标志栏
 	$('#left_bar .menu_ul li').hover(function(){
 		//鼠标悬停时，判断相应的滑块当前是否显示，若未显示，就显示提示，反之不显示提示信息
-		if($(this).index() == 0 && parseInt( left_box.menu.css('left')) < 0 ){
+		//if($(this).index() == 0 && parseInt( left_box.menu.css('left')) < 0 ){
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
-		}else if($(this).index() == 1 && parseInt( left_box.search.css('left')) < 0 ){
+		//}else if($(this).index() == 1 && parseInt( left_box.search.css('left')) < 0 ){
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
-		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left')) < 0 ){
+		//}else if($(this).index() == 2 && parseInt( left_box.filter.css('left')) < 0 ){
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
-		}else if($(this).index() == 3 && parseInt( left_box.filter.css('left')) < 0 ){
+		//}else if($(this).index() == 3 && parseInt( left_box.filter.css('left')) < 0 ){
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
-		}else if($(this).index() == 4 && parseInt( left_box.filter.css('left')) < 0 ){
+		//}else if($(this).index() == 4 && parseInt( left_box.filter.css('left')) < 0 ){
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,10,100);
-		}
+		//}
 
 	},function(){
 		leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,-150,0);
@@ -69,9 +69,9 @@ function load(){
 	});
 
 	$('#map').click(function(){
-		leftBox_anim(left_box.menu,10,30,-155,100);
-		leftBox_anim(left_box.search,10,30,-100,100);
-		leftBox_anim(left_box.filter,10,30,-100,100);
+		leftBox_anim(left_box.menu,10,30,-155,0);
+		leftBox_anim(left_box.search,10,30,-100,0);
+		leftBox_anim(left_box.filter,10,30,-100,0);
 	});
 
 
@@ -87,21 +87,80 @@ function load(){
 			//显示搜索块
 			leftBox_anim(left_box.search,10,30,35,100);
 			//隐藏筛选块
-			leftBox_anim(left_box.filter,10,30,-100,100);
+			leftBox_anim(left_box.filter,10,30,-100,0);
 		}else if($(this).index() == 1 && parseInt( left_box.search.css('left') )>0){
-			leftBox_anim(left_box.search,10,30,-100,100);
+			leftBox_anim(left_box.search,10,30,-100,0);
 		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left') )<0){
 			//显示之前隐藏信息提示框
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,-150,0);
 			//显示筛选块
 			leftBox_anim(left_box.filter,10,30,35,100);
 			//隐藏搜索块
-			leftBox_anim(left_box.search,10,30,-100,100);
+			leftBox_anim(left_box.search,10,30,-100,0);
 		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left') )>0){
-			leftBox_anim(left_box.filter,10,30,-100,100);
+			leftBox_anim(left_box.filter,10,30,-100,0);
 		}
 
 	});
+
+	//查询出发与到达选项
+	$('#left_flat qf_option .qf_input').bind('focus',function(){
+		$('#left_flat qf_option .qf_opt').show();
+		$('#left_flat qf_option .qf_opt').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:104,
+				o:100
+			}
+		});
+
+	}).bind('blur',function(){
+		$('#left_flat qf_option .qf_opt').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:0,
+				o:0
+			},
+			fn:function(){
+				$('#left_flat qf_option .qf_opt').hide();
+			}
+		});
+
+	});
+
+
+	$('#left_flat qf_option .dd_input').bind('focus',function(){
+		$('#left_flat qf_option .dd_opt').show();
+		$('#left_flat qf_option .dd_opt').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:104,
+				o:100
+			}
+		});
+
+	}).bind('blur',function(){
+		$('#left_flat qf_option .dd_opt').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:0,
+				o:0
+			},
+			fn:function(){
+				$('#left_flat qf_option .dd_opt').hide();
+			}
+		});
+
+	});
+
+
+
+
+
 
 
 }
