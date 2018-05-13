@@ -470,4 +470,8 @@ Base.prototype.attr = function(attr,value){
 	}
 	return this;
 };
+//获取某一个节点对象，并返回这个节点对象
+Base.prototype.ge = function(num){
+	return  this.elements[num];
 
+};
