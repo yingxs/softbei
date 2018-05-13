@@ -114,6 +114,7 @@ function load(){
 				o:100
 			}
 		});
+		$('#left_flat qf_option .qf_img_down').attr('src','svg/select_up.svg');
 
 	}).bind('blur',function(){
 		$('#left_flat qf_option .qf_opt').animate({
@@ -125,6 +126,7 @@ function load(){
 			},
 			fn:function(){
 				$('#left_flat qf_option .qf_opt').hide();
+				$('#left_flat qf_option .qf_img_down').attr('src','svg/select_down.svg');
 			}
 		});
 
@@ -141,6 +143,7 @@ function load(){
 				o:100
 			}
 		});
+		$('#left_flat qf_option .dd_img_down').attr('src','svg/select_up.svg');
 
 	}).bind('blur',function(){
 		$('#left_flat qf_option .dd_opt').animate({
@@ -152,13 +155,63 @@ function load(){
 			},
 			fn:function(){
 				$('#left_flat qf_option .dd_opt').hide();
+				$('#left_flat qf_option .dd_img_down').attr('src','svg/select_down.svg');
 			}
 		});
 
 	});
 
+	$('#left_flat .qf_option .qf_opt li').bind('mousedown',function(){
+		var str = $(this).html();
+		var value = $(this).attr('value');
+		$('#left_flat .qf_option .qf_input').value("出发："+str);
+		var array=["机场","省/市","区域","国家"];
+		$('#left_flat .qf_text').attr('placeholder',"起飞"+array[value]).attr('key',value);
+
+	});
+	$('#left_flat .qf_option .dd_opt li').bind('mousedown',function(){
+		var str = $(this).html();
+		var value = $(this).attr('value');
+		$('#left_flat .qf_option .dd_input').value("到达："+str);
+		var array=["机场","省/市","区域","国家"];
+		$('#left_flat  .dd_jc').attr('placeholder',"到达"+array[value]).attr('key',value);
+	});
 
 
+
+	$('#left_flat .td_zz .zz_select').bind('focus',function(){
+		$('#left_flat .td_zz .zz_opt').show();
+		$('#left_flat .td_zz .zz_opt').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:104,
+				o:100
+			}
+		});
+		$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_up.svg');
+	}).bind('blur',function(){
+		$('#left_flat .td_zz .zz_opt').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:0,
+				o:0
+			},
+			fn:function(){
+				$('#left_flat .td_zz .zz_opt').hide();
+				$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_down.svg');
+			}
+		});
+
+	});
+	$('#left_flat .td_zz .zz_opt li').bind('mousedown',function(){
+		var value = $(this).attr('value');
+		//alert(value);
+		var array=["机场","省/市","区域","国家"];
+		$('#left_flat .td_zz .zz_jc').attr('key',value).attr('placeholder',"中转"+array[value]);
+
+	});
 
 
 

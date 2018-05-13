@@ -434,3 +434,40 @@ Base.prototype.bind = function(event,fn){
 	}
 	return this;
 };
+
+//表单字段内容获取
+Base.prototype.value = function (str){
+
+	for(var i=0;i<this.elements.length;i++){
+		if(arguments.length==0){
+			return this.elements[i].value;
+		}
+		this.elements[i].value = str;
+	}
+	return this;
+};
+
+//设置内容
+Base.prototype.html = function (str){
+
+	for(var i=0;i<this.elements.length;i++){
+		if(arguments.length==0){
+			return this.elements[i].innerHTML;
+		}
+		this.elements[i].innerHTML = str;
+	}
+	return this;
+};
+
+//获取某一结点的属性
+Base.prototype.attr = function(attr,value){
+	for(var i=0;i<this.elements.length;i++){
+		if(arguments.length==1){
+			return this.elements[0].getAttribute(attr);
+		}else if(arguments.length==2){
+			this.elements[i].setAttribute(attr,value);
+		}
+	}
+	return this;
+};
+

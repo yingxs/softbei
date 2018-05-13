@@ -261,12 +261,15 @@ html, body {
 #left_flat span .qf_option img:nth-child(1){
     width: 10px;
     position: relative;
-    left: -105px;
+    left:125px;
+    cursor: pointer;
 }
+
 #left_flat span .qf_option img:nth-child(2){
     width: 10px;
     position: relative;
-    left: 200px;
+    left: -15px;
+    cursor: pointer;
 }
 
 #left_flat span table tr:nth-child(1) td {
@@ -283,6 +286,7 @@ html, body {
     border: 1px solid #ddd;
     padding: 5px 0;
     box-shadow:4px 10px 20px  #ddd;
+    z-index: 2;
 
 }
 #left_flat span .dd_opt {
@@ -336,3 +340,46 @@ html, body {
     background: blue;
 }
 
+
+ #left_flat .td_zz img{
+     width: 10px;
+     position: relative;
+     left:-30px;
+     cursor: pointer;
+
+ }
+
+ #left_flat .td_zz .zz_select{
+     width: 44% ;
+     text-indent: 18px;
+
+ }
+ #left_flat .td_zz .zz_jc{
+     width: 44.5% ;
+     margin-left:3%;
+     text-indent: 25px;
+ }
+ #left_flat .td_zz .zz_select{
+     position: relative;
+ }
+
+ #left_flat .td_zz .zz_opt{
+     position: absolute;
+     display: none;
+     opacity: 0;
+     filter:alpha(opacity=0);
+     width: 42%;
+     height: 0px;
+     background: #f6f6f6;
+     border: 1px solid #ddd;
+     padding: 5px 0;
+     box-shadow:4px 10px 20px  #ddd;
+ }
+#left_flat .td_zz .zz_opt li {
+    padding: 3px 0px;
+    text-indent: 18px;
+}
+
+#left_flat .td_zz .zz_opt li:hover {
+    background: #f0f0f0;
+}
