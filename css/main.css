@@ -374,6 +374,7 @@ html, body {
      border: 1px solid #ddd;
      padding: 5px 0;
      box-shadow:4px 10px 20px  #ddd;
+     z-index: 1;
  }
 #left_flat .td_zz .zz_opt li {
     padding: 3px 0px;
@@ -382,4 +383,241 @@ html, body {
 
 #left_flat .td_zz .zz_opt li:hover {
     background: #f0f0f0;
+}
+
+
+
+#date_calendar{
+    width: 0px ;
+    height: 0px;
+    border: 1px solid #e0e0e0 ;
+    overflow: hidden;
+    position: absolute;
+    left: 0px;
+    top: 40px;
+    display: none;
+    opacity: 0;
+    filter: alpha(opacity=0);
+
+
+}
+#date_calendar #calendar_note{
+    margin: 0px;
+    padding: 0px;
+    width: 550px ;
+    height: 300px;
+    background: #f5f5f5;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+
+}
+
+#date_calendar #calendar_note .month_prev{
+    width: 49.2%;
+    height: 300px;
+    display: inline-block;
+    /*border: 1px solid #419641;*/
+}
+#date_calendar #calendar_note .month_prev h5{
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    text-align: center;
+    color: #777;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+#date_calendar #calendar_note .month_prev table {
+    width: 96%;
+    margin-top: 8%;
+    height: 80%;
+    color: #666;
+
+}
+#date_calendar #calendar_note .month_prev table td{
+    font-size: 1.2rem;
+    color: #666;
+
+}
+
+#date_calendar #calendar_note .month_now{
+    width: 49.2%;
+    height: 100%;
+    display: inline-block;
+    /*border: 1px solid #419641;*/
+}
+#date_calendar #calendar_note .month_now h5{
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    text-align: center;
+    color: #777;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+#date_calendar #calendar_note .month_now table {
+    width: 96%;
+    margin-top: 8%;
+    height: 80%;
+    color: #666;
+
+}
+#date_calendar #calendar_note .month_now table td{
+    font-size: 1.2rem;
+    color: #666;
+
+}
+
+#date_calendar .calendar_prev img{
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+#date_calendar .calendar_next img{
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+#date_calendar #calendar_prev{
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    position: absolute;
+    left: 10px;
+    top:10px;
+    z-index: 2;
+    background: #f0f0f0;
+    border-radius: 100%;
+
+}
+#date_calendar #calendar_next{
+    width: 24px;
+    height: 24px;
+    display: block;
+    position: absolute;
+    left: 520px;
+    top:10px;
+    background: #f0f0f0;
+    border-radius: 100%;
+    z-index: 2;
+
+}
+#date_calendar #calendar_prev:hover{
+    cursor: pointer;
+    background: #e7e7e7;
+
+}
+#date_calendar #calendar_next:hover{
+    cursor: pointer;
+    background: #e7e7e7;
+
+}
+
+
+
+
+
+
+#date_calendar #calendar_plus{
+    margin: 0px;
+    padding: 0px;
+    width: 550px ;
+    height: 300px;
+    background: #f5f5f5;
+    position: absolute;
+    left: 555px;
+    top: 0px;
+
+}
+
+#date_calendar #calendar_plus .month_prev{
+    width: 49.2%;
+    height: 300px;
+    display: inline-block;
+    /*border: 1px solid #419641;*/
+}
+#date_calendar #calendar_plus .month_prev h5{
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    text-align: center;
+    color: #777;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+#date_calendar #calendar_plus .month_prev table {
+    width: 96%;
+    margin-top: 8%;
+    height: 80%;
+    color: #666;
+
+}
+#date_calendar #calendar_plus .month_prev table td{
+    font-size: 1.2rem;
+    color: #666;
+
+}
+
+#date_calendar #calendar_plus .month_now{
+    width: 49.2%;
+    height: 300px;
+    display: inline-block;
+    /*border: 1px solid #419641;*/
+}
+#date_calendar #calendar_plus .month_now h5{
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    text-align: center;
+    color: #777;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+#date_calendar #calendar_plus .month_now table {
+    width: 96%;
+    margin-top: 8%;
+    height: 80%;
+    color: #666;
+
+}
+#date_calendar #calendar_plus .month_now table td{
+    font-size: 1.2rem;
+    color: #666;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#date_calendar  table td:lang(wh):hover{
+    cursor: pointer;
+    border-radius: 100%;
+    background: #e8e8e8;
+
+}
+#date_calendar .now{
+    border-radius: 100%;
+    background: #f79851;
+    color: #666;
+}
+#date_calendar .now:hover{
+    background: #f7782a;
+    cursor: pointer;
+}
+
+#date_calendar  table tr:nth-child(1) td:hover{
+    cursor: auto;
+    background: #f5f5f5;
 }

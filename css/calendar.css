@@ -1,14 +1,13 @@
-*{
-    margin: 0;
-    padding: 0;
-}
-html{
-    font-size: 10px;
-}
 
 #date_calendar{
-    width: 550px ; height: 280px; border: 1px solid #e7e7e7 ;padding: 5px;overflow: hidden;
+    width: 550px ;
+    height: 280px;
+    border: 1px solid #e7e7e7 ;
+    padding: 5px;
+    overflow: hidden;
+
 }
+
 #date_calendar #calendar_note{
     width: 550px ;
 }
@@ -32,6 +31,9 @@ html{
 }
 
 
+
+
+
 #date_calendar .month_prev table {
     width: 94%;
     height: 75%;
@@ -51,6 +53,16 @@ html{
     font-size: 1.3rem;
 }
 
+
+
+
+
+
+
+
+
+
+
 #date_calendar .month_now table {
     width: 94%;
     height: 75%;
@@ -66,9 +78,23 @@ html{
 
     padding-bottom: 9%;
 }
-#date_calendar  {
-    position: relative;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #date_calendar .calendar_prev{
     position:absolute;
     width: 24px;
@@ -95,6 +121,8 @@ html{
     cursor: pointer;
     z-index: 2;
 }
+
+
 #date_calendar .calendar_prev:hover{
     background: #eee;
 
@@ -113,6 +141,14 @@ html{
     padding-top: 2px;
     padding-left: 2px;
 }
+
+
+
+
+
+
+
+
 
 
 

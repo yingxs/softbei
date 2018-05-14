@@ -7,6 +7,7 @@
     <title>航班数据可视化</title>
     <script src="js/tool.js"></script>
     <script src="js/base.js"></script>
+
     <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
@@ -69,14 +70,309 @@
 
                 </tr>
                 <tr>
-                    <td>
-                        <input type="text" name="qf_time" placeholder="起飞时间">
+                    <td style="position: relative" >
+                        <input class="qf_time" type="text" name="qf_time" placeholder="起飞时间" />
+                        <div id="date_calendar">
+                            <div  id="calendar_note">
+                                <div class="month_prev"  >
+                                    <h5>2018年4月</h5>
+                                    <table border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center" valign="center" style="color: #ff5921">日</td>
+                                            <td align="center" valign="center" >一</td>
+                                            <td align="center" valign="center" >二</td>
+                                            <td align="center" valign="center" >三</td>
+                                            <td align="center" valign="center" >四</td>
+                                            <td align="center" valign="center" >五</td>
+                                            <td align="center" valign="center" style="color: #ff5921">六</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" >1</td>
+                                            <td align="center" valign="center" >2</td>
+                                            <td align="center" valign="center" >3</td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div class="month_now"  >
+                                    <h5>2018年5月</h5>
+                                    <table border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center" valign="center" style="color: #ff5921">日</td>
+                                            <td align="center" valign="center" >一</td>
+                                            <td align="center" valign="center" >二</td>
+                                            <td align="center" valign="center" >三</td>
+                                            <td align="center" valign="center" >四</td>
+                                            <td align="center" valign="center" >五</td>
+                                            <td align="center" valign="center" style="color: #ff5921">六</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" >1</td>
+                                            <td align="center" valign="center" >2</td>
+                                            <td align="center" valign="center" >3</td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                            <span id="calendar_prev" class="calendar_prev" >
+                                <img  src="svg/prev_calendar.svg" />
+                            </span>
+                            <span id="calendar_next"  class="calendar_next" >
+                                <img  src="svg/next_calendar.svg" />
+                            </span>
+
+                            <div id="calendar_plus">
+                                <div class="month_prev"  >
+                                    <h5>2018年6月</h5>
+                                    <table border="0" cellpadding="0" cellspacing="0" >
+                                        <tr>
+                                            <td align="center" valign="center" style="color: #ff5921">日</td>
+                                            <td align="center" valign="center" >一</td>
+                                            <td align="center" valign="center" >二</td>
+                                            <td align="center" valign="center" >三</td>
+                                            <td align="center" valign="center" >四</td>
+                                            <td align="center" valign="center" >五</td>
+                                            <td align="center" valign="center" style="color: #ff5921">六</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="month_now" >
+                                    <h5 >2018年7月</h5>
+                                    <table border="0" cellpadding="0" cellspacing="0" >
+                                        <tr>
+                                            <td align="center" valign="center" style="color: #ff5921">日</td>
+                                            <td align="center" valign="center" >一</td>
+                                            <td align="center" valign="center" >二</td>
+                                            <td align="center" valign="center" >三</td>
+                                            <td align="center" valign="center" >四</td>
+                                            <td align="center" valign="center" >五</td>
+                                            <td align="center" valign="center" style="color: #ff5921">六</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                            <td align="center" valign="center" ></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
                     </td>
                     <td>
 
                     </td>
                     <td>
-                        <input type="text" name="dd_time" placeholder="到达时间">
+                        <input class="dd_time" type="text" name="dd_time" placeholder="到达时间">
                     </td>
                 </tr>
 
@@ -117,6 +413,10 @@
     <div class="rect4"></div>
     <div class="rect5"></div>
 </div>
+
+
+
 </body>
 <script src="js/init.js"></script>
+<script src="js/calendar.js"></script>
 </html>

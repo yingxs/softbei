@@ -15,6 +15,8 @@ $(function(){
 		return screen;
 	}
 
+
+
 });
 
 
@@ -212,6 +214,91 @@ function load(){
 		$('#left_flat .td_zz .zz_jc').attr('key',value).attr('placeholder',"中转"+array[value]);
 
 	});
+
+	$('#left_flat .qf_time').bind('focus',function(){
+		if($('#date_calendar').css('display')=='block'){
+			$('#date_calendar').show().css('left','0px').css('width','0px').css('height','0px').opacity(0);
+			$('#date_calendar').animate({
+				t:30,
+				step:10,
+				mul:{
+					h:300,
+					o:100,
+					w:550
+				}
+			});
+
+		}else{
+			$('#date_calendar').show().animate({
+				t:30,
+				step:10,
+				mul:{
+					h:300,
+					o:100,
+					w:550
+				}
+			}).css('left','0px');
+		}
+
+
+	});
+	$('#left_flat .qf_time').bind('blur',function(){
+		$('#date_calendar').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:0,
+				o:0,
+				w:0
+			},
+			fn:function(){
+				$('#date_calendar').hide();
+			}
+		});
+	});
+
+
+	$('#left_flat .dd_time').bind('focus',function(){
+		if($('#date_calendar').css('display')=='block'){
+			$('#date_calendar').show().css('left','180px').css('width','0px').css('height','0px').opacity(0);
+			$('#date_calendar').animate({
+				t:30,
+				step:10,
+				mul:{
+					h:300,
+					o:100,
+					w:550
+				}
+			});
+
+		}else{
+			$('#date_calendar').show().animate({
+				t:30,
+				step:10,
+				mul:{
+					h:300,
+					o:100,
+					w:550
+				}
+			}).css('left','180px');
+		}
+
+	});
+	$('#left_flat .dd_time').bind('blur',function(){
+		$('#date_calendar').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:0,
+				o:0,
+				w:0
+			},
+			fn:function(){
+				$('#date_calendar').hide();
+			}
+		});
+	});
+
 
 
 
