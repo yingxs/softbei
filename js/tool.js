@@ -183,3 +183,8 @@ function getInner(){
 function predef(e){
 	e.preventDefault();
 }
+
+//判断class是否存在
+function hasClass(element,className){
+	return element.className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'));
+}

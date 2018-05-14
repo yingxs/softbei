@@ -475,3 +475,12 @@ Base.prototype.ge = function(num){
 	return  this.elements[num];
 
 };
+//添加Class
+Base.prototype.addClass = function(className){
+	for(var i=0 ; i<this.elements.length ; i++){
+		if(!hasClass(this.elements[i],className)){
+			this.elements[i].className += ' '+className;
+		}
+	}
+	return this;
+};
