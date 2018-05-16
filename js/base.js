@@ -493,3 +493,16 @@ Base.prototype.removeClass = function(className){
 	}
 	return this;
 };
+
+
+//移除空白节点
+function removeWhiteNode(node){
+	for(var i=0;i<node.childNodes.length;i++){
+		if(node.childNodes[i].nodeType === 3 && /^\s+$/.test(node.childNodes[i].nodeValue) ){
+			node.childNodes[i].parentNode.removeChild(node.childNodes[i]);
+		}
+	}
+	return node;
+}
+
+

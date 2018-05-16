@@ -7,6 +7,7 @@
 ul,li{
     list-style: none;
 }
+
 html, body {
     height: 100%;
     width: 100%;
@@ -217,12 +218,14 @@ html, body {
  #left_flat span:nth-child(1){
      width: 380px;
      height: 100%;
-    left:36px;
+    left:-380px;
     background: #f3f3f3;
      border-right: 1px solid #eeeeee;
      box-shadow: 0 0 4px #dbdada;
-
+     /*opacity: 0;*/
+     /*filter:alpha(opacity=0);*/
 }
+
 #left_flat span:nth-child(1) h4{
     text-align: center;
     margin: 50px 0 20px 35px ;

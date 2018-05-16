@@ -72,8 +72,9 @@ function load(){
 
 	$('#map').click(function(){
 		leftBox_anim(left_box.menu,10,30,-155,0);
-		leftBox_anim(left_box.search,10,30,-100,0);
+		leftBox_anim(left_box.search,10,30,-380,0);
 		leftBox_anim(left_box.filter,10,30,-100,0);
+
 	});
 
 
@@ -87,25 +88,26 @@ function load(){
 			//显示之前隐藏信息提示框
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,-150,0);
 			//显示搜索块
-			leftBox_anim(left_box.search,10,30,35,100);
+			leftBox_anim(left_box.search,10,30,36,100);
 			//隐藏筛选块
 			leftBox_anim(left_box.filter,10,30,-100,0);
 		}else if($(this).index() == 1 && parseInt( left_box.search.css('left') )>0){
-			leftBox_anim(left_box.search,10,30,-100,0);
+			//隐藏搜索块
+			leftBox_anim(left_box.search,10,30,-380,100);
 		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left') )<0){
 			//显示之前隐藏信息提示框
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,-150,0);
 			//显示筛选块
 			leftBox_anim(left_box.filter,10,30,35,100);
 			//隐藏搜索块
-			leftBox_anim(left_box.search,10,30,-100,0);
+			leftBox_anim(left_box.search,10,30,-380,0);
 		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left') )>0){
 			leftBox_anim(left_box.filter,10,30,-100,0);
 		}
 
 	});
 
-	//查询出发与到达选项
+	//查询出发选项
 	$('#left_flat qf_option .qf_input').bind('focus',function(){
 		$('#left_flat qf_option .qf_opt').show();
 		$('#left_flat qf_option .qf_opt').animate({
@@ -134,7 +136,7 @@ function load(){
 
 	});
 
-
+	//查询到达选项
 	$('#left_flat qf_option .dd_input').bind('focus',function(){
 		$('#left_flat qf_option .dd_opt').show();
 		$('#left_flat qf_option .dd_opt').animate({
@@ -160,9 +162,9 @@ function load(){
 				$('#left_flat qf_option .dd_img_down').attr('src','svg/select_down.svg');
 			}
 		});
-
 	});
 
+	//起飞选项
 	$('#left_flat .qf_option .qf_opt li').bind('mousedown',function(){
 		var str = $(this).html();
 		var value = $(this).attr('value');
@@ -171,6 +173,7 @@ function load(){
 		$('#left_flat .qf_text').attr('placeholder',"起飞"+array[value]).attr('key',value);
 
 	});
+	//到达选项
 	$('#left_flat .qf_option .dd_opt li').bind('mousedown',function(){
 		var str = $(this).html();
 		var value = $(this).attr('value');
@@ -180,7 +183,7 @@ function load(){
 	});
 
 
-
+	//中转选项
 	$('#left_flat .td_zz .zz_select').bind('focus',function(){
 		$('#left_flat .td_zz .zz_opt').show();
 		$('#left_flat .td_zz .zz_opt').animate({
@@ -205,7 +208,6 @@ function load(){
 				$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_down.svg');
 			}
 		});
-
 	});
 	$('#left_flat .td_zz .zz_opt li').bind('mousedown',function(){
 		var value = $(this).attr('value');
@@ -217,41 +219,48 @@ function load(){
 
 
 
-
-
-
-
-
+	//起飞时间文本框获得焦点或点击后，日历div显示
 	$('#left_flat .qf_time').bind('focus',show_calendar1).click(show_calendar1);
 
-
+	//起飞时间文本框获得焦点或点击后，日历div隐藏
 	$('#left_flat .qf_time').bind('blur',hide_calendar);
 
-
+	//鼠标移动到日历div上后，删除失去焦点事件函数，添加鼠标移出事件
 	$('#left_flat #date_calendar').bind('mouseenter',function(e){
-		//console.log("移入"+ e.target+"id:"+ e.target.id);
 		removeEvent($('#left_flat .qf_time').ge(0),'blur',hide_calendar);
 		addEvent($('#left_flat #date_calendar').ge(0),'mouseleave',hide_calendar);
-		//console.log("删除事件");
 	});
 
-	//$('#left_flat #date_calendar').bind('mouseleave',function(e){
-	//	console.log("移出"+ e.target+"id:"+ e.target.id);
-	//});
-
-
-
-
+	//到达时间文本框获得焦点或点击后，日历div显示
 	$('#left_flat .dd_time').bind('focus',show_calendar2).click(show_calendar2);
+	//到达时间文本框获得焦点或点击后，日历div隐藏
 	$('#left_flat .dd_time').bind('blur',hide_calendar);
 
+	$('#left_flat #date_calendar table td').click(function(e){
+		if($(this).attr('lang')=='wh'){
+			var tr = removeWhiteNode(this).parentNode;
+			var tbody = removeWhiteNode(tr).parentNode;
+			var table = removeWhiteNode(tbody).parentNode;
+			var h = table.previousSibling.previousSibling;
+			var str = h.innerHTML+this.innerHTML;
+			 str = str.replace("年","/");
+			 str = str.replace("月","/");
 
 
+			if(parseInt($('#date_calendar').css('left'))<=0){
+				$('#left_flat .qf_time').value(str);
+			}else{
+				$('#left_flat .dd_time').value(str);
+			}
+
+		}
+	});
 
 
 }
 
 
+//隐藏日历div
 function hide_calendar(){
 	$('#date_calendar').animate({
 		t:30,
@@ -267,40 +276,53 @@ function hide_calendar(){
 	});
 	addEvent($('#left_flat .qf_time').ge(0),'blur',hide_calendar);
 }
+
+//起飞时间文本框下显示日历div
 function show_calendar1(){
+
 	if($('#date_calendar').css('display')=='block'){
-		$('#date_calendar').show().css('left','0px').css('width','0px').css('height','0px').opacity(0);
+		//$('#date_calendar').show().css('left','0px').css('width','0px').css('height','0px').opacity(0);
+		console.log("block1");
 		$('#date_calendar').animate({
 			t:30,
 			step:10,
 			mul:{
+				x:0,
 				h:300,
 				o:100,
 				w:550
 			}
 		});
 
+		console.log("block2");
+
 	}else{
+		console.log("none1");
 		$('#date_calendar').show().animate({
 			t:30,
 			step:10,
 			mul:{
+				x:0,
 				h:300,
 				o:100,
 				w:550
 			}
-		}).css('left','0px');
+		});
+		console.log("none2");
+
 	}
 
 }
 
+//到达时间文本框下显示日历div
 function show_calendar2(){
 	if($('#date_calendar').css('display')=='block'){
-		$('#date_calendar').show().css('left','180px').css('width','0px').css('height','0px').opacity(0);
+		//$('#date_calendar').show().css('left','180px').css('width','0px').css('height','0px').opacity(0);
 		$('#date_calendar').animate({
 			t:30,
 			step:10,
 			mul:{
+				x:180,
 				h:300,
 				o:100,
 				w:550
