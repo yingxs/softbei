@@ -215,95 +215,112 @@ function load(){
 
 	});
 
-	$('#left_flat .qf_time').bind('focus',function(){
-		if($('#date_calendar').css('display')=='block'){
-			$('#date_calendar').show().css('left','0px').css('width','0px').css('height','0px').opacity(0);
-			$('#date_calendar').animate({
-				t:30,
-				step:10,
-				mul:{
-					h:300,
-					o:100,
-					w:550
-				}
-			});
-
-		}else{
-			$('#date_calendar').show().animate({
-				t:30,
-				step:10,
-				mul:{
-					h:300,
-					o:100,
-					w:550
-				}
-			}).css('left','0px');
-		}
 
 
-	});
-	$('#left_flat .qf_time').bind('blur',function(){
-		$('#date_calendar').animate({
-			t:30,
-			step:10,
-			mul:{
-				h:0,
-				o:0,
-				w:0
-			},
-			fn:function(){
-				$('#date_calendar').hide();
-			}
-		});
+
+
+
+
+
+	$('#left_flat .qf_time').bind('focus',show_calendar1).click(show_calendar1);
+
+
+	$('#left_flat .qf_time').bind('blur',hide_calendar);
+
+
+	$('#left_flat #date_calendar').bind('mouseenter',function(e){
+		//console.log("移入"+ e.target+"id:"+ e.target.id);
+		removeEvent($('#left_flat .qf_time').ge(0),'blur',hide_calendar);
+		addEvent($('#left_flat #date_calendar').ge(0),'mouseleave',hide_calendar);
+		//console.log("删除事件");
 	});
 
+	//$('#left_flat #date_calendar').bind('mouseleave',function(e){
+	//	console.log("移出"+ e.target+"id:"+ e.target.id);
+	//});
 
-	$('#left_flat .dd_time').bind('focus',function(){
-		if($('#date_calendar').css('display')=='block'){
-			$('#date_calendar').show().css('left','180px').css('width','0px').css('height','0px').opacity(0);
-			$('#date_calendar').animate({
-				t:30,
-				step:10,
-				mul:{
-					h:300,
-					o:100,
-					w:550
-				}
-			});
 
-		}else{
-			$('#date_calendar').show().animate({
-				t:30,
-				step:10,
-				mul:{
-					h:300,
-					o:100,
-					w:550
-				}
-			}).css('left','180px');
-		}
 
-	});
-	$('#left_flat .dd_time').bind('blur',function(){
-		$('#date_calendar').animate({
-			t:30,
-			step:10,
-			mul:{
-				h:0,
-				o:0,
-				w:0
-			},
-			fn:function(){
-				$('#date_calendar').hide();
-			}
-		});
-	});
+
+	$('#left_flat .dd_time').bind('focus',show_calendar2).click(show_calendar2);
+	$('#left_flat .dd_time').bind('blur',hide_calendar);
 
 
 
 
 
 }
+
+
+function hide_calendar(){
+	$('#date_calendar').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:0,
+			o:0,
+			w:0
+		},
+		fn:function(){
+			$('#date_calendar').hide();
+		}
+	});
+	addEvent($('#left_flat .qf_time').ge(0),'blur',hide_calendar);
+}
+function show_calendar1(){
+	if($('#date_calendar').css('display')=='block'){
+		$('#date_calendar').show().css('left','0px').css('width','0px').css('height','0px').opacity(0);
+		$('#date_calendar').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:300,
+				o:100,
+				w:550
+			}
+		});
+
+	}else{
+		$('#date_calendar').show().animate({
+			t:30,
+			step:10,
+			mul:{
+				h:300,
+				o:100,
+				w:550
+			}
+		}).css('left','0px');
+	}
+
+}
+
+function show_calendar2(){
+	if($('#date_calendar').css('display')=='block'){
+		$('#date_calendar').show().css('left','180px').css('width','0px').css('height','0px').opacity(0);
+		$('#date_calendar').animate({
+			t:30,
+			step:10,
+			mul:{
+				h:300,
+				o:100,
+				w:550
+			}
+		});
+
+	}else{
+		$('#date_calendar').show().animate({
+			t:30,
+			step:10,
+			mul:{
+				h:300,
+				o:100,
+				w:550
+			}
+		}).css('left','180px');
+	}
+}
+
+
 
 function onApiLoaded(){
 
