@@ -5,11 +5,18 @@ $(function(){
 	//遮罩画布
 	var screen = $('#screen');
 	window.screen=screen;
+	window.map = null;
 	screen.lock().resize(function(){
 		screen.lock();
 	}).opacity(30);
+
+	//初始化
 	init(screen);
+	//加载
 	load();
+
+
+
 
 	function getScreen(){
 		return screen;
@@ -17,11 +24,14 @@ $(function(){
 
 
 
+
+
+
 });
 
 
 function init(){
-	var url = 'http://webapi.amap.com/maps?v=1.4.6&key=7a62597821fd492a53bc6b4e81f50ece&callback=onApiLoaded';
+	var url = 'http://webapi.amap.com/maps?v=1.4.5&key=7a62597821fd492a53bc6b4e81f50ece&plugin=AMap.BezierCurveEditor&callback=onApiLoaded';
 	var jsapi = document.createElement('script');
 	jsapi.charset = 'utf-8';
 	jsapi.src = url;
@@ -348,7 +358,7 @@ function onApiLoaded(){
 
 
 
-	var map = new AMap.Map('map', {
+	 map = new AMap.Map('map', {
 		center: [117.000923, 36.675807],
 		zoom: 2,
 		mapStyle:'amap://styles/80e8a8b8a906b27a1fd674f29f31aabc'
@@ -359,7 +369,31 @@ function onApiLoaded(){
 //            map.addControl(new AMap.ToolBar());
 //        });
 
+	map.on('click', function(e) {
+		alert(e.lnglat.getLng()+','+e.lnglat.getLat());
+	});
+
 	map.on('complete', function() {
+		//异步请求曲线数据
+		ajax({
+			method:'get',
+			url:'/index.php',
+			data:{
+				'c':'index',
+				'a':'index2'
+			},
+			success:function(text){
+				var data = JSON.parse(text);
+				show_line(data,window.map);
+				//alert(data);
+
+			},
+			error:function(state,msg){
+				alert(state+"："+msg);
+			},
+			async:true
+		});
+
 
 		window.screen.animate({
 			attr:'o',
@@ -390,6 +424,10 @@ function onApiLoaded(){
 
 		});
 
+
+
+
+
 //        document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
 	});
 
@@ -399,7 +437,59 @@ function onApiLoaded(){
 
 
 
+//异步请求航线数据
 
+
+
+
+
+//绘制曲线
+function show_line(data,map){
+
+	var lineArr1 = [//每个弧线段有两种描述方式
+		[2.166515,23.493206],//起点
+		//第一段弧线控制点，终点
+		[ 52.439953,37.657499,104.11964,34.678151]
+
+	];
+
+	var curve1= new AMap.BezierCurve({
+		map: map,
+		path: lineArr1,
+		bubble: true,
+		strokeColor: "red", //线颜色
+		strokeOpacity: 1, //线透明度
+		strokeWeight: 3, //线宽
+		cursor:"pointer",
+		strokeStyle: "solid" //线样式
+	});
+
+	curve1.on('mouseover',function(){
+		curve1.setOptions({
+			map: map,
+			path: lineArr1,            // 设置线覆盖物路径
+			strokeColor: '#000000',   // 线颜色
+			strokeOpacity: 1,         // 线透明度
+			strokeWeight: 2,          // 线宽
+			strokeStyle: 'solid'     // 线样式
+		});
+
+	});
+	curve1.on('mouseout',function(){
+		curve1.setOptions({
+			map: map,
+			path: lineArr1,
+			bubble: true,
+			strokeColor: "red", //线颜色
+			strokeOpacity: 1, //线透明度
+			strokeWeight: 3, //线宽
+			cursor:"pointer",
+			strokeStyle: "solid" //线样式
+		});
+
+	});
+
+}
 
 
 

@@ -8,53 +8,54 @@
 
         private function __clone(){}
 
-        //Á¬½ÓÄ¿±ê·þÎñÆ÷(Ö»¹¹ÔìÒ»´Î)
+        //è¿žæŽ¥ç›®æ ‡æœåŠ¡å™¨(åªæž„é€ ä¸€æ¬¡)
         private static function _connect(){
-            $config = $GLOBALS['db_config'];
-            print_r($config);
-            //×¼±¸PDOµÄDNSÁ¬½ÓÐÅÏ¢
+
+            $config = C('DB_CONFIG');
+            //print_r($config);
+            //å‡†å¤‡PDOçš„DNSè¿žæŽ¥ä¿¡æ¯
             $dsn = "{$config['db']}:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
             try {
                 self::$db = new PDO($dsn,$config['user'],$config['password']);
             } catch (Exception $e) {
-                exit("Êý¾Ý¿âÁ¬½ÓÊ§°Ü:".$e->getMessage());
+                exit("æ•°æ®åº“è¿žæŽ¥å¤±è´¥:".$e->getMessage());
             }
         }
         
         
         public function quert($sql,$data=[]){
-            //Í¨¹ýÔ¤´¦Àí·½Ê½Ö´ÐÐsql
+            //é€šè¿‡é¢„å¤„ç†æ–¹å¼æ‰§è¡Œsql
             $stmt = self::$db->prepare($sql);
             is_array(current($data)) || $data = [$data];
             foreach ($data as $v){
                 if(false === $stmt->execute($v)){
-                    exit("Êý¾Ý¿â²Ù×÷Ê§°Ü£º".implode('-',$stmt->errorInfo()));
+                    exit("æ•°æ®åº“æ“ä½œå¤±è´¥ï¼š".implode('-',$stmt->errorInfo()));
                 }
             }
             return $stmt;
         }
         
-        //Ö´ÐÐSQL£¬·µ»ØÊÜÓ°ÏìµÄÐÐÊý
+        //æ‰§è¡ŒSQLï¼Œè¿”å›žå—å½±å“çš„è¡Œæ•°
         public function exec($sql,$data=[]){
             return $this->quert($sql,$data)->rowCount();
         }
         
-        //È¡µÃËùÓÐ½á¹û
+        //å–å¾—æ‰€æœ‰ç»“æžœ
         public function fetchAll($sql,$data=[]){
             return $this->quert($sql,$data)->fetchAll(PDO::FETCH_ASSOC);
         }
         
-        //È¡µÃÒ»ÐÐ½á¹û
+        //å–å¾—ä¸€è¡Œç»“æžœ
         public function fetchRow($sql,$data=[]){
             return $this->quert($sql,$data)->fetch(PDO::FETCH_ASSOC);
         }
         
-        //È¡µÃÒ»ÁÐ½á¹û
+        //å–å¾—ä¸€åˆ—ç»“æžœ
         public function fetchColumn($sql,$data=[]){
             return $this->quert($sql,$data)->fetchColumn();
         }
         
-        //×îºó¸üÐÂµÄID
+        //æœ€åŽæ›´æ–°çš„ID
         public function lastInsertId(){
             return self::$db->lastInsertId();
         }

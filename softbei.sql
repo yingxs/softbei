@@ -67,7 +67,7 @@ CREATE TABLE `t_city` (
 
 LOCK TABLES `t_city` WRITE;
 /*!40000 ALTER TABLE `t_city` DISABLE KEYS */;
-INSERT INTO `t_city` VALUES ('000001','北京','Beijing','116.407526,39.90403','-','华北','中国'),('000002','纽约','City of New York/New York/NYC','-','纽约州','-','美国');
+INSERT INTO `t_city` VALUES ('000001','北京','Beijing','116.407526,39.90403','-','华北','中国'),('000002','纽约','City of New York/New York/NYC','-74.014336,40.694722','纽约州','-','美国');
 /*!40000 ALTER TABLE `t_city` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,24 +158,26 @@ DROP TABLE IF EXISTS `t_stop_over`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_stop_over` (
-  `flight_id` varchar(15) NOT NULL,
-  `airport1` varchar(15) DEFAULT NULL,
-  `airport2` varchar(15) DEFAULT NULL,
-  `airport3` varchar(15) DEFAULT NULL,
-  `airport4` varchar(15) DEFAULT NULL,
-  `airport5` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`flight_id`),
-  KEY `FK_airport1` (`airport1`),
-  KEY `FK_airport2` (`airport2`),
-  KEY `FK_airport3` (`airport3`),
-  KEY `FK_airport4` (`airport4`),
-  KEY `FK_airport5` (`airport5`),
-  CONSTRAINT `FK_flight_id3` FOREIGN KEY (`flight_id`) REFERENCES `t_flight` (`filght_id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_airport1` FOREIGN KEY (`airport1`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_airport2` FOREIGN KEY (`airport2`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_airport3` FOREIGN KEY (`airport3`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_airport4` FOREIGN KEY (`airport4`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_airport5` FOREIGN KEY (`airport5`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE
+  `no` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
+  `info_id` int(11) DEFAULT NULL COMMENT '引用t_flight_info表的id',
+  `airport1` varchar(15) DEFAULT NULL COMMENT '经停机场1',
+  `airport2` varchar(15) DEFAULT NULL COMMENT '经停机场2',
+  `airport3` varchar(15) DEFAULT NULL COMMENT '经停机场3',
+  `airport4` varchar(15) DEFAULT NULL COMMENT '经停机场4',
+  `airport5` varchar(15) DEFAULT NULL COMMENT '经停机场5',
+  PRIMARY KEY (`no`),
+  KEY `FK_over_ariport1` (`airport1`),
+  KEY `FK_over_ariport2` (`airport2`),
+  KEY `FK_over_ariport3` (`airport3`),
+  KEY `FK_over_ariport4` (`airport4`),
+  KEY `FK_over_ariport5` (`airport5`),
+  KEY `FK_info_id` (`info_id`),
+  CONSTRAINT `FK_over_ariport1` FOREIGN KEY (`airport1`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_over_ariport2` FOREIGN KEY (`airport2`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_over_ariport3` FOREIGN KEY (`airport3`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_over_ariport4` FOREIGN KEY (`airport4`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_over_ariport5` FOREIGN KEY (`airport5`) REFERENCES `t_airport` (`airport_id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_info_id` FOREIGN KEY (`info_id`) REFERENCES `t_flight_info` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -222,4 +224,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-17 16:39:22
+-- Dump completed on 2018-05-18 22:10:44

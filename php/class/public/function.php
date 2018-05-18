@@ -1,14 +1,16 @@
 <?php
 
-//ÅäÖÃÎÄ¼ş²Ù×÷
+//é…ç½®æ–‡ä»¶æ“ä½œ
 function C($name){
-	//static $config = null; //±£´æÏîÄ¿ÖĞµÄÉèÖÃ
-	$config = null; //±£´æÏîÄ¿ÖĞµÄÉèÖÃ
-	if(!$config){          //º¯ÊıÊ×´Î±»µ÷ÓÃÊ±ÔØÈëÅäÖÃÎÄ¼ş
+	//static $config = null; //ä¿å­˜é¡¹ç›®ä¸­çš„è®¾ç½®
+	$config = null; //ä¿å­˜é¡¹ç›®ä¸­çš„è®¾ç½®
+	if(!$config){          //å‡½æ•°é¦–æ¬¡è¢«è°ƒç”¨æ—¶è½½å…¥é…ç½®æ–‡ä»¶
 		$config = require COMMON.'config.php';
-		echo COMMON.'config.php'."<br/>";
+		//echo COMMON.'config.php'."<br/>";
 	}
-	echo isset($config[$name]) ? $config[$name] : '';
+
+
+	//echo isset($config[$name]) ? $config[$name] : '';
 	return isset($config[$name]) ? $config[$name] : '';
 }
 
@@ -22,28 +24,28 @@ function I($var, $method='post', $type='html', $def=''){
 	if($type){
 	    switch($type){
 
-            case 'string': //×Ö·û´® ²»½øĞĞ¹ıÂË
+            case 'string': //å­—ç¬¦ä¸² ä¸è¿›è¡Œè¿‡æ»¤
                 $value = is_string($value) ? $value : '';
             break;
-            case 'html': //×Ö·û´® ½øĞĞHTML×ªÒå µ¥ĞĞÎÄ±¾
+            case 'html': //å­—ç¬¦ä¸² è¿›è¡ŒHTMLè½¬ä¹‰ å•è¡Œæ–‡æœ¬
                 $value = is_string($value) ? toHTML($value) : '';
             break;
-            case 'int': //ÕûÊı
+            case 'int': //æ•´æ•°
                 $value = (int)$value;
             break;
-            case 'id': //ÎŞ·ûºÅÕûÊı
+            case 'id': //æ— ç¬¦å·æ•´æ•°
                 $value = max((int)$value, 0);
             break;
-            case 'page': //Ò³Âë
+            case 'page': //é¡µç 
                 $value = max((int)$value, 1);
             break;
-            case 'float': //¸¡µãÊı
+            case 'float': //æµ®ç‚¹æ•°
                 $value = (float)$value;
             break;
-            case 'bool': //²¼¶ûĞÍ
+            case 'bool': //å¸ƒå°”å‹
                 $value = (bool)$value;
             break;
-            case 'array': //Êı×éĞÍ
+            case 'array': //æ•°ç»„å‹
                 $value = is_array($value) ? $value : [];
             break;
 	    }
@@ -52,40 +54,24 @@ function I($var, $method='post', $type='html', $def=''){
 }
 
 
-//×Ö·û´®×ªHTML
+//å­—ç¬¦ä¸²è½¬HTML
 function toHTML($str){
 	$str = trim(htmlspecialchars($str, ENT_QUOTES));
 	return str_replace(' ', '&nbsp;', $str);
 }
 
-//Éú³ÉÁîÅÆ
-function token_get(){
-	if(session('token', '', 'isset')){
-		$token = session('token');
-	}else{
-		$token = md5(microtime(true));
-		session('token', $token, 'save');
-	}
-	return $token;
-}
 
-//ÑéÖ¤ÁîÅÆ
-function token_check($token=''){
-	if(!$token){ //×Ô¶¯È¡³ötoken
-		$token = I('token', 'get', 'string');
-	}
-	return token_get() == $token;
-}
 
-//Óöµ½ÖÂÃü´íÎó£¬Êä³ö´íÎóĞÅÏ¢²¢Í£Ö¹ÔËĞĞ
+//é‡åˆ°è‡´å‘½é”™è¯¯ï¼Œè¾“å‡ºé”™è¯¯ä¿¡æ¯å¹¶åœæ­¢è¿è¡Œ
 function E($msg){
 	exit('<pre>'.htmlspecialchars($msg).'</pre>');
 }
 
-//Session¶ÁĞ´
+//Sessionè¯»å†™
 function session($name, $value='', $type='get'){
-echo "session1<br/>";
+
 	$prefix = C('SESSION_PREFIX');
+
 	isset($_SESSION[$prefix]) || $_SESSION[$prefix] = [];
 	switch($type){
 		case 'get':
@@ -99,5 +85,13 @@ echo "session1<br/>";
 			unset($_SESSION[$prefix][$name]);
 		break;
 	}
-echo "session2<br/>";
+
+}
+
+
+function show($data){
+	echo "<pre>";
+	print_r($data);
+	echo "</pre>";
+
 }
