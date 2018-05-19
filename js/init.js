@@ -364,6 +364,33 @@ function onApiLoaded(){
 		mapStyle:'amap://styles/80e8a8b8a906b27a1fd674f29f31aabc'
 	});
 
+
+	//异步请求曲线数据
+	ajax({
+		method:'get',
+		url:'/index.php',
+		data:{
+			'c':'index',
+			'a':'index2'
+		},
+		success:function(text){
+			var data = JSON.parse(text);
+			show_line(data,window.map);
+			//alert(data);
+
+		},
+		error:function(state,msg){
+			alert(state+"："+msg);
+		},
+		async:true
+	});
+
+
+
+
+
+
+
 //        添加控制按钮
 //        map.plugin(["AMap.ToolBar"], function() {
 //            map.addControl(new AMap.ToolBar());
@@ -374,25 +401,7 @@ function onApiLoaded(){
 	});
 
 	map.on('complete', function() {
-		//异步请求曲线数据
-		ajax({
-			method:'get',
-			url:'/index.php',
-			data:{
-				'c':'index',
-				'a':'index2'
-			},
-			success:function(text){
-				var data = JSON.parse(text);
-				show_line(data,window.map);
-				//alert(data);
 
-			},
-			error:function(state,msg){
-				alert(state+"："+msg);
-			},
-			async:true
-		});
 
 
 		window.screen.animate({
@@ -437,7 +446,6 @@ function onApiLoaded(){
 
 
 
-//异步请求航线数据
 
 
 
@@ -445,11 +453,18 @@ function onApiLoaded(){
 
 //绘制曲线
 function show_line(data,map){
+	var linedata = data['lineData'];
+	var qf_xy = linedata[1]['qf_city_xy'];
+	var qf_x=qf_xy.split(",")[0];
+	var qf_y=qf_xy.split(",")[1];
 
+	var mb_xy = linedata[1]['mb_city_xy'];
+	var mb_x=mb_xy.split(",")[0];
+	var mb_y=mb_xy.split(",")[1];
 	var lineArr1 = [//每个弧线段有两种描述方式
-		[2.166515,23.493206],//起点
+		[qf_x,qf_y],//起点
 		//第一段弧线控制点，终点
-		[ 52.439953,37.657499,104.11964,34.678151]
+		[5.028266,58.590236,mb_x,mb_y]
 
 	];
 
@@ -457,9 +472,9 @@ function show_line(data,map){
 		map: map,
 		path: lineArr1,
 		bubble: true,
-		strokeColor: "red", //线颜色
-		strokeOpacity: 1, //线透明度
-		strokeWeight: 3, //线宽
+		strokeColor: "#606060", //线颜色
+		strokeOpacity: 0.8, //线透明度
+		strokeWeight: 1, //线宽
 		cursor:"pointer",
 		strokeStyle: "solid" //线样式
 	});
@@ -480,9 +495,9 @@ function show_line(data,map){
 			map: map,
 			path: lineArr1,
 			bubble: true,
-			strokeColor: "red", //线颜色
-			strokeOpacity: 1, //线透明度
-			strokeWeight: 3, //线宽
+			strokeColor: "blue", //线颜色
+			strokeOpacity: 0.8, //线透明度
+			strokeWeight: 1, //线宽
 			cursor:"pointer",
 			strokeStyle: "solid" //线样式
 		});
