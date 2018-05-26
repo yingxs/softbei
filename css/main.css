@@ -611,6 +611,20 @@ svg {
 }
 
 
+.line{
+    fill: none;
+    stroke: #75baff;
+    stroke-width: 2px;
+}
+
+#line1{
+    fill: none;
+    stroke: #75baff;
+    stroke-width: 2px;
+    /*stroke-dasharray: 10px,5px,12px;*/
+
+}
+
 
 
 

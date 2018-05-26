@@ -56,7 +56,8 @@ function init2(){
 		var w = world;
 
 
-		var a = projection([116.58499908447266,40.080101013183594]);
+		var a1 = projection([116.58499908447266,40.080101013183594]);
+		var a2 = projection([-73.87259674,40.77719879]);
 
 		g.append("path")
 			.datum(topojson.feature(world,world.objects.land))
@@ -69,11 +70,50 @@ function init2(){
 //        alert("绘图完成");
 
 		g.append("circle")
-			.attr("cx",a[0])
-			.attr("cy",a[1])
-			.attr("r",1);
+			.attr("cx",a1[0])
+			.attr("cy",a1[1])
+			.attr("r",10);
+
+		g.append("circle")
+			.attr("cx",a2[0])
+			.attr("cy",a2[1])
+			.attr("r",10);
+		g.append("circle")
+			.attr("cx",width-40)
+			.attr("cy",a1[1]-90)
+			.attr("r",10);
+		g.append("circle")
+			.attr("cx",width-200)
+			.attr("cy",a1[1]-90)
+			.attr("r",10);
+
+
+
+
+		g.append("circle")
+			.attr("cx",10)
+			.attr("cy",a1[1]-90)
+			.attr("r",10);
+
+
+		g.append("path")
+			.attr("class","line")
+			.attr("id","line1")
+			//.attr("d","M"+a1[0]+" "+a1[1]+" L"+a2[0]+" "+a2[1]);
+			.attr("d","M"+a1[0]+" "+a1[1]+" Q"+(width-200)+" "+(a1[1]-90)+" "+(width-40)+" "+(a1[1]-90)+
+					"M"+10+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );
 
 		g.attr("transform", "translate(0,0) scale(1)");
+
+
+		var length= $("#line1").ge(0).getTotalLength();
+		d3.select("#line1").style("stroke-dasharray","0,"+length).transition().duration(10000).style("stroke-dasharray",length+","+length);
+		$("#line1").hover(function(){
+			d3.select(this).style("stroke","red");
+		},function(){
+			d3.select(this).style("stroke","blue");
+
+		});
 
 	});
 	function zoom(){
@@ -114,7 +154,7 @@ function init2(){
 
 	svg.on("click",function(){
 		var point = d3.mouse(svg.node());
-//        alert(point);
+        alert(point);
 
 		//var array = getStyle($("#g1").ge(0),"transform").split(",");
 		//console.log(array);
