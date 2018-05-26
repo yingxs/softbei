@@ -8,6 +8,8 @@
     <script src="/js/tool.js"></script>
     <script src="/js/base.js"></script>
     <script src="/js/ajax.js"></script>
+    <script src="/js/d3.js"></script>
+    <script src="/js/topojson.js"></script>
     <link rel="stylesheet" href="/css/main.css"/>
 </head>
 <body >
@@ -21,7 +23,7 @@
                 <tr class="qf_option">
                     <td >
                         <input class="qf_input" type="text" name="qf"  value="出发：按机场">
-                        <img class="qf_img_down" src="svg/select_down.svg"/>
+                        <img class="qf_img_down" src="/svg/select_down.svg"/>
                         <ul class="qf_opt">
                             <li value="0">按机场</li>
                             <li value="1">按省/市</li>
@@ -33,7 +35,7 @@
                     </td>
                     <td> </td>
                     <td align="right">
-                        <img class="dd_img_down" src="svg/select_down.svg"/>
+                        <img class="dd_img_down" src="/svg/select_down.svg"/>
                         <input class="dd_input" type="text" name="dd"  value="到达：按机场">
                         <ul class="dd_opt">
                             <li value="0">按机场</li>
@@ -47,7 +49,7 @@
                     <td>
                         <input class="qf_text" type="text" name="qf_jc" key="0" placeholder="起飞机场">
                     </td>
-                    <td align="center" valign="center"><img src="svg/round.svg" width="70%" /></td>
+                    <td align="center" valign="center"><img src="/svg/round.svg" width="70%" /></td>
                     <td>
                         <input class="dd_jc" type="text" name="dd_jc" key="0" placeholder="到达机场">
                     </td>
@@ -56,7 +58,7 @@
 
                     <td colspan="3" class="td_zz" >
                         <input class="zz_select" type="text"  placeholder="中转：按机场" >
-                        <img class="zz_img_down" src="svg/select_down.svg"/>
+                        <img class="zz_img_down" src="/svg/select_down.svg"/>
                         <strong style="font-weight: normal;color: #999 ;">|</strong>
                         <input class="zz_jc" type="text" key="1" name="zz_jc" placeholder="中转机场"  >
                         <ul class="zz_opt">
@@ -415,6 +417,6 @@
 
 
 </body>
-<script src="js/init.js"></script>
-<script src="js/calendar.js"></script>
+<script src="/js/init.js"></script>
+<script src="/js/calendar.js"></script>
 </html>

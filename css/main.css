@@ -153,6 +153,7 @@ html, body {
     font-size: 10px;
     left: 40%;
     top: 40%;
+    display: none;
     /*border: 1px solid red;*/
     z-index: 9999;
 }
@@ -591,6 +592,24 @@ html, body {
     color: #666;
 
 }
+
+
+svg {
+    cursor: pointer;
+    /*width: 100%;*/
+    height: 100%;
+    background: #94ADB3;
+}
+
+.land {
+    fill: #F2F2F2;
+}
+.boundary {
+    fill: none;
+    stroke: #ddd;
+    stroke-width: .5px;
+}
+
 
 
 

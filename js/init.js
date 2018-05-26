@@ -7,31 +7,184 @@ $(function(){
 	window.screen=screen;
 	window.map = null;
 	screen.lock().resize(function(){
-		screen.lock();
+		//screen.lock();
 	}).opacity(30);
+	$('#loading').show();
 
 	//初始化
-	init(screen);
+	//init(screen);
+
+
+
+	//local的初始化
+	init2();
 	//加载
 	load();
-
-
-
-
-	function getScreen(){
-		return screen;
-	}
-
-
-
 
 
 
 });
 
 
+
+
+function init2(){
+	var width =parseInt(getInner().width) ;
+	var height = parseInt(getInner().height) ;
+	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
+
+
+	var translate = [(width/2)-(svg_left/2),height/2];
+	//滚动条隐藏
+	document.body.style.overflow = 'hidden';
+	//alert(width+","+height+","+svg_left);
+	//alert(svg_left);
+	var div = d3.select("#map");
+	//定义拖拽
+	var zoomer = d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", zoom);
+	var svg = div.append("svg").attr('width',width-svg_left).attr('height',height).call(zoomer).style("margin-left",svg_left);
+	var g = svg.append('g').attr("id","g1").style("border","1px solid red");
+
+
+	//定义地图投影
+	var projection = d3.geo.equirectangular().scale(240).translate(translate);
+	//定义地理路径生成器
+	var path = d3.geo.path().projection(projection);
+
+
+	d3.json("/d3/map/world-50m.json",function(error,world){
+		var w = world;
+
+
+		var a = projection([116.58499908447266,40.080101013183594]);
+
+		g.append("path")
+			.datum(topojson.feature(world,world.objects.land))
+			.attr("class","land")
+			.attr("d",path);
+		g.append("path")
+			.datum(topojson.mesh(world,world.objects.countries))
+			.attr("class","boundary")
+			.attr("d",path);
+//        alert("绘图完成");
+
+		g.append("circle")
+			.attr("cx",a[0])
+			.attr("cy",a[1])
+			.attr("r",1);
+
+		g.attr("transform", "translate(0,0) scale(1)");
+
+	});
+	function zoom(){
+
+		/*var array = getStyle($("#g1").ge(0),"transform").split(",");
+		//console.log(array);
+		var scale = parseInt(array[3]);
+		var x = parseInt(array[4]);
+		var y = parseInt(array[5].replace(")",""));
+		console.log("x:"+x+",y:"+y+",scale:"+scale);
+		console.log(parseInt(d3.event.scale));
+
+
+		if(parseInt(d3.event.scale) == scale ){
+			if( x>0 || y>0  ){
+				g.attr("transform", "translate(0,0) scale(1)");
+				console.log("超出");
+			}else{
+				g.attr("transform", "translate(" + d3.event.translate + ")");
+			}
+
+		}else{
+			g.attr("transform", "scale(" + d3.event.scale + ")");
+		}*/
+
+
+
+		//g.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+
+
+
+
+		//var box = document.getElementById("g1").getBBox();
+		//console.log(d3.event.translate);
+		//console.log(g);
+		//console.log(box);
+	}
+
+	svg.on("click",function(){
+		var point = d3.mouse(svg.node());
+//        alert(point);
+
+		//var array = getStyle($("#g1").ge(0),"transform").split(",");
+		//console.log(array);
+		//var scale = array[3];
+		//var x = array[4];
+		//var y = array[5].replace(")","");
+		//console.log("scale"+scale);
+		//console.log("x"+x);
+		//console.log("y:"+y);
+		//alert(g1);
+
+		//g.attr("transform", "translate(0,0) scale(1)");
+
+	});
+
+
+
+
+
+	$('#loading').animate({
+		attr:'o',
+		target:0,
+		step:50,
+		t:1,
+		fn:function(){
+			$('#loading').hide();
+		}
+	});
+
+	window.screen.animate({
+		attr:'o',
+		target:0,
+		step:30,
+		t:10,
+		fn:function(){
+			window.screen.unlock();
+		}
+	});
+
+
+
+	//alert('地图加载完成');
+	$('#map').animate({
+		attr:'o',
+		target:100,
+		step:10,
+		t:10
+
+	});
+
+
+	$(document).resize(function(){
+		var width =parseInt(getInner().width) ;
+		var height = parseInt(getInner().height) ;
+		var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
+	    svg.attr('width',width-svg_left).attr('height',height);
+	});
+
+
+
+
+
+
+}
+
+
+
+
 function init(){
-	var url = 'http://webapi.amap.com/maps?v=1.4.5&key=7a62597821fd492a53bc6b4e81f50ece&plugin=AMap.BezierCurveEditor&callback=onApiLoaded';
+	var url = 'http://webapi.amap.com/loca?key=7a62597821fd492a53bc6b4e81f50ece&v=1.0.4';
 	var jsapi = document.createElement('script');
 	jsapi.charset = 'utf-8';
 	jsapi.src = url;
@@ -403,7 +556,6 @@ function onApiLoaded(){
 	map.on('complete', function() {
 
 
-
 		window.screen.animate({
 			attr:'o',
 			target:0,
@@ -432,11 +584,6 @@ function onApiLoaded(){
 			t:10
 
 		});
-
-
-
-
-
 //        document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
 	});
 
