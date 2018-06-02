@@ -312,7 +312,6 @@ function init2(){
 
 
 
-	//alert('地图加载完成');
 	$('#map').animate({
 		attr:'o',
 		target:100,
@@ -389,7 +388,7 @@ function load(){
 	});
 
 	$('#map').click(function(){
-		leftBox_anim(left_box.menu,10,30,-155,0);
+		leftBox_anim(left_box.menu,10,30,-280,0);
 		leftBox_anim(left_box.search,10,30,-380,0);
 		leftBox_anim(left_box.filter,10,30,-100,0);
 

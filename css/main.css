@@ -645,17 +645,6 @@ svg {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 #date_calendar  table td:lang(wh):hover{
     cursor: pointer;
     border-radius: 100%;
@@ -676,3 +665,74 @@ svg {
     cursor: auto;
     background: #f5f5f5;
 }
+
+#left_bar .span_menu{
+    width: 280px;
+    background: #f2f2f2;
+    left: 0;
+    opacity: 1;
+    box-shadow:0 0 4px #dbdada;
+}
+
+#left_bar .span_menu h6{
+    text-align: center;
+    margin-top: 5.8rem;
+    font-size: 2.0rem;
+    color: #222;
+    font-weight: 200;
+}
+#left_bar .span_menu hr{
+    margin-top: 3.8rem;
+    background: #ddd;
+    height: 0.8px;
+    border: none;
+}
+
+#left_bar .span_menu ul  {
+
+
+}
+
+#left_bar .span_menu ul li {
+    /*border: 1px solid red;*/
+    padding-left: 20%;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    font-size: 1.35rem;
+    margin-top: 1.0rem;
+
+}
+#left_bar .span_menu ul li:hover{
+    cursor: pointer;
+    background: #eee;
+}
+#left_bar .span_menu ul li img {
+    /*border: 1px solid red;*/
+    width: 2.0rem;
+    margin-top: 0.1rem;
+    float: left;
+
+
+
+}
+
+#left_bar .span_menu ul li h6 {
+    font-size: 1.5rem;
+    text-align: left;
+    /*border: 1px solid green;*/
+    color: #222;
+    margin-top: 0rem;
+    margin:  0.2rem;
+    float: left;
+
+
+}
+
+.clear:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+
