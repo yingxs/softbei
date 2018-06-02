@@ -43,6 +43,7 @@ function init2(){
 	//定义拖拽
 	var zoomer = d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", zoom);
 	var svg = div.append("svg").attr('width',width-svg_left).attr('height',height).call(zoomer).style("margin-left",svg_left);
+	window.svg = svg;
 	var g = svg.append('g').attr("id","g1").style("border","1px solid red");
 
 
@@ -59,6 +60,20 @@ function init2(){
 		var a1 = projection([116.58499908447266,40.080101013183594]);
 		var a2 = projection([-73.87259674,40.77719879]);
 
+		var data = [
+					{
+						id:1,
+						qf:["116.58499908447266","40.080101013183594"],
+						dd:["-73.87259674","40.77719879"]
+					},
+					{
+						id:2,
+						qf:["116.58499908447266","40.080101013183594"],
+						dd:["-73.87259674","40.77719879"]
+					}
+				];
+
+
 		g.append("path")
 			.datum(topojson.feature(world,world.objects.land))
 			.attr("class","land")
@@ -69,45 +84,140 @@ function init2(){
 			.attr("d",path);
 //        alert("绘图完成");
 
+//异步请求曲线数据
+		ajax({
+			method:'get',
+			url:'/index.php',
+			data:{
+				'c':'index',
+				'a':'index2'
+			},
+			success:function(text){
+				//var data = JSON.parse(text);
+				var data = [
+					{
+						id:1,
+						qf:["116.58499908447266","40.080101013183594"],
+						dd:["-73.87259674","40.77719879"]
+					},
+					{
+						id:2,
+						qf:["116.58499908447266","40.080101013183594"],
+						dd:["-73.87259674","40.77719879"]
+					}
+				];
+				g.selectAll("path.line")
+					.data(data)
+					.classed("line",true)
+					.attr("id",function(d){
+						return d.id;
+					});
+
+				g.selectAll("path.line")
+					.data(data)
+					.enter()
+					.append("path")
+					.classed("line",true)
+					.attr("id",function(d){
+						return d.id;
+					})
+					.attr("d",function(d){
+						var array = getLine_xy(d.qf, d.dd);
+						console.log(array);
+						//三等分点1
+						g.append("circle")
+							.attr("cx",array[1][0])
+							.attr("cy",array[1][1])
+							.attr("r",5)
+							.style("fill","green");
+						//三等分点2
+						g.append("circle")
+							.attr("cx",array[2][0])
+							.attr("cy",array[2][1])
+							.attr("r",5)
+							.style("fill","green");
+
+						//控制点在机场连线上的投影
+						g.append("circle")
+							.attr("cx",array[3][0])
+							.attr("cy",array[3][1])
+							.attr("r",5)
+							.style("fill","red");
+
+						//控制点1
+						g.append("circle")
+							.attr("cx",array[4][0])
+							.attr("cy",array[4][1])
+							.attr("r",5)
+							.style("fill","#74FFEC");
+						return array[0];
+
+					});
+
+
+			},
+			error:function(state,msg){
+				alert(state+"："+msg);
+			},
+			async:true
+		});
+
+
+
+
+
+
+
 		g.append("circle")
 			.attr("cx",a1[0])
 			.attr("cy",a1[1])
-			.attr("r",10);
+			.attr("r",5)
+			.style("fill","red");
+		//alert((1238.8501021900693+194.11286546912746)/2);
+		//alert(a1[0]+","+a1[1]);
 
 		g.append("circle")
 			.attr("cx",a2[0])
 			.attr("cy",a2[1])
-			.attr("r",10);
+			.attr("r",5).style("fill","blue");
 		g.append("circle")
 			.attr("cx",width-40)
 			.attr("cy",a1[1]-90)
-			.attr("r",10);
+			.attr("r",5).style("fill","green");
 		g.append("circle")
 			.attr("cx",width-200)
 			.attr("cy",a1[1]-90)
-			.attr("r",10);
+			.attr("r",5).style("fill","yellow");
 
 
 
 
 		g.append("circle")
-			.attr("cx",10)
+			.attr("cx",0)
 			.attr("cy",a1[1]-90)
-			.attr("r",10);
+			.attr("r",5).style("fill","#000");
 
 
 		g.append("path")
 			.attr("class","line")
 			.attr("id","line1")
+
+			//.attr("d","M"+a1[0]+" "+a1[1]+" L"+a2[0]+" "+a2[1]);
+			.attr("d","M"+a1[0]+" "+a1[1]+" Q"+(width-200)+" "+(a1[1]-70)+" "+(width-40)+" "+(a1[1]-90)+
+					"M"+0+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );
+		/*g.append("path")
+			.attr("class","line")
+			.attr("id","line-bar")
+			//.attr("filter","url(#filter)")
 			//.attr("d","M"+a1[0]+" "+a1[1]+" L"+a2[0]+" "+a2[1]);
 			.attr("d","M"+a1[0]+" "+a1[1]+" Q"+(width-200)+" "+(a1[1]-90)+" "+(width-40)+" "+(a1[1]-90)+
-					"M"+10+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );
+					"M"+10+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );*/
 
 		g.attr("transform", "translate(0,0) scale(1)");
 
 
 		var length= $("#line1").ge(0).getTotalLength();
-		d3.select("#line1").style("stroke-dasharray","0,"+length).transition().duration(10000).style("stroke-dasharray",length+","+length);
+		//d3.select("#line1").style("stroke-dasharray","0,"+length).transition().duration(10000).style("stroke-dasharray",length+","+length);
 		$("#line1").hover(function(){
 			d3.select(this).style("stroke","red");
 		},function(){
@@ -154,7 +264,13 @@ function init2(){
 
 	svg.on("click",function(){
 		var point = d3.mouse(svg.node());
-        alert(point);
+        //alert(point[0]+","+svgToMatch(point[1]) );
+		//var length= $("#line1").ge(0).getTotalLength();
+		//
+		//d3.select("#line1")
+		//	.style("animation","line 5s linear infinite normal")
+		//	.style("stroke-dasharray",(length-10)+","+10);
+
 
 		//var array = getStyle($("#g1").ge(0),"transform").split(",");
 		//console.log(array);
@@ -212,7 +328,6 @@ function init2(){
 		var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
 	    svg.attr('width',width-svg_left).attr('height',height);
 	});
-
 
 
 

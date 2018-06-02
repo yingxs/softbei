@@ -617,11 +617,30 @@ svg {
     stroke-width: 2px;
 }
 
+@keyframes line {
+    to{
+        stroke-dashoffset: -2000;
+    }
+}
+
+
 #line1{
     fill: none;
-    stroke: #75baff;
-    stroke-width: 2px;
-    /*stroke-dasharray: 10px,5px,12px;*/
+    stroke: #2294ff;
+    /*stroke: url(#grad1);*/
+    stroke-width: 1px;
+    /*stroke-dasharray: 50px;*/
+
+
+
+}
+#line-bar{
+    fill: none;
+    stroke: #92bcff;
+    stroke-width: 10px;
+    stroke-dasharray: 5px 1000;
+    stroke-dashoffset: -200;
+
 
 }
 
