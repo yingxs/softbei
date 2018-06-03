@@ -31,11 +31,19 @@ function getLine_xy(qf,dd){
 		xn = x4,
 		yn = x4*k1+b1;
 
+	var xp = (xm+x1)/2;
+	var yp = (ym+svgToMatch(y1))/2;
+	var xq = (xn+x2)/2;
+	var yq = (yn+svgToMatch(y2))/2;
 
 
 	//贝瑟尔曲线控制点在两地连线上的投影坐标
-	var bezier_x = (RandomNum(xm,xn))*(1),
+	//var bezier_x = (RandomNum(xm,xn))*(1),
+	//	bezier_y = (k1*bezier_x+b1)*(1);
+	var bezier_x = (RandomNum(xp,xq))*(1),
 		bezier_y = (k1*bezier_x+b1)*(1);
+
+
 
 	var k2 = -1/k1;
 	var b2 = bezier_y - k2*bezier_x;
@@ -81,13 +89,14 @@ function getLine_xy(qf,dd){
 
 
 	 return  [ "M " + projection(qf)[0]+","+projection(qf)[1]+" Q "+cx+","+matchToSvg(cy)+" "+projection(dd)[0]+","+projection(dd)[1],
-	 [xm,matchToSvg(ym)],   //三等分点1
-	 [xn,matchToSvg(yn)],   //三等分点2
+	 [xm,matchToSvg(ym)],   //三等分点1 距离x1近
+	 [xn,matchToSvg(yn)],   //三等分点2 距离x1近
 	 [bezier_x,matchToSvg(bezier_y) ],//曲线控制点在机场连线上的映射
-	 [cx,matchToSvg(cy)]    //曲线控制点坐标
+	 [cx,matchToSvg(cy)],    //曲线控制点坐标
+	 [xp,matchToSvg(yp)],   //三等分点1 距离x1近
+	 [xq,matchToSvg(yq)]   //三等分点2 距离x1近
 	 ];
 
-	 return  [ "M " + projection(qf)[0]+","+projection(qf)[1]+" Q "+cx+","+matchToSvg(cy)+" "+projection(dd)[0]+","+projection(dd)[1] ];
 
 
 	//return ["M " + projection(qf)[0]+","+projection(qf)[1]+" Q "+cx+","+cy+projection(dd)[0]+","+projection(dd)[1]];

@@ -129,7 +129,7 @@ function init2(){
 							.attr("cx",array[1][0])
 							.attr("cy",array[1][1])
 							.attr("r",5)
-							.style("fill","green");
+							.style("fill","blue");
 						//三等分点2
 						g.append("circle")
 							.attr("cx",array[2][0])
@@ -150,6 +150,21 @@ function init2(){
 							.attr("cy",array[4][1])
 							.attr("r",5)
 							.style("fill","#74FFEC");
+
+						//p
+						g.append("circle")
+							.attr("cx",array[5][0])
+							.attr("cy",array[5][1])
+							.attr("r",5)
+							.style("fill","#74FFEC");
+						//q
+						g.append("circle")
+							.attr("cx",array[6][0])
+							.attr("cy",array[6][1])
+							.attr("r",5)
+							.style("fill","#74FFEC");
+
+
 						return array[0];
 
 					});
@@ -168,18 +183,21 @@ function init2(){
 
 
 
+		//起飞机场坐标
 		g.append("circle")
 			.attr("cx",a1[0])
 			.attr("cy",a1[1])
-			.attr("r",5)
-			.style("fill","red");
+			.attr("r",4)
+			.style("fill","#f76463");
 		//alert((1238.8501021900693+194.11286546912746)/2);
 		//alert(a1[0]+","+a1[1]);
-
+		//降落机场坐标
 		g.append("circle")
 			.attr("cx",a2[0])
 			.attr("cy",a2[1])
-			.attr("r",5).style("fill","blue");
+			.attr("r",4).style("fill","#f76463");
+
+
 		g.append("circle")
 			.attr("cx",width-40)
 			.attr("cy",a1[1]-90)
@@ -264,7 +282,7 @@ function init2(){
 
 	svg.on("click",function(){
 		var point = d3.mouse(svg.node());
-        //alert(point[0]+","+svgToMatch(point[1]) );
+        alert(point[0]+","+svgToMatch(point[1]) );
 		//var length= $("#line1").ge(0).getTotalLength();
 		//
 		//d3.select("#line1")
@@ -351,7 +369,7 @@ function load(){
 	var left_box = {
 		menu:$('#left_bar span'),
 		search:$('#left_flat span').eq(0),
-		filter:$('#left_flat span').eq(1)
+		filter:$('#left_flat .filter')
 	};
 
 	function leftBox_anim(obj,t,step,x,o){
@@ -388,9 +406,9 @@ function load(){
 	});
 
 	$('#map').click(function(){
-		leftBox_anim(left_box.menu,10,30,-280,0);
-		leftBox_anim(left_box.search,10,30,-380,0);
-		leftBox_anim(left_box.filter,10,30,-100,0);
+		leftBox_anim(left_box.menu,10,30,-300,100);
+		leftBox_anim(left_box.search,10,30,-380,100);
+		leftBox_anim(left_box.filter,10,30,-300,100);
 
 	});
 
@@ -399,6 +417,10 @@ function load(){
 	$('#left_bar .menu_ul li').click(function(){
 
 		if( $(this).index() == 0 && parseInt( left_box.menu.css('left') )<0 ) {
+			//隐藏筛选块
+			leftBox_anim(left_box.filter,10,30,-300,100);
+			//隐藏搜索块
+			leftBox_anim(left_box.search,10,30,-380,100);
 			//当点击菜单按钮时，显示菜单块
 			leftBox_anim(left_box.menu,10,30,0,100);
 		}else if($(this).index() == 1 && parseInt( left_box.search.css('left') )<0){
@@ -407,7 +429,7 @@ function load(){
 			//显示搜索块
 			leftBox_anim(left_box.search,10,30,36,100);
 			//隐藏筛选块
-			leftBox_anim(left_box.filter,10,30,-100,0);
+			leftBox_anim(left_box.filter,10,30,-300,100);
 		}else if($(this).index() == 1 && parseInt( left_box.search.css('left') )>0){
 			//隐藏搜索块
 			leftBox_anim(left_box.search,10,30,-380,100);
@@ -417,11 +439,28 @@ function load(){
 			//显示筛选块
 			leftBox_anim(left_box.filter,10,30,35,100);
 			//隐藏搜索块
-			leftBox_anim(left_box.search,10,30,-380,0);
+			leftBox_anim(left_box.search,10,30,-380,100);
 		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left') )>0){
-			leftBox_anim(left_box.filter,10,30,-100,0);
+			leftBox_anim(left_box.filter,10,30,-280,100);
 		}
 
+	});
+
+
+	$("#left_bar .span_menu ul li").click(function(){
+		if( $(this).index() == 0 /*&& parseInt( left_box.menu.css('left') )<0*/ ) {
+			//当点击菜单任意选项时，隐藏菜单块
+			leftBox_anim(left_box.menu,10,30,-280,100);
+			//显示搜索块
+			leftBox_anim(left_box.search,10,30,36,100);
+
+		}else if($(this).index() == 1 /*&& parseInt( left_box.search.css('left') )<0*/){
+			//当点击菜单任意选项时，隐藏菜单块
+			leftBox_anim(left_box.menu,10,30,-280,100);
+			//显示搜索块
+			leftBox_anim(left_box.filter,10,30,36,100);
+
+		}
 	});
 
 	//查询出发选项

@@ -248,12 +248,12 @@ html, body {
 
 }
 
-#left_flat span  td{
+#left_flat span:nth-child(1)  td{
      font-size: 1.5rem;
     /*padding: 5px;*/
  }
 
-#left_flat span .qf_option td input{
+#left_flat span:nth-child(1) .qf_option td input{
     border: none;
     width: 80%;
     background: none;
@@ -262,24 +262,24 @@ html, body {
     padding: 8px 0;
     outline: none;
 }
-#left_flat span .qf_option img:nth-child(1){
+#left_flat span:nth-child(1) .qf_option img:nth-child(1){
     width: 10px;
     position: relative;
     left:125px;
     cursor: pointer;
 }
 
-#left_flat span .qf_option img:nth-child(2){
+#left_flat span:nth-child(1) .qf_option img:nth-child(2){
     width: 10px;
     position: relative;
     left: -15px;
     cursor: pointer;
 }
 
-#left_flat span table tr:nth-child(1) td {
+#left_flat span:nth-child(1) table tr:nth-child(1) td {
     position: relative;
 }
-#left_flat span .qf_opt {
+#left_flat span:nth-child(1) .qf_opt {
     position: absolute;
     display: none;
     opacity: 0;
@@ -293,7 +293,7 @@ html, body {
     z-index: 2;
 
 }
-#left_flat span .dd_opt {
+#left_flat span:nth-child(1) .dd_opt {
     position: absolute;
     display: none;
     opacity: 0;
@@ -306,27 +306,27 @@ html, body {
     right: 0px;
     box-shadow:4px 10px 20px  #ddd;
 }
-#left_flat span .qf_opt li {
+#left_flat span:nth-child(1) .qf_opt li {
     padding: 3px 0px;
     text-indent: 18px;
 }
-#left_flat span .dd_opt li {
+#left_flat span:nth-child(1) .dd_opt li {
     text-align: left;
     text-indent: 20px;
     padding: 3px 0px;
 }
-#left_flat span .qf_opt li:hover,.dd_opt li:hover {
+#left_flat span:nth-child(1) .qf_opt li:hover,.dd_opt li:hover {
     background: #f0f0f0;
 }
 
 
 
 
-#left_flat span .qf_option td:nth-child(2){
+#left_flat span:nth-child(1) .qf_option td:nth-child(2){
     width: 40px;
     /*border: 1px solid red;*/
 }
-#left_flat span  td input{
+#left_flat span:nth-child(1)  td input{
     width: 100%;
     background: none;
     border: none;
@@ -340,8 +340,13 @@ html, body {
 
 
  #left_flat span:nth-child(2){
-    left:-100px;
-    background: blue;
+     width: 300px;
+     height: 100%;
+    /*left:-100px;*/
+    left:-300px;
+     color: #666;
+
+    background: #f3f3f3;
 }
 
 
@@ -669,7 +674,7 @@ svg {
 #left_bar .span_menu{
     width: 280px;
     background: #f2f2f2;
-    left: 0;
+    left: -285px;
     opacity: 1;
     box-shadow:0 0 4px #dbdada;
 }
@@ -734,5 +739,9 @@ svg {
     clear: both;
 }
 
+
+/*body{*/
+    /*background: #f76463;*/
+/*}*/
 
 
