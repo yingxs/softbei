@@ -2,6 +2,7 @@
 require DAO.'IndexDao.class.php';
 class Index {
 
+
     //访问首页
     public function indexAction(){
         //设置页面标题

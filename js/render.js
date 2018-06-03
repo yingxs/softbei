@@ -2,10 +2,10 @@
 
 
 function getLine_xy(qf,dd){
-	var width =parseInt(getInner().width) ;
-	var height = parseInt(getInner().height) ;
+	var width =$('svg').attr("width") ;
+	var height = $('svg').attr("height") ;
 	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
-	var translate = [(width/2)-(svg_left/2),height/2];
+	var translate = [(width/2)-(svg_left/2)+(35/2),height/2];
 	//定义地图投影
 	var projection = d3.geo.equirectangular().scale(240).translate(translate);
 	//定义地理路径生成器
@@ -103,7 +103,54 @@ function getLine_xy(qf,dd){
 }
 
 
-function getLine_xyPlus(a,b){
+function getLine_xyPlus(qf,dd){
+	//alert(qf+","+dd);
+	var width =$('svg').attr("width") ;
+	var height = $('svg').attr("height") ;
+	//alert(width);
+	//alert(height);
+	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
+	var translate = [(width/2)-(svg_left/2)+(35/2),height/2];
+	//定义地图投影
+	var projection = d3.geo.equirectangular().scale(240).translate(translate);
+	//定义地理路径生成器
+	var path = d3.geo.path().projection(projection);
+
+	var x1 = projection(qf)[0],
+		y1 = projection(qf)[1],
+		x2 = projection(dd)[0],
+		y2 = projection(dd)[1],
+		right_x = projection([180,62.6])[0],
+		right_y = projection([180,62.6])[1],
+		left_x = projection([-180,62.6])[0],
+		left_y = projection([-180,62.6])[1];
+
+	var xm = (x1+parseInt(right_x))/2,
+
+		ym = y1-RandomNum(70, 120),
+		xn = x2/2,
+		yn = ym;
+
+
+	//alert(x1);
+	//alert(width);
+	//alert(x1+parseInt(width));
+	//alert(xm);
+
+
+
+	var str = "M "+x1+","+y1+" Q "+xm+","+ym+" "+right_x+","+ym+"M "+left_x+","+ym+"Q "+xn+","+yn+" "+x2+","+y2;
+
+	return [ str,
+		[xm,ym],            //右曲线控制点
+		[right_x,right_y],  //右边界坐标
+		[left_x,left_y],     //左边界坐标
+		[xn,yn]             //左曲线控制点
+	];
+
+
+
+
 
 }
 

@@ -99,19 +99,19 @@ function init2(){
 						id:1,
 						qf:["116.58499908447266","40.080101013183594"],
 						dd:["-73.87259674","40.77719879"]
-					},
+					}/*,
 					{
 						id:2,
 						qf:["116.58499908447266","40.080101013183594"],
 						dd:["-73.87259674","40.77719879"]
-					}
+					}*/
 				];
-				g.selectAll("path.line")
+				/*g.selectAll("path.line")
 					.data(data)
 					.classed("line",true)
 					.attr("id",function(d){
 						return d.id;
-					});
+					});*/
 
 				g.selectAll("path.line")
 					.data(data)
@@ -135,36 +135,63 @@ function init2(){
 							.attr("cx",array[2][0])
 							.attr("cy",array[2][1])
 							.attr("r",5)
-							.style("fill","green");
+							.style("fill","blue");
 
 						//控制点在机场连线上的投影
 						g.append("circle")
 							.attr("cx",array[3][0])
 							.attr("cy",array[3][1])
 							.attr("r",5)
-							.style("fill","red");
+							.style("fill","green");
 
 						//控制点1
 						g.append("circle")
 							.attr("cx",array[4][0])
 							.attr("cy",array[4][1])
 							.attr("r",5)
-							.style("fill","#74FFEC");
+							.style("fill","red");
 
-						//p
+						//p-x1
 						g.append("circle")
 							.attr("cx",array[5][0])
 							.attr("cy",array[5][1])
 							.attr("r",5)
-							.style("fill","#74FFEC");
-						//q
+							.style("fill","#000");
+						//q-x2
 						g.append("circle")
 							.attr("cx",array[6][0])
 							.attr("cy",array[6][1])
 							.attr("r",5)
-							.style("fill","#74FFEC");
+							.style("fill","#000");
 
 
+
+						var array2 = getLine_xyPlus(d.qf, d.dd);
+						console.log(array2);
+						//右曲线控制点
+						g.append("circle")
+							.attr("cx",array2[1][0])
+							.attr("cy",array2[1][1])
+							.attr("r",3).style("fill","#000");
+						//左曲线控制点
+						g.append("circle")
+							.attr("cx",array2[4][0])
+							.attr("cy",array2[4][1])
+							.attr("r",3).style("fill","#000");
+
+						//右边界标志点
+						g.append("circle")
+							.attr("cx",array2[2][0])
+							.attr("cy",array2[2][1])
+							.attr("r",3).style("fill","red");
+
+						//左边界标志点
+						g.append("circle")
+							.attr("cx",array2[3][0])
+							.attr("cy",array2[3][1])
+							.attr("r",3).style("fill","red");
+
+						//return array2[0];
 						return array[0];
 
 					});
@@ -195,34 +222,41 @@ function init2(){
 		g.append("circle")
 			.attr("cx",a2[0])
 			.attr("cy",a2[1])
-			.attr("r",4).style("fill","#f76463");
+			.attr("r",4)
+			.style("fill","#f76463");
 
 
-		g.append("circle")
+		/*g.append("circle")
 			.attr("cx",width-40)
 			.attr("cy",a1[1]-90)
-			.attr("r",5).style("fill","green");
-		g.append("circle")
+			.attr("r",5).style("fill","green");*/
+
+
+
+		/*g.append("circle")
 			.attr("cx",width-200)
 			.attr("cy",a1[1]-90)
-			.attr("r",5).style("fill","yellow");
+			.attr("r",5).style("fill","yellow");*/
 
-
-
-
-		g.append("circle")
+		/*g.append("circle")
 			.attr("cx",0)
 			.attr("cy",a1[1]-90)
-			.attr("r",5).style("fill","#000");
+			.attr("r",5).style("fill","#000");*/
+
+		/*g.append("circle")
+			.attr("cx",200)
+			.attr("cy",a1[1]-90)
+			.attr("r",5).style("fill","#000");*/
 
 
-		g.append("path")
+
+		/*g.append("path")
 			.attr("class","line")
 			.attr("id","line1")
 
 			//.attr("d","M"+a1[0]+" "+a1[1]+" L"+a2[0]+" "+a2[1]);
-			.attr("d","M"+a1[0]+" "+a1[1]+" Q"+(width-200)+" "+(a1[1]-70)+" "+(width-40)+" "+(a1[1]-90)+
-					"M"+0+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );
+			.attr("d","M"+a1[0]+" "+a1[1]+" Q"+(width-200)+" "+(a1[1]-90)+" "+(width-40)+" "+(a1[1]-90)+
+					"M"+0+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );*/
 		/*g.append("path")
 			.attr("class","line")
 			.attr("id","line-bar")
