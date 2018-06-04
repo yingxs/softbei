@@ -29,6 +29,18 @@ $(function(){
 
 
 function init2(){
+	var li_list = $('#left_flat .qf_option .qf_opt li').elements;
+	console.log(li_list);
+	(function(){
+		for(var i=0 ;i<li_list.length;i++){
+			if($(li_list[i]).attr('select')=='select'){
+				$('#left_flat .qf_option  .qf_input').value("出发："+$(li_list[i]).html());
+				$('#left_flat .qf_option  .dd_input').value("到达："+$(li_list[i]).html());
+
+			}
+		}
+	})();
+
 	var width =parseInt(getInner().width) ;
 	var height = parseInt(getInner().height) ;
 	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
@@ -268,14 +280,14 @@ function init2(){
 		g.attr("transform", "translate(0,0) scale(1)");
 
 
-		var length= $("#line1").ge(0).getTotalLength();
+		//var length= $("#line1").ge(0).getTotalLength();
 		//d3.select("#line1").style("stroke-dasharray","0,"+length).transition().duration(10000).style("stroke-dasharray",length+","+length);
-		$("#line1").hover(function(){
-			d3.select(this).style("stroke","red");
-		},function(){
-			d3.select(this).style("stroke","blue");
-
-		});
+		//$("#line1").hover(function(){
+		//	d3.select(this).style("stroke","red");
+		//},function(){
+		//	d3.select(this).style("stroke","blue");
+		//
+		//});
 
 	});
 	function zoom(){

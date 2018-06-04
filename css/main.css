@@ -744,4 +744,14 @@ svg {
     /*background: #f76463;*/
 /*}*/
 
+#left_flat .from1_button button.submit{
+    background: #bbe1ff;
+    width: 50%;
+    height: 2.5rem;
+    border-radius: 15px;
+    border: none;
+}
+
+
+
 
