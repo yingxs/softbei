@@ -20,15 +20,21 @@
         <h4>SXPI航班数据可视化</h4>
         <h5>简要查询</h5>
         <table border="0" width="90%" align="center" cellpadding="0" cellspacing="0"  >
+            <form>
                 <tr class="qf_option">
                     <td >
-                        <input class="qf_input" type="text" name="qf"  value="出发：按机场">
+                        <input class="qf_input" type="text" name="qf"  value="">
                         <img class="qf_img_down" src="/svg/select_down.svg"/>
                         <ul class="qf_opt">
-                            <li value="0">按机场</li>
-                            <li value="1">按省/市</li>
-                            <li value="2">按区域</li>
-                            <li value="3">按国家</li>
+                            <?php foreach($this->_data['query_type'] as $v) :?>
+                                <?php if($v['default']=='yes'):?>
+                                    <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
+                                <?php  endif;?>
+
+                                <?php if($v['default']=='no'):?>
+                                    <li value="<?=$v['id']?>" ><?=$v['type']?></li>
+                                <?php  endif;?>
+                            <?php endforeach;?>
                         </ul>
 
 
@@ -36,12 +42,17 @@
                     <td> </td>
                     <td align="right">
                         <img class="dd_img_down" src="/svg/select_down.svg"/>
-                        <input class="dd_input" type="text" name="dd"  value="到达：按机场">
+                        <input class="dd_input" type="text" name="dd"  value="">
                         <ul class="dd_opt">
-                            <li value="0">按机场</li>
-                            <li value="1">按省/市</li>
-                            <li value="2">按区域</li>
-                            <li value="3">按国家</li>
+                            <?php foreach($this->_data['query_type'] as $v) :?>
+                                <?php if($v['default']=='yes'):?>
+                                    <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
+                                <?php  endif;?>
+
+                                <?php if($v['default']=='no'):?>
+                                    <li value="<?=$v['id']?>" ><?=$v['type']?></li>
+                                <?php  endif;?>
+                            <?php endforeach;?>
                         </ul>
                     </td>
                 </tr>
@@ -377,6 +388,13 @@
                         <input class="dd_time" type="text" name="dd_time" placeholder="到达时间">
                     </td>
                 </tr>
+
+                <tr >
+                    <td class="from1_button" colspan="3" style="border:1px solid red;">
+                        <button class="submit">提交</button>
+                    </td>
+                </tr >
+            </form>
 
         </table>
 

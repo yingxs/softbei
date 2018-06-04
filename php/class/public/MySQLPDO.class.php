@@ -18,7 +18,8 @@
             try {
                 self::$db = new PDO($dsn,$config['user'],$config['password']);
             } catch (Exception $e) {
-                exit("数据库连接失败:".$e->getMessage());
+                //echo iconv('gbk', 'utf-8', $e->getMessage());
+                exit("数据库连接失败:".iconv('gbk', 'utf-8', $e->getMessage()));
             }
         }
         

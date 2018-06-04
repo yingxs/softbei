@@ -8,7 +8,7 @@
 			'user'=>'root',
 			'password'=>'123456',
 			'charset'=>'utf8',
-			'dbname'=>'softbei'
+			'dbname'=>'fliht_data'
 		],
 		'DEFAULT_TIMEZONE' => 'PRC',
 		'SESSION_PREFIX' => 'flight',     //Session 前缀

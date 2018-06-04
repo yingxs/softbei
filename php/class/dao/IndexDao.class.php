@@ -8,6 +8,13 @@ class IndexDao extends MySQLPDO{
         parent::__construct();
     }
 
+    public function QueryType(){
+        return parent::fetchAll("SELECT `id`,`type`,`default` FROM query_type");
+    }
+
+
+
+
     public function init(){
         $result = parent::fetchAll("select id,qf_city_xy,mb_city_xy from t_flight_info2");
         //显示原始数据
@@ -17,25 +24,32 @@ class IndexDao extends MySQLPDO{
         $data = Array(
                     'start'=>'0',           //状态码，0表示成功，1表示失败
                     'msg'=>'',              //信息
-                    'lineData'=>array()     //曲线数据
+                    'lineData'=>[]     //曲线数据
                 );
+
+        //echo "<pre>";
+        //print_r($result);
 
 
         //封装曲线数据
+        $array = [];
         foreach($result as $v){
-            $id=0;
+            $array = [];
             foreach($v as $kk=>$vv){
-                if($kk=='id'){
-                    $data['lineData'][$vv] = Array();
-                    $id = $vv;
-                }else{
-                     $data['lineData'][$id][$kk]=$vv;
-                }
+                $array[$kk] =$vv;
+
             }
+            $data['lineData'][]=$array;
         }
 
+
+        //echo "<pre>";
+        //print_r($array);
+
         //show( $data['lineData']);
+        //echo "<br/>";
         //echo json_encode($data);
+       // echo "<br/>";
 
         return $data;
     }
