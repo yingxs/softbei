@@ -188,3 +188,10 @@ function predef(e){
 function hasClass(element,className){
 	return element.className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'));
 }
+
+//删除前后的空格
+function trim(str){
+	return str.replace(/(^\s*)|(\s*$)/g,'');
+
+}
+

@@ -25,7 +25,12 @@ function ajax(obj){
 
 
 	})();
-	obj.url = obj.url+'?rand='+Math.random();
+	if(obj.url.indexOf("?") == -1){
+		obj.url = obj.url+'?rand='+Math.random();
+	}else{
+		obj.url = obj.url+'&rand='+Math.random();
+	}
+
 	//obj.data = params(obj.data);
 	obj.data = (function(data){
 		var arr =[];

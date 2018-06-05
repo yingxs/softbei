@@ -19,11 +19,38 @@ class Index {
 
     }
 
-    public function testAction(){
-        //取出查询类型
+
+    public function searchAction(){
+        $qf_type = I('qf_type','get','string','');
+        $qf_text = I('qf_text','get','string','');
+        $dd_type = I('dd_type','get','string','');
+        $dd_text = I('dd_text','get','string','');
+        $start_time = I('start_time','get','string','');
+        $end_time = I('end_time','get','string','');
+
         $dao = new IndexDao();
-        $this->_data['query_type'] = $dao->QueryType();
-        show($this->_data);
+        $flight_code = $dao->queryFlight_code([$qf_type,$qf_text,$dd_type,$dd_text]);
+        //show($flight_code);
+
+
+
+        //echo $qf_type."<br/>";
+        //echo $qf_text."<br/>";
+        //echo $dd_type."<br/>";
+        //echo $dd_text."<br/>";
+        //echo $start_time."<br/>";
+        //echo $end_time."<br/>";
+
+        //exit("完成");
+    }
+
+    public function testAction(){
+        //获取查询条件
+
+
+
+
+
 
     }
 

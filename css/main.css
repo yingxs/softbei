@@ -219,7 +219,8 @@ html, body {
  #left_flat span:nth-child(1){
      width: 380px;
      height: 100%;
-    left:-380px;
+    /*left:-380px;*/
+    left:36px;
     background: #f3f3f3;
      border-right: 1px solid #eeeeee;
      box-shadow: 0 0 4px #dbdada;
@@ -277,6 +278,9 @@ html, body {
 }
 
 #left_flat span:nth-child(1) table tr:nth-child(1) td {
+    position: relative;
+}
+#left_flat span:nth-child(1) table tr:nth-child(2) td {
     position: relative;
 }
 #left_flat span:nth-child(1) .qf_opt {
@@ -743,14 +747,40 @@ svg {
 /*body{*/
     /*background: #f76463;*/
 /*}*/
+#left_flat .from1_button{
+    padding: 0.5rem;
+
+}
+
 
 #left_flat .from1_button button.submit{
     background: #bbe1ff;
-    width: 50%;
-    height: 2.5rem;
-    border-radius: 15px;
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 1.5rem;
+    padding: 0.8rem;
+    color: #f9f9f9;
+    font-size: 1.8rem;
+    border-radius: 13px;
     border: none;
+    outline: none;
+    cursor: pointer;
 }
+
+
+#left_flat .qf_select{
+    position: absolute;
+    width: 100%;
+    background: #f6f6f6;
+    border:1px solid #ddd;
+    border-top:none;
+    z-index: 1;
+    box-shadow: 4px 10px 20px #ddd;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+
 
 
 

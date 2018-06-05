@@ -35,11 +35,19 @@ function init2(){
 		for(var i=0 ;i<li_list.length;i++){
 			if($(li_list[i]).attr('select')=='select'){
 				$('#left_flat .qf_option  .qf_input').value("出发："+$(li_list[i]).html());
+				$('#left_flat .qf_option  .qf_input').attr("key",$(li_list[i]).attr("value"));
 				$('#left_flat .qf_option  .dd_input').value("到达："+$(li_list[i]).html());
+				$('#left_flat .qf_option  .dd_input').attr("key",$(li_list[i]).attr("value"));
 
+				$('#left_flat .qf_text').attr("placeholder","起飞"+$(li_list[i]).html().replace('按',''));
+				$('#left_flat .dd_jc').attr("placeholder","到达"+$(li_list[i]).html().replace('按',''));
+
+				//alert("起飞"+$(li_list[i]).html().replace('按',''));
 			}
 		}
 	})();
+
+
 
 	var width =parseInt(getInner().width) ;
 	var height = parseInt(getInner().height) ;
@@ -569,19 +577,22 @@ function load(){
 	//起飞选项
 	$('#left_flat .qf_option .qf_opt li').bind('mousedown',function(){
 		var str = $(this).html();
-		var value = $(this).attr('value');
+		var key = $(this).attr('value');
 		$('#left_flat .qf_option .qf_input').value("出发："+str);
-		var array=["机场","省/市","区域","国家"];
-		$('#left_flat .qf_text').attr('placeholder',"起飞"+array[value]).attr('key',value);
+		$('#left_flat .qf_option .qf_input').attr("key",key);
+		$('#left_flat .qf_text').attr('placeholder',"起飞"+$(this).html().replace("按",""));
+
+
 
 	});
 	//到达选项
 	$('#left_flat .qf_option .dd_opt li').bind('mousedown',function(){
 		var str = $(this).html();
-		var value = $(this).attr('value');
+		var key = $(this).attr('value');
 		$('#left_flat .qf_option .dd_input').value("到达："+str);
-		var array=["机场","省/市","区域","国家"];
-		$('#left_flat  .dd_jc').attr('placeholder',"到达"+array[value]).attr('key',value);
+		$('#left_flat .qf_option .dd_input').attr("key",key);
+		$('#left_flat  .dd_jc').attr('placeholder',"到达"+$(this).html().replace("按",""));
+
 	});
 
 
@@ -659,7 +670,82 @@ function load(){
 	});
 
 
+
+
+	$('#left_flat .from1_button .submit').click(function(e){
+		ajax({
+			method:'get',
+			url:"/index.php?c=index&a=search",
+			data:serializeSearch(),
+			success : function(text){
+				alert(text);
+			},
+			error : function(text){
+				alert(text);
+			},
+			async:true
+		});
+		predef(e);
+	});
+
+
+	$('#left_flat .qf_text').bind('keyup',function(e){
+		if( trim($(this).value())!='' ){
+			var type = $('#left_flat .qf_option .qf_input').attr("key");
+			var text = $('#left_flat .qf_text').value();
+
+			//根据起飞选项类型查询机场/国家
+			ajax({
+				method:'get',
+				url:"/index.php?c=index&a=",
+				data:{
+					"type":type,
+					"text":text
+				},
+				success : function(text){
+					alert(text);
+				},
+				error : function(text){
+					alert(text);
+				},
+				async:true
+
+			});
+
+
+
+
+			//$("#left_flat .qf_select").animate({
+			//	t:30,
+			//	step:10,
+			//	mul:{
+			//		o:100
+			//	}
+			//}).show();
+		}
+	});
+
+
+
+
 }
+
+
+//搜索表单系列化
+function serializeSearch(){
+	var search = {};
+	search["qf_type"]=$('#left_flat .qf_option .qf_input').attr("key");
+	search["qf_text"]=$('#left_flat .qf_text').value();
+	search["dd_type"]=$('#left_flat .qf_option .dd_input').attr("key");
+	search["dd_text"]=$('#left_flat .dd_jc').value();
+	search["start_time"]=$('#left_flat .qf_time').value();
+	search["end_time"]=$('#left_flat .dd_time').value();
+
+	return search;
+
+}
+
+
 
 
 //隐藏日历div

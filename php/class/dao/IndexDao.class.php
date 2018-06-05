@@ -8,10 +8,27 @@ class IndexDao extends MySQLPDO{
         parent::__construct();
     }
 
+    //查询默认选项类型
     public function QueryType(){
         return parent::fetchAll("SELECT `id`,`type`,`default` FROM query_type");
     }
 
+    //查询航班号
+    public function queryFlight_code($array){
+        $qf_column = parent::fetchColumn("select `column` from `query_type` where `id`=:qf_type",["qf_type"=>$array[0]]);
+        $mb_column = parent::fetchColumn("select `column` from `query_type` where `id`=:qf_type",["qf_type"=>$array[2]]);
+        $qf_column = "qf_".$qf_column;
+        $mb_column = "mb_".$mb_column;
+        //show($array);
+        //echo $qf_column."<br/>";
+        //echo $mb_column."<br/>";
+
+        $array = parent::fetchAll("SELECT `flight_number` FROM `m_flight` WHERE $qf_column LIKE '%$array[1]%' AND $mb_column LIKE '%$array[3]%' ");
+        show($array);
+
+
+
+    }
 
 
 
@@ -52,6 +69,14 @@ class IndexDao extends MySQLPDO{
        // echo "<br/>";
 
         return $data;
+    }
+
+
+    function show($data){
+    	echo "<pre>";
+    	print_r($data);
+    	echo "</pre>";
+
     }
 
 
