@@ -26,9 +26,31 @@ class IndexDao extends MySQLPDO{
         $array = parent::fetchAll("SELECT `flight_number` FROM `m_flight` WHERE $qf_column LIKE '%$array[1]%' AND $mb_column LIKE '%$array[3]%' ");
         show($array);
 
+    }
 
+    //根据选项类型查询机场/国家/省份
+    public function queryName($array){
+
+         $column = parent::fetchColumn("select `column` from `query_type` where `id`=:type",["type"=>$array[0]]);
+         if($array[2]=='qf'){
+            $column = "qf_".$column;
+         }else{
+            $column = "mb_".$column;
+         }
+         //show($array);
+         //echo $column;
+         $result = parent::fetchAll("SELECT distinct  $column FROM `m_flight` WHERE $column LIKE :text "  ,["text"=>'%'.$array[1].'%']);
+         $array=[];
+         foreach($result as $v){
+            foreach($v as $vv){
+                $array[] = $vv;
+            }
+         }
+         //show($array);
+         echo json_encode($array);
 
     }
+
 
 
 

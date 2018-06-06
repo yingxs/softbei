@@ -44,6 +44,18 @@ class Index {
         //exit("完成");
     }
 
+    public function searchInfoAction(){
+            $type = I('type','get','string','');
+            $text = I('text','get','string','');
+            $state = I('state','get','string','');
+
+            $dao = new IndexDao();
+            $name = $dao->queryName([$type,$text,$state]);
+
+
+
+        }
+
     public function testAction(){
         //获取查询条件
 

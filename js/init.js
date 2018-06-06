@@ -697,13 +697,15 @@ function load(){
 			//根据起飞选项类型查询机场/国家
 			ajax({
 				method:'get',
-				url:"/index.php?c=index&a=",
+				url:"/index.php?c=index&a=searchInfo",
 				data:{
 					"type":type,
-					"text":text
+					"text":text,
+					"state":"qf"
 				},
 				success : function(text){
-					alert(text);
+					var data = JSON.parse(text);
+					console.log(data);
 				},
 				error : function(text){
 					alert(text);
