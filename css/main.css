@@ -770,14 +770,51 @@ svg {
 
 #left_flat .qf_select{
     position: absolute;
-    width: 100%;
+    width: 35rem;
     background: #f6f6f6;
     border:1px solid #ddd;
     border-top:none;
     z-index: 1;
     box-shadow: 4px 10px 20px #ddd;
+    /*opacity: 0;
+    filter: alpha(opacity=0);*/
+}
+
+#left_flat .qf_select_info{
+    position: absolute;
+    background: #f6f6f6;
+    border:1px solid #ddd;
+    border-top:none;
+    z-index: 2;
+    box-shadow: 4px 10px 20px #ddd;
+    max-height: 16rem;
+    overflow: hidden;
+    /*display: none;
     opacity: 0;
-    filter: alpha(opacity=0);
+    filter: alpha(opacity=0);*/
+}
+
+#left_flat .qf_select_info .loading{
+    display: none;
+
+}
+
+#left_flat .qf_select_info .context{
+    margin-top: 0.3rem;
+}
+#left_flat .qf_select_info .context li{
+    font-size: 1.2rem;
+    width: 33rem;
+    color: #666;
+    padding-left: 1.5rem ;
+    margin-bottom: 0.2rem ;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    cursor: pointer;
+
+}
+#left_flat .qf_select_info .context li:hover{
+    background: #f0f0f0;
 }
 
 

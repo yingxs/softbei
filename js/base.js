@@ -436,7 +436,7 @@ Base.prototype.bind = function(event,fn){
 };
 
 //表单字段内容获取
-Base.prototype.value = function (str){
+Base.prototype.value = function(str){
 
 	for(var i=0;i<this.elements.length;i++){
 		if(arguments.length==0){

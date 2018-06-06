@@ -688,49 +688,213 @@ function load(){
 		predef(e);
 	});
 
-
-	$('#left_flat .qf_text').bind('keyup',function(e){
-		if( trim($(this).value())!='' ){
-			var type = $('#left_flat .qf_option .qf_input').attr("key");
-			var text = $('#left_flat .qf_text').value();
-
-			//根据起飞选项类型查询机场/国家
-			ajax({
-				method:'get',
-				url:"/index.php?c=index&a=searchInfo",
-				data:{
-					"type":type,
-					"text":text,
-					"state":"qf"
-				},
-				success : function(text){
-					var data = JSON.parse(text);
-					console.log(data);
-				},
-				error : function(text){
-					alert(text);
-				},
-				async:true
-
+	$('#left_flat .qf_text').bind('focus',function(){
+		$('#left_flat .qf_select_info').attr("type","qf");
+		get_qf_opt();
+		/*if($('#left_flat .qf_select_info').css('display')=='block'){
+			$('#left_flat .qf_select_info').animate({
+				attr:'x',
+				target:0,
+				t:30,
+				step:10
 			});
+		}*/
 
+	});
+	$('#left_flat .qf_text').bind('blur',function(){
+		hide_select_info(false,0);
+	});
 
+	$('#left_flat .dd_jc').bind('focus',function(){
+		$('#left_flat .qf_select_info').attr("type","dd");
+		get_dd_opt();
+		/*if($('#left_flat .qf_select_info').css('display')=='block'){
+			$('#left_flat .qf_select_info').animate({
+				attr:'x',
+				target:190,
+				t:30,
+				step:10
+			});
+		}*/
+	});
 
-
-			//$("#left_flat .qf_select").animate({
-			//	t:30,
-			//	step:10,
-			//	mul:{
-			//		o:100
-			//	}
-			//}).show();
-		}
+	$('#left_flat .dd_jc').bind('blur',function(){
+		hide_select_info(false,190);
 	});
 
 
 
 
+
+	$('#left_flat .qf_text').bind('keyup',get_qf_opt);
+
+	$('#left_flat .dd_jc').bind('keyup',get_dd_opt);
 }
+
+
+
+
+function get_qf_opt(){
+	if( trim($('#left_flat .qf_text').value())!='' ){
+		var type = $('#left_flat .qf_option .qf_input').attr("key");
+		var text = $('#left_flat .qf_text').value();
+
+		//根据起飞选项类型查询机场/国家
+		ajax({
+			method:'get',
+			url:"/index.php?c=index&a=searchInfo",
+			data:{
+				"type":type,
+				"text":text,
+				"state":"qf"
+			},
+			success : function(text){
+				(function(){
+					var data = JSON.parse(text);
+					var element =  d3.select("#left_flat .qf_select_info .context");
+					$('#left_flat .qf_select_info').show().css("height","auto").css("left","0px").animate({
+						attr:'o',
+						target:'100',
+						t:30,
+						step:10
+					}).opacity(0);
+					element.selectAll("li")
+						.data(data)
+						.text(function(d){
+							return d;
+						}).on('mousedown',function(){
+							hide_select_info(true,0);
+						});
+
+
+					element.selectAll("li")
+						.data(data)
+						.enter()
+						.append("li")
+						.text(function(d){
+							return d;
+						}).on('mousedown',function(){
+							hide_select_info(true,0);
+						});
+					element.selectAll("li")
+						.data(data)
+						.exit()
+						.remove();
+
+
+
+				})();
+			},
+			error : function(text){
+				alert(text);
+			},
+			async:true
+
+		});
+
+	}else if ( trim($('#left_flat .qf_text').value())=='' ) {
+		hide_select_info(false,0);
+	}
+}
+
+
+function get_dd_opt(){
+	if( trim($('#left_flat .dd_jc').value())!='' ){
+		var type = $('#left_flat .qf_option .qf_input').attr("key");
+		var text = $('#left_flat .dd_jc').value();
+
+		//根据起飞选项类型查询机场/国家
+		ajax({
+			method:'get',
+			url:"/index.php?c=index&a=searchInfo",
+			data:{
+				"type":type,
+				"text":text,
+				"state":"dd"
+			},
+			success : function(text){
+				(function(){
+					var data = JSON.parse(text);
+					var element =  d3.select("#left_flat .qf_select_info .context");
+					$('#left_flat .qf_select_info').show().css("height","auto").css("left","190px").animate({
+						attr:'o',
+						target:'100',
+						t:30,
+						step:10
+					}).opacity(0);
+					element.selectAll("li")
+						.data(data)
+						.text(function(d){
+							return d;
+						}).on('mousedown',function(){
+							hide_select_info(true,190);
+						});
+
+
+					element.selectAll("li")
+						.data(data)
+						.enter()
+						.append("li")
+						.text(function(d){
+							return d;
+						}).on('mousedown',function(){
+							hide_select_info(true,190);
+						});
+					element.selectAll("li")
+						.data(data)
+						.exit()
+						.remove();
+				})();
+			},
+			error : function(text){
+				alert(text);
+			},
+			async:true
+
+		});
+
+	}else if ( trim($('#left_flat .dd_jc').value())=='' ) {
+		hide_select_info(false,190);
+	}
+}
+
+function hide_select_info(bool,left){
+	if($('#left_flat .qf_select_info').attr("type")=='qf'){
+		//alert("qf:"+left);
+		if(bool){
+			$('#left_flat .qf_text').value( trim($('#left_flat .qf_select_info .context li').html())  );
+		}
+
+		$('#left_flat .qf_select_info').animate({
+			attr:'h',
+			t:30,
+			step:10,
+			target:0,
+			fn:function(){
+				$('#left_flat .qf_select_info').hide();
+			}
+		}).css("left",left);
+
+	}else if($('#left_flat .qf_select_info').attr("type")=='dd'){
+		//alert("dd:"+left);
+
+		if(bool){
+			$('#left_flat .dd_jc').value( trim($('#left_flat .qf_select_info .context li').html())  );
+		}
+		$('#left_flat .qf_select_info').animate({
+			attr:'h',
+			t:30,
+			step:10,
+			target:0,
+			fn:function(){
+				$('#left_flat .qf_select_info').hide();
+			}
+		}).css("left",left);
+
+	}
+}
+
+
 
 
 //搜索表单系列化
