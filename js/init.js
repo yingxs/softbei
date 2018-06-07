@@ -676,23 +676,30 @@ function load(){
 
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
-		console.log(serializeSearch());
-		ajax({
-			method:'get',
-			url:"/index.php?c=index&a=search",
-			data:serializeSearch(),
-			success : function(text){
-				alert(text);
-			},
-			error : function(text){
-				alert(text);
-			},
-			async:true
-		});
-		predef(e);
+		getFlight_data(e);
 	});
 
 
+
+}
+
+
+//异步查询航班数据
+function getFlight_data(e){
+	ajax({
+		method:'get',
+		url:"/index.php?c=index&a=search",
+		data:serializeSearch(),
+		success : function(text){
+			var data = JSON.parse(text);
+			alert(data.length);
+		},
+		error : function(text){
+			alert(text);
+		},
+		async:true
+	});
+	predef(e);
 
 }
 

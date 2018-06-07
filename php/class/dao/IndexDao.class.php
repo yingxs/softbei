@@ -51,6 +51,7 @@ class IndexDao extends MySQLPDO{
            }
         }
         //show($array);
+        //echo count($array);
         echo json_encode($array);
 
     }
