@@ -404,7 +404,37 @@
                     <td>
                     </td>
                     <td>
-                        <input class="dd_time" type="text" name="dd_time" placeholder="截至日期">
+                        <input class="dd_time" type="text"  placeholder="截至日期">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="airline_company" >
+                        <input class="company_text" type="text"  placeholder="航空公司">
+                        <img src="/svg/plane.svg"/>
+                        <ul class="airline_company_info" type="company">
+                            <div class="loading" style="width: 15%;margin-top: 5%;margin-left: 10%;position: relative;">
+                                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     width="100%" height="40px" viewBox="0 0 50 50" style="background: none; float: left ;display: inline-block; enable-background:new 0 0 50 50;" xml:space="preserve">
+                                  <path fill="#ddd" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                                    <animateTransform attributeType="xml"
+                                      attributeName="transform"
+                                      type="rotate"
+                                      from="0 25 25"
+                                      to="360 25 25"
+                                      dur="0.6s"
+                                      repeatCount="indefinite"/>
+                                    </path>
+                                </svg>
+                                <h6 style="float: left;position: absolute;left: 40px;top:5px;font-weight: 400;color:#666;  letter-spacing: 0.1rem;padding-bottom: 0.8rem;">loading...</h6>
+                            </div>
+
+                            <div class="context">
+
+                            </div>
+
+
+                        </ul>
                     </td>
                 </tr>
 
@@ -466,16 +496,18 @@
 
 
 </div>
-<div id="screen"></div>
-
-
-<div id="loading">
-    <div class="rect1"></div>
-    <div class="rect2"></div>
-    <div class="rect3"></div>
-    <div class="rect4"></div>
-    <div class="rect5"></div>
+<div id="screen">
+    <div id="loading">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
 </div>
+
+
+
 
 
 

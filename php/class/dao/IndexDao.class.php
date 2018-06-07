@@ -15,16 +15,43 @@ class IndexDao extends MySQLPDO{
 
     //查询航班号
     public function queryFlight_code($array){
-        $qf_column = parent::fetchColumn("select `column` from `query_type` where `id`=:qf_type",["qf_type"=>$array[0]]);
-        $mb_column = parent::fetchColumn("select `column` from `query_type` where `id`=:qf_type",["qf_type"=>$array[2]]);
+        $qf_column = parent::fetchColumn("select `column` from `query_type` where `id`=:qf_type",["qf_type"=>$array["qf_type"]]);
+        $mb_column = parent::fetchColumn("select `column` from `query_type` where `id`=:mb_type",["mb_type"=>$array["mb_type"]]);
         $qf_column = "qf_".$qf_column;
         $mb_column = "mb_".$mb_column;
         //show($array);
         //echo $qf_column."<br/>";
         //echo $mb_column."<br/>";
+        $sql = "SELECT `flight_number` FROM `m_flight` WHERE 1=1 ";
+        $param = [];
+        if($array["qf_text"]!='' && $array["qf_text"]!=null ){
+            $sql.= " AND $qf_column LIKE :qf_text ";
+            $param["qf_text"] = '%'.$array["qf_text"].'%';
+        }
 
-        $array = parent::fetchAll("SELECT `flight_number` FROM `m_flight` WHERE $qf_column LIKE '%$array[1]%' AND $mb_column LIKE '%$array[3]%' ");
-        show($array);
+        if($array["mb_text"]!='' && $array["mb_text"]!=null ){
+            $sql.= " AND $mb_column LIKE :mb_text ";
+            $param["mb_text"] = '%'.$array["mb_text"].'%';
+        }
+
+        if($array["company"]!='' && $array["company"]!=null ){
+            $sql.= " AND airline_company LIKE :company ";
+            $param["company"] = '%'.$array["company"].'%';
+        }
+        //show($param);
+
+
+        //echo "我的：".$sql."<br/>";
+        //echo "正确： SELECT `flight_number` FROM `m_flight` WHERE $qf_column LIKE %".$array["qf_text"]."%  AND $mb_column LIKE %".$array["mb_text"]."%  AND airline_company LIKE %".$array["company"]."% ";
+        $result = parent::fetchAll($sql,$param);
+        $array=[];
+        foreach($result as $v){
+           foreach($v as $vv){
+               $array[] = $vv;
+           }
+        }
+        //show($array);
+        echo json_encode($array);
 
     }
 
@@ -50,6 +77,22 @@ class IndexDao extends MySQLPDO{
          echo json_encode($array);
 
     }
+
+    //查询航空公司
+    public function queryCompanye($text){
+
+        $result = parent::fetchAll("select distinct airline_company from `m_flight` WHERE  airline_company LIKE :text limit 0,7",["text"=>'%'.$text.'%']);
+        //show($result);
+        $array=[];
+        foreach($result as $v){
+           foreach($v as $vv){
+                $array[] = $vv;
+           }
+        }
+        echo json_encode($array);
+
+    }
+
 
 
 

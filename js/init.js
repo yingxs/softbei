@@ -361,16 +361,17 @@ function init2(){
 
 
 
-
+	/*
 	$('#loading').animate({
 		attr:'o',
 		target:0,
-		step:50,
-		t:1,
+		step:30,
+		t:10,
 		fn:function(){
 			$('#loading').hide();
 		}
 	});
+	*/
 
 	window.screen.animate({
 		attr:'o',
@@ -383,11 +384,11 @@ function init2(){
 	});
 
 
-
+	//地图出现
 	$('#map').animate({
 		attr:'o',
 		target:100,
-		step:10,
+		step:30,
 		t:10
 
 	});
@@ -409,14 +410,7 @@ function init2(){
 
 
 
-function init(){
-	var url = 'http://webapi.amap.com/loca?key=7a62597821fd492a53bc6b4e81f50ece&v=1.0.4';
-	var jsapi = document.createElement('script');
-	jsapi.charset = 'utf-8';
-	jsapi.src = url;
-	document.head.appendChild(jsapi);
 
-}
 
 function load(){
 
@@ -617,6 +611,7 @@ function load(){
 	//到达时间文本框获得焦点或点击后，日历div隐藏
 	$('#left_flat .dd_time').bind('blur',hide_calendar);
 
+	//日期选择
 	$('#left_flat #date_calendar table td').click(function(e){
 		if($(this).attr('lang')=='wh'){
 			var tr = removeWhiteNode(this).parentNode;
@@ -640,7 +635,48 @@ function load(){
 
 
 
+	//起飞选项输入框获得焦点
+	$('#left_flat .qf_text').bind('focus',function(){
+		$('#left_flat .qf_select_info').attr("type","qf");
+		get_qf_opt();
+	});
+
+	//到达选项输入框获得焦点
+	$('#left_flat .dd_jc').bind('focus',function(){
+		$('#left_flat .qf_select_info').attr("type","dd");
+		get_dd_opt();
+	});
+
+	//起飞选项输入框失去焦点
+	$('#left_flat .qf_text').bind('blur',function(){
+		hide_select_info(false,0);
+	});
+
+	//到达选项输入框失去焦点
+	$('#left_flat .dd_jc').bind('blur',function(){
+		hide_select_info(false,190);
+	});
+
+
+	//起飞选项输入框键入事件,异步查询
+	$('#left_flat .qf_text').bind('keyup',get_qf_opt);
+
+	//到达选项输入框键入事件,异步查询
+	$('#left_flat .dd_jc').bind('keyup',get_dd_opt);
+
+
+	//航空公司输入框键入事件，异步查询
+	$('#left_flat .airline_company .company_text')
+		.bind('keyup',get_company)
+		.bind("focus",get_company)
+		.bind('blur',function(){
+			hide_company_info(false,this);
+		});
+
+
+	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
+		console.log(serializeSearch());
 		ajax({
 			method:'get',
 			url:"/index.php?c=index&a=search",
@@ -656,63 +692,111 @@ function load(){
 		predef(e);
 	});
 
-	$('#left_flat .qf_text').bind('focus',function(){
-		$('#left_flat .qf_select_info').attr("type","qf");
-		get_qf_opt();
-		/*if($('#left_flat .qf_select_info').css('display')=='block'){
-			$('#left_flat .qf_select_info').animate({
-				attr:'x',
-				target:0,
-				t:30,
-				step:10
-			});
-		}*/
-
-	});
 
 
-	$('#left_flat .dd_jc').bind('focus',function(){
-		$('#left_flat .qf_select_info').attr("type","dd");
-		get_dd_opt();
-		/*if($('#left_flat .qf_select_info').css('display')=='block'){
-			$('#left_flat .qf_select_info').animate({
-				attr:'x',
-				target:190,
-				t:30,
-				step:10
-			});
-		}*/
-	});
-	$('#left_flat .qf_text').bind('blur',function(){
-		hide_select_info(false,0);
-	});
-
-	$('#left_flat .dd_jc').bind('blur',function(){
-		hide_select_info(false,190);
-	});
-
-
-
-	$('#left_flat .qf_text').bind('keyup',get_qf_opt);
-
-	$('#left_flat .dd_jc').bind('keyup',get_dd_opt);
 }
 
 
+//异步查询航空公司
+function get_company(){
+	if($('#left_flat .airline_company .company_text').value()!=''){
+		var type = $('#left_flat .airline_company .airline_company_info').attr("type");
+		var text = $('#left_flat .airline_company .company_text').value();
 
+		//查询航空公司
+		ajax({
+			method:'get',
+			url:"/index.php?c=index&a=searchInfo",
+			data:{
+				"type":type,
+				"text":text
+			},
+			success:function(text){
+				var data = JSON.parse(text);
+				//什么结果也没有查到时，隐藏窗口
 
+				var element =  d3.select("#left_flat .airline_company .airline_company_info .context");
+				if($('#left_flat .airline_company .airline_company_info').css("display")=='block'){
+					$('#left_flat .airline_company .airline_company_info').show().css("height","auto").css("left","0px");
+				}else{
+					$('#left_flat ..airline_company .airline_company_info').show().css("height","auto").css("left","0px").animate({
+						attr:'o',
+						target:'100',
+						t:30,
+						step:10
+					}).opacity(0);
+				}
 
+				console.log(element);
+				//存储查询结果的最长值
+				var max_lenght = 0;
+				//更新
+				element.selectAll("li")
+					.data(data)
+					.text(function(d){
+						if(d.length>max_lenght){
+							max_lenght = d.length;
+						}
+						console.log(d+":"+d.length);
+						console.log("max_lenght:"+max_lenght);
+						return d;
 
+					}).on('mousedown',function(){
+						//hide_select_info(true,0,this);
+						hide_company_info(true,this);
+					});
+				//进入
+				element.selectAll("li")
+					.data(data)
+					.enter()
+					.append("li")
+					.text(function(d){
+						if(d.length>max_lenght){
+							max_lenght = d.length;
+						}
+						console.log(d+":"+d.length);
+						console.log("max_lenght:"+max_lenght);
+						return d;
+					}).on('mousedown',function(){
+						//hide_select_info(true,0,this);
+						hide_company_info(true,this);
+					});
 
+				//退出
+				element.selectAll("li")
+					.data(data)
+					.exit()
+					.remove();
 
+			},
+			error:function(text){
+				alert(text)
+			},
+			async:true
+		});
+	}else if($('#left_flat .airline_company .company_text').value()==''){
+		hide_company_info(false,this);
+	}
+}
 
+//隐藏航空公司提示框
+function hide_company_info(bool,that){
 
+	if(bool){
+		var text = trim($(that).html());
+		$('#left_flat .airline_company .company_text').value(text);
+	}
+	$('#left_flat .airline_company .airline_company_info').animate({
+		attr:'h',
+		t:30,
+		step:10,
+		target:0,
+		fn:function(){
+			$('#left_flat .airline_company .airline_company_info').hide();
+		}
+	});
 
-
-
-
-
-
+}
 
 //显示起飞选项
 function show_qf_opt(){
@@ -745,8 +829,6 @@ function hide_qf_opt(){
 	});
 }
 
-
-
 //显示到达选项
 function show_dd_opt(){
 
@@ -778,8 +860,6 @@ function hide_dd_opt(){
 		}
 	});
 }
-
-
 
 //根据起飞选项类型查询机场/国家
 function get_qf_opt(){
@@ -860,9 +940,6 @@ function get_qf_opt(){
 					}else{
 						$('#left_flat .qf_select_info').css("width","33rem");
 					}
-
-
-
 				})();
 			},
 			error : function(text){
@@ -1064,6 +1141,7 @@ function serializeSearch(){
 	search["qf_text"]=$('#left_flat .qf_text').value();
 	search["dd_type"]=$('#left_flat .qf_option .dd_input').attr("key");
 	search["dd_text"]=$('#left_flat .dd_jc').value();
+	search["company"]=$('#left_flat .airline_company .company_text').value();
 	search["start_time"]=$('#left_flat .qf_time').value();
 	search["end_time"]=$('#left_flat .dd_time').value();
 

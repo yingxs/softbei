@@ -23,13 +23,23 @@ class Index {
     public function searchAction(){
         $qf_type = I('qf_type','get','string','');
         $qf_text = I('qf_text','get','string','');
-        $dd_type = I('dd_type','get','string','');
-        $dd_text = I('dd_text','get','string','');
+        $mb_type = I('dd_type','get','string','');
+        $mb_text = I('dd_text','get','string','');
+        $company = I('company','get','string','');
         $start_time = I('start_time','get','string','');
         $end_time = I('end_time','get','string','');
 
         $dao = new IndexDao();
-        $flight_code = $dao->queryFlight_code([$qf_type,$qf_text,$dd_type,$dd_text]);
+        $flight_code = $dao->queryFlight_code([
+            "qf_type"=>$qf_type,
+            "qf_text"=>$qf_text,
+            "mb_type"=>$mb_type,
+            "mb_text"=>$mb_text,
+            "company"=>$company,
+            "start_time"=>$start_time,
+            "end_time"=>$end_time
+        ]);
+
         //show($flight_code);
 
 
@@ -49,8 +59,16 @@ class Index {
             $text = I('text','get','string','');
             $state = I('state','get','string','');
 
+
+
             $dao = new IndexDao();
-            $name = $dao->queryName([$type,$text,$state]);
+
+            if($type=="company"){
+                $name = $dao->queryCompanye($text);
+            }else{
+                $name = $dao->queryName([$type,$text,$state]);
+            }
+
 
 
 
