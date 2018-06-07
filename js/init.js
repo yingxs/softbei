@@ -517,62 +517,31 @@ function load(){
 		}
 	});
 
+
+
 	//查询出发选项
-	$('#left_flat qf_option .qf_input').bind('focus',function(){
-		$('#left_flat qf_option .qf_opt').show();
-		$('#left_flat qf_option .qf_opt').animate({
-			t:30,
-			step:10,
-			mul:{
-				h:104,
-				o:100
-			}
-		});
-		$('#left_flat qf_option .qf_img_down').attr('src','svg/select_up.svg');
-
-	}).bind('blur',function(){
-		$('#left_flat qf_option .qf_opt').animate({
-			t:30,
-			step:10,
-			mul:{
-				h:0,
-				o:0
-			},
-			fn:function(){
-				$('#left_flat qf_option .qf_opt').hide();
-				$('#left_flat qf_option .qf_img_down').attr('src','svg/select_down.svg');
-			}
-		});
-
+	$('#left_flat .qf_option .qf_input').bind('focus',show_qf_opt).bind('blur',hide_qf_opt);
+	$('#left_flat .qf_option .qf_img_down').click(function(){
+		if($('#left_flat .qf_option .qf_opt').css("display")=="block"){
+			hide_qf_opt();
+		}else{
+			show_qf_opt();
+		}
 	});
+
+
 
 	//查询到达选项
-	$('#left_flat qf_option .dd_input').bind('focus',function(){
-		$('#left_flat qf_option .dd_opt').show();
-		$('#left_flat qf_option .dd_opt').animate({
-			t:30,
-			step:10,
-			mul:{
-				h:104,
-				o:100
-			}
-		});
-		$('#left_flat qf_option .dd_img_down').attr('src','svg/select_up.svg');
+	$('#left_flat .qf_option .dd_input').bind('focus',show_dd_opt).bind('blur',hide_dd_opt);
+	$('#left_flat .qf_option .dd_img_down').click(function(){
+		if($('#left_flat .qf_option .dd_opt').css("display")=="block"){
+			hide_dd_opt();
+		}else{
+			show_dd_opt();
+		}
 
-	}).bind('blur',function(){
-		$('#left_flat qf_option .dd_opt').animate({
-			t:30,
-			step:10,
-			mul:{
-				h:0,
-				o:0
-			},
-			fn:function(){
-				$('#left_flat qf_option .dd_opt').hide();
-				$('#left_flat qf_option .dd_img_down').attr('src','svg/select_down.svg');
-			}
-		});
 	});
+
 
 	//起飞选项
 	$('#left_flat .qf_option .qf_opt li').bind('mousedown',function(){
@@ -581,10 +550,9 @@ function load(){
 		$('#left_flat .qf_option .qf_input').value("出发："+str);
 		$('#left_flat .qf_option .qf_input').attr("key",key);
 		$('#left_flat .qf_text').attr('placeholder',"起飞"+$(this).html().replace("按",""));
-
-
-
 	});
+
+
 	//到达选项
 	$('#left_flat .qf_option .dd_opt li').bind('mousedown',function(){
 		var str = $(this).html();
@@ -716,14 +684,12 @@ function load(){
 		}*/
 	});
 	$('#left_flat .qf_text').bind('blur',function(){
-		//hide_select_info(false,0);
+		hide_select_info(false,0);
 	});
 
 	$('#left_flat .dd_jc').bind('blur',function(){
-		//hide_select_info(false,190);
+		hide_select_info(false,190);
 	});
-
-
 
 
 
@@ -735,6 +701,87 @@ function load(){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//显示起飞选项
+function show_qf_opt(){
+
+	$('#left_flat .qf_option .qf_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:104,
+			o:100
+		}
+	}).show();
+	$('#left_flat .qf_option .qf_img_down').attr('src','svg/select_up.svg');
+
+}
+
+//隐藏起飞选项
+function hide_qf_opt(){
+	$('#left_flat .qf_option .qf_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:0,
+			o:0
+		},
+		fn:function(){
+			$('#left_flat .qf_option .qf_opt').hide();
+			$('#left_flat .qf_option .qf_img_down').attr('src','svg/select_down.svg');
+		}
+	});
+}
+
+
+
+//显示到达选项
+function show_dd_opt(){
+
+
+	$('#left_flat qf_option .dd_opt').show();
+	$('#left_flat qf_option .dd_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:104,
+			o:100
+		}
+	});
+	$('#left_flat qf_option .dd_img_down').attr('src','svg/select_up.svg');
+}
+
+//隐藏到达选项
+function hide_dd_opt(){
+	$('#left_flat qf_option .dd_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:0,
+			o:0
+		},
+		fn:function(){
+			$('#left_flat qf_option .dd_opt').hide();
+			$('#left_flat qf_option .dd_img_down').attr('src','svg/select_down.svg');
+		}
+	});
+}
+
+
+
+//根据起飞选项类型查询机场/国家
 function get_qf_opt(){
 	if( trim($('#left_flat .qf_text').value())!='' ){
 		var type = $('#left_flat .qf_option .qf_input').attr("key");
@@ -830,7 +877,7 @@ function get_qf_opt(){
 	}
 }
 
-
+//根据到达选项类型查询机场/国家
 function get_dd_opt(){
 	if( trim($('#left_flat .dd_jc').value())!='' ){
 		var type = $('#left_flat .qf_option .dd_input').attr("key");
@@ -923,11 +970,35 @@ function get_dd_opt(){
 	}
 }
 
+//隐藏机场/国家查询提示框
 function hide_select_info(bool,left,that){
 	if($('#left_flat .qf_select_info').attr("type")=='qf'){
 		//alert("qf:"+left);
 		if(bool){
-			$('#left_flat .qf_text').value( trim($(that).html())  );
+			(function(){
+				var text = trim($(that).html());
+				var key = $('#left_flat .qf_option .qf_input').value();
+				if(key.indexOf("机场") > -1){
+					var result = /\([A-Z\/]+\)/i.exec(text);
+					if(result!=null){
+						console.log(result);
+						result = result[0];
+						console.log(result);
+						result = result.replace("(","");
+						console.log(result);
+						result = result.replace(")","");
+						console.log(result);
+						$('#left_flat .qf_text').value( result );
+					}else{
+						$('#left_flat .qf_text').value( text );
+					}
+
+				}else{
+					$('#left_flat .qf_text').value( text );
+				}
+			})();
+
+
 		}
 
 		$('#left_flat .qf_select_info').animate({
@@ -944,7 +1015,34 @@ function hide_select_info(bool,left,that){
 		//alert("dd:"+left);
 
 		if(bool){
-			$('#left_flat .dd_jc').value( trim($(that).html())  );
+			(function(){
+				var text = trim($(that).html());
+				var key = $('#left_flat .qf_option .dd_input').value();
+				if(key.indexOf("机场") > -1){
+					var result = /\([A-Z\/]+\)/i.exec(text);
+					if(result!=null){
+						console.log(result);
+						result = result[0];
+						console.log(result);
+						result = result.replace("(","");
+						console.log(result);
+						result = result.replace(")","");
+						console.log(result);
+						$('#left_flat .dd_jc').value( result );
+					}else{
+						$('#left_flat .dd_jc').value(text );
+					}
+				}else{
+					$('#left_flat .dd_jc').value(text );
+				}
+
+			})();
+
+
+
+
+
+
 		}
 		$('#left_flat .qf_select_info').animate({
 			attr:'h',
@@ -959,9 +1057,6 @@ function hide_select_info(bool,left,that){
 	}
 }
 
-
-
-
 //搜索表单系列化
 function serializeSearch(){
 	var search = {};
@@ -975,8 +1070,6 @@ function serializeSearch(){
 	return search;
 
 }
-
-
 
 
 //隐藏日历div
@@ -1060,166 +1153,3 @@ function show_calendar2(){
 		}).css('left','180px');
 	}
 }
-
-
-
-function onApiLoaded(){
-
-
-
-	 map = new AMap.Map('map', {
-		center: [117.000923, 36.675807],
-		zoom: 2,
-		mapStyle:'amap://styles/80e8a8b8a906b27a1fd674f29f31aabc'
-	});
-
-
-	//异步请求曲线数据
-	ajax({
-		method:'get',
-		url:'/index.php',
-		data:{
-			'c':'index',
-			'a':'index2'
-		},
-		success:function(text){
-			var data = JSON.parse(text);
-			show_line(data,window.map);
-			//alert(data);
-
-		},
-		error:function(state,msg){
-			alert(state+"："+msg);
-		},
-		async:true
-	});
-
-
-
-
-
-
-
-//        添加控制按钮
-//        map.plugin(["AMap.ToolBar"], function() {
-//            map.addControl(new AMap.ToolBar());
-//        });
-
-	map.on('click', function(e) {
-		alert(e.lnglat.getLng()+','+e.lnglat.getLat());
-	});
-
-	map.on('complete', function() {
-
-
-		window.screen.animate({
-			attr:'o',
-			target:0,
-			step:30,
-			t:10,
-			fn:function(){
-				window.screen.unlock();
-			}
-		});
-
-		$('#loading').animate({
-			attr:'o',
-			target:0,
-			step:30,
-			t:10,
-			fn:function(){
-				$('#loading').hide();
-			}
-		});
-
-		//alert('地图加载完成');
-		$('#map').animate({
-			attr:'o',
-			target:100,
-			step:10,
-			t:10
-
-		});
-//        document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
-	});
-
-
-}
-
-
-
-
-
-
-
-
-
-//绘制曲线
-function show_line(data,map){
-	var linedata = data['lineData'];
-	var qf_xy = linedata[1]['qf_city_xy'];
-	var qf_x=qf_xy.split(",")[0];
-	var qf_y=qf_xy.split(",")[1];
-
-	var mb_xy = linedata[1]['mb_city_xy'];
-	var mb_x=mb_xy.split(",")[0];
-	var mb_y=mb_xy.split(",")[1];
-	var lineArr1 = [//每个弧线段有两种描述方式
-		[qf_x,qf_y],//起点
-		//第一段弧线控制点，终点
-		[5.028266,58.590236,mb_x,mb_y]
-
-	];
-
-	var curve1= new AMap.BezierCurve({
-		map: map,
-		path: lineArr1,
-		bubble: true,
-		strokeColor: "#606060", //线颜色
-		strokeOpacity: 0.8, //线透明度
-		strokeWeight: 1, //线宽
-		cursor:"pointer",
-		strokeStyle: "solid" //线样式
-	});
-
-	curve1.on('mouseover',function(){
-		curve1.setOptions({
-			map: map,
-			path: lineArr1,            // 设置线覆盖物路径
-			strokeColor: '#000000',   // 线颜色
-			strokeOpacity: 1,         // 线透明度
-			strokeWeight: 2,          // 线宽
-			strokeStyle: 'solid'     // 线样式
-		});
-
-	});
-	curve1.on('mouseout',function(){
-		curve1.setOptions({
-			map: map,
-			path: lineArr1,
-			bubble: true,
-			strokeColor: "blue", //线颜色
-			strokeOpacity: 0.8, //线透明度
-			strokeWeight: 1, //线宽
-			cursor:"pointer",
-			strokeStyle: "solid" //线样式
-		});
-
-	});
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
