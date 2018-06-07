@@ -901,7 +901,7 @@ function get_dd_opt(){
 						.data(data)
 						.exit()
 						.remove();
-					
+
 					//当查询结果最长长度小于等于17，提示框的宽度是15rem,反之为33rem
 					if(max_lenght<=17){
 						$('#left_flat .qf_select_info').css("width","15rem");
