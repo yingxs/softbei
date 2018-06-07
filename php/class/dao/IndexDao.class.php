@@ -39,7 +39,7 @@ class IndexDao extends MySQLPDO{
          }
          //show($array);
          //echo $column;
-         $result = parent::fetchAll("SELECT distinct  $column FROM `m_flight` WHERE $column LIKE :text "  ,["text"=>'%'.$array[1].'%']);
+         $result = parent::fetchAll("SELECT distinct  $column FROM `m_flight` WHERE $column LIKE :text limit 0 ,7"  ,["text"=>'%'.$array[1].'%']);
          $array=[];
          foreach($result as $v){
             foreach($v as $vv){
