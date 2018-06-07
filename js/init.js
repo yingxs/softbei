@@ -701,9 +701,7 @@ function load(){
 		}*/
 
 	});
-	$('#left_flat .qf_text').bind('blur',function(){
-		hide_select_info(false,0);
-	});
+
 
 	$('#left_flat .dd_jc').bind('focus',function(){
 		$('#left_flat .qf_select_info').attr("type","dd");
@@ -716,6 +714,9 @@ function load(){
 				step:10
 			});
 		}*/
+	});
+	$('#left_flat .qf_text').bind('blur',function(){
+		hide_select_info(false,0);
 	});
 
 	$('#left_flat .dd_jc').bind('blur',function(){
@@ -752,12 +753,17 @@ function get_qf_opt(){
 				(function(){
 					var data = JSON.parse(text);
 					var element =  d3.select("#left_flat .qf_select_info .context");
-					$('#left_flat .qf_select_info').show().css("height","auto").css("left","0px").animate({
-						attr:'o',
-						target:'100',
-						t:30,
-						step:10
-					}).opacity(0);
+					if($('#left_flat .qf_select_info').css("display")=='block'){
+						$('#left_flat .qf_select_info').show().css("height","auto").css("left","0px");
+					}else{
+						$('#left_flat .qf_select_info').show().css("height","auto").css("left","0px").animate({
+							attr:'o',
+							target:'100',
+							t:30,
+							step:10
+						}).opacity(0);
+					}
+
 					element.selectAll("li")
 						.data(data)
 						.text(function(d){
@@ -800,7 +806,7 @@ function get_qf_opt(){
 
 function get_dd_opt(){
 	if( trim($('#left_flat .dd_jc').value())!='' ){
-		var type = $('#left_flat .qf_option .qf_input').attr("key");
+		var type = $('#left_flat .qf_option .dd_input').attr("key");
 		var text = $('#left_flat .dd_jc').value();
 
 		//根据起飞选项类型查询机场/国家
@@ -816,12 +822,17 @@ function get_dd_opt(){
 				(function(){
 					var data = JSON.parse(text);
 					var element =  d3.select("#left_flat .qf_select_info .context");
-					$('#left_flat .qf_select_info').show().css("height","auto").css("left","190px").animate({
-						attr:'o',
-						target:'100',
-						t:30,
-						step:10
-					}).opacity(0);
+					if($('#left_flat .qf_select_info').css("display")=='block'){
+						$('#left_flat .qf_select_info').show().css("height","auto").css("left","190px");
+					}else{
+						$('#left_flat .qf_select_info').show().css("height","auto").css("left","190px").animate({
+							attr:'o',
+							target:'100',
+							t:30,
+							step:10
+						}).opacity(0);
+					}
+
 					element.selectAll("li")
 						.data(data)
 						.text(function(d){

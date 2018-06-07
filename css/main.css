@@ -308,6 +308,7 @@ html, body {
     border: 1px solid #ddd;
     padding: 5px 0;
     right: 0px;
+    z-index: 2;
     box-shadow:4px 10px 20px  #ddd;
 }
 #left_flat span:nth-child(1) .qf_opt li {
@@ -781,6 +782,7 @@ svg {
 }
 
 #left_flat .qf_select_info{
+
     position: absolute;
     background: #f6f6f6;
     border:1px solid #ddd;
