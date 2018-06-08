@@ -30,7 +30,7 @@ class Index {
         $end_time = I('end_time','get','string','');
 
         $dao = new IndexDao();
-        $flight_code = $dao->queryFlight_code([
+        $flight_code = $dao->queryFlight_data([
             "qf_type"=>$qf_type,
             "qf_text"=>$qf_text,
             "mb_type"=>$mb_type,

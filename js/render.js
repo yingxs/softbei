@@ -89,12 +89,14 @@ function getLine_xy(qf,dd){
 
 
 	 return  [ "M " + projection(qf)[0]+","+projection(qf)[1]+" Q "+cx+","+matchToSvg(cy)+" "+projection(dd)[0]+","+projection(dd)[1],
-	 [xm,matchToSvg(ym)],   //三等分点1 距离x1近
-	 [xn,matchToSvg(yn)],   //三等分点2 距离x1近
-	 [bezier_x,matchToSvg(bezier_y) ],//曲线控制点在机场连线上的映射
-	 [cx,matchToSvg(cy)],    //曲线控制点坐标
-	 [xp,matchToSvg(yp)],   //三等分点1 距离x1近
-	 [xq,matchToSvg(yq)]   //三等分点2 距离x1近
+		 [projection(qf)[0],projection(qf)[1]],//起飞机场坐标
+		 [projection(dd)[0],projection(dd)[1]],//目标机场坐标
+		 [xm,matchToSvg(ym)],   //三等分点1 距离x1近
+		 [xn,matchToSvg(yn)],   //三等分点2 距离x1近
+		 [bezier_x,matchToSvg(bezier_y) ],//曲线控制点在机场连线上的映射
+		 [cx,matchToSvg(cy)],    //曲线控制点坐标
+		 [xp,matchToSvg(yp)],   //p1 距离x1近
+		 [xq,matchToSvg(yq)]   //p2 距离x1近
 	 ];
 
 

@@ -12,12 +12,8 @@ $(function(){
 	$('#loading').show();
 
 	//初始化
-	//init(screen);
-
-
-
-	//local的初始化
 	init2();
+
 	//加载
 	load();
 
@@ -26,8 +22,7 @@ $(function(){
 });
 
 
-
-
+//初始化页面以及加载地图
 function init2(){
 	var li_list = $('#left_flat .qf_option .qf_opt li').elements;
 	console.log(li_list);
@@ -48,17 +43,19 @@ function init2(){
 	})();
 
 
-
+	//获取浏览器可视区的大小以及左边侧栏的宽度
 	var width =parseInt(getInner().width) ;
 	var height = parseInt(getInner().height) ;
 	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
-
-
 	var translate = [(width/2)-(svg_left/2),height/2];
+
+
 	//滚动条隐藏
 	document.body.style.overflow = 'hidden';
 	//alert(width+","+height+","+svg_left);
 	//alert(svg_left);
+
+
 	var div = d3.select("#map");
 	//定义拖拽
 	var zoomer = d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", zoom);
@@ -72,27 +69,8 @@ function init2(){
 	//定义地理路径生成器
 	var path = d3.geo.path().projection(projection);
 
-
+	//地图绘制
 	d3.json("/d3/map/world-50m.json",function(error,world){
-		var w = world;
-
-
-		var a1 = projection([116.58499908447266,40.080101013183594]);
-		var a2 = projection([-73.87259674,40.77719879]);
-
-		var data = [
-					{
-						id:1,
-						qf:["116.58499908447266","40.080101013183594"],
-						dd:["-73.87259674","40.77719879"]
-					},
-					{
-						id:2,
-						qf:["116.58499908447266","40.080101013183594"],
-						dd:["-73.87259674","40.77719879"]
-					}
-				];
-
 
 		g.append("path")
 			.datum(topojson.feature(world,world.objects.land))
@@ -102,9 +80,30 @@ function init2(){
 			.datum(topojson.mesh(world,world.objects.countries))
 			.attr("class","boundary")
 			.attr("d",path);
-//        alert("绘图完成");
+		//地图绘制完成
 
-//异步请求曲线数据
+		//解除锁屏
+		window.screen.animate({
+			attr:'o',
+			target:0,
+			step:30,
+			t:10,
+			fn:function(){
+				window.screen.unlock();
+			}
+		});
+
+		//地图出现
+		$('#map').animate({
+			attr:'o',
+			target:100,
+			step:30,
+			t:10
+
+		});
+
+/*
+		//异步请求曲线数据
 		ajax({
 			method:'get',
 			url:'/index.php',
@@ -119,19 +118,15 @@ function init2(){
 						id:1,
 						qf:["116.58499908447266","40.080101013183594"],
 						dd:["-73.87259674","40.77719879"]
-					}/*,
-					{
-						id:2,
-						qf:["116.58499908447266","40.080101013183594"],
-						dd:["-73.87259674","40.77719879"]
-					}*/
+					}
 				];
-				/*g.selectAll("path.line")
-					.data(data)
-					.classed("line",true)
-					.attr("id",function(d){
-						return d.id;
-					});*/
+
+				//g.selectAll("path.line")
+				//	.data(data)
+				//	.classed("line",true)
+				//	.attr("id",function(d){
+				//		return d.id;
+				//	});
 
 				g.selectAll("path.line")
 					.data(data)
@@ -143,14 +138,14 @@ function init2(){
 					})
 					.attr("d",function(d){
 						var array = getLine_xy(d.qf, d.dd);
-						console.log(array);
-						//三等分点1
+						//console.log(array);
+						//三等分点1,靠近起飞机场(x1,y1)
 						g.append("circle")
 							.attr("cx",array[1][0])
 							.attr("cy",array[1][1])
 							.attr("r",5)
 							.style("fill","blue");
-						//三等分点2
+						//三等分点2,靠近降落机场(x2,y2)
 						g.append("circle")
 							.attr("cx",array[2][0])
 							.attr("cy",array[2][1])
@@ -223,70 +218,62 @@ function init2(){
 			},
 			async:true
 		});
+*/
 
-
-
-
-
-
-
+/*
+		var a1 = projection([116.58499908447266,40.080101013183594]);
+		var a2 = projection([-73.87259674,40.77719879]);
 		//起飞机场坐标
 		g.append("circle")
 			.attr("cx",a1[0])
 			.attr("cy",a1[1])
 			.attr("r",4)
 			.style("fill","#f76463");
-		//alert((1238.8501021900693+194.11286546912746)/2);
-		//alert(a1[0]+","+a1[1]);
 		//降落机场坐标
 		g.append("circle")
 			.attr("cx",a2[0])
 			.attr("cy",a2[1])
 			.attr("r",4)
 			.style("fill","#f76463");
+	*/
 
-
-		/*g.append("circle")
+/*
+		g.append("circle")
 			.attr("cx",width-40)
 			.attr("cy",a1[1]-90)
-			.attr("r",5).style("fill","green");*/
+			.attr("r",5).style("fill","green");
 
-
-
-		/*g.append("circle")
+		g.append("circle")
 			.attr("cx",width-200)
 			.attr("cy",a1[1]-90)
-			.attr("r",5).style("fill","yellow");*/
+			.attr("r",5).style("fill","yellow");
 
-		/*g.append("circle")
+		g.append("circle")
 			.attr("cx",0)
 			.attr("cy",a1[1]-90)
-			.attr("r",5).style("fill","#000");*/
+			.attr("r",5).style("fill","#000");
 
-		/*g.append("circle")
+		g.append("circle")
 			.attr("cx",200)
 			.attr("cy",a1[1]-90)
-			.attr("r",5).style("fill","#000");*/
+			.attr("r",5).style("fill","#000");
 
-
-
-		/*g.append("path")
+		g.append("path")
 			.attr("class","line")
 			.attr("id","line1")
 
 			//.attr("d","M"+a1[0]+" "+a1[1]+" L"+a2[0]+" "+a2[1]);
 			.attr("d","M"+a1[0]+" "+a1[1]+" Q"+(width-200)+" "+(a1[1]-90)+" "+(width-40)+" "+(a1[1]-90)+
-					"M"+0+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );*/
-		/*g.append("path")
+					"M"+0+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );
+		g.append("path")
 			.attr("class","line")
 			.attr("id","line-bar")
 			//.attr("filter","url(#filter)")
 			//.attr("d","M"+a1[0]+" "+a1[1]+" L"+a2[0]+" "+a2[1]);
 			.attr("d","M"+a1[0]+" "+a1[1]+" Q"+(width-200)+" "+(a1[1]-90)+" "+(width-40)+" "+(a1[1]-90)+
-					"M"+10+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );*/
+					"M"+10+" "+(a1[1]-90)+" Q"+(200)+" "+(a1[1]-90)+" "+a2[0]+" "+a2[1] );
 
 		g.attr("transform", "translate(0,0) scale(1)");
-
 
 		//var length= $("#line1").ge(0).getTotalLength();
 		//d3.select("#line1").style("stroke-dasharray","0,"+length).transition().duration(10000).style("stroke-dasharray",length+","+length);
@@ -297,7 +284,11 @@ function init2(){
 		//
 		//});
 
+*/
+
 	});
+
+
 	function zoom(){
 
 		/*var array = getStyle($("#g1").ge(0),"transform").split(",");
@@ -334,9 +325,29 @@ function init2(){
 		//console.log(box);
 	}
 
+	/*
+	$('#loading').animate({
+		attr:'o',
+		target:0,
+		step:30,
+		t:10,
+		fn:function(){
+			$('#loading').hide();
+		}
+	});
+	*/
+
+	//当窗口大小发生变化时，重新计算svg画布的大小
+	$(document).resize(function(){
+		var width =parseInt(getInner().width) ;
+		var height = parseInt(getInner().height) ;
+		var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
+	    svg.attr('width',width-svg_left).attr('height',height);
+	});
+
 	svg.on("click",function(){
 		var point = d3.mouse(svg.node());
-        alert(point[0]+","+svgToMatch(point[1]) );
+		//alert(point[0]+","+svgToMatch(point[1]) );
 		//var length= $("#line1").ge(0).getTotalLength();
 		//
 		//d3.select("#line1")
@@ -358,60 +369,9 @@ function init2(){
 
 	});
 
-
-
-
-	/*
-	$('#loading').animate({
-		attr:'o',
-		target:0,
-		step:30,
-		t:10,
-		fn:function(){
-			$('#loading').hide();
-		}
-	});
-	*/
-
-	window.screen.animate({
-		attr:'o',
-		target:0,
-		step:30,
-		t:10,
-		fn:function(){
-			window.screen.unlock();
-		}
-	});
-
-
-	//地图出现
-	$('#map').animate({
-		attr:'o',
-		target:100,
-		step:30,
-		t:10
-
-	});
-
-
-	$(document).resize(function(){
-		var width =parseInt(getInner().width) ;
-		var height = parseInt(getInner().height) ;
-		var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
-	    svg.attr('width',width-svg_left).attr('height',height);
-	});
-
-
-
-
-
 }
 
-
-
-
-
-
+//添加事件，调用相应函数
 function load(){
 
 	var left_box = {
@@ -430,8 +390,6 @@ function load(){
 			}
 		});
 	}
-
-
 
 	//左边标志栏
 	$('#left_bar .menu_ul li').hover(function(){
@@ -459,7 +417,6 @@ function load(){
 		leftBox_anim(left_box.filter,10,30,-300,100);
 
 	});
-
 
 	//左边菜单块
 	$('#left_bar .menu_ul li').click(function(){
@@ -511,8 +468,6 @@ function load(){
 		}
 	});
 
-
-
 	//查询出发选项
 	$('#left_flat .qf_option .qf_input').bind('focus',show_qf_opt).bind('blur',hide_qf_opt);
 	$('#left_flat .qf_option .qf_img_down').click(function(){
@@ -522,8 +477,6 @@ function load(){
 			show_qf_opt();
 		}
 	});
-
-
 
 	//查询到达选项
 	$('#left_flat .qf_option .dd_input').bind('focus',show_dd_opt).bind('blur',hide_dd_opt);
@@ -612,18 +565,33 @@ function load(){
 	$('#left_flat .dd_time').bind('blur',hide_calendar);
 
 	//日期选择
-	$('#left_flat #date_calendar table td').click(function(e){
+	$('#left_flat #date_calendar table td').bind("mousedown",function(){
 		if($(this).attr('lang')=='wh'){
 			var tr = removeWhiteNode(this).parentNode;
 			var tbody = removeWhiteNode(tr).parentNode;
 			var table = removeWhiteNode(tbody).parentNode;
 			var h = table.previousSibling.previousSibling;
 			var str = h.innerHTML+this.innerHTML;
-			 str = str.replace("年","/");
-			 str = str.replace("月","/");
+			var exp = /^(\d{4,4})年(\d{1,2})月(\d{1,2})$/;
+			var array = exp.exec(str);
 
+			//console.log(array);
+			if(array[2].length<2){
+				str = str.replace(/^(\d{4,4})[年-](\d{1,2})[月-](\d{1,2})$/,"$1-"+'0'+"$2"+"-$3");
+				//console.log(str);
+			}
+			if(array[3].length<2){
+				str = str.replace(/^(\d{4,4})[年-](\d{1,2})[月-](\d{1,2})$/,"$1-"+"$2"+"-0"+"$3");
 
-			if(parseInt($('#date_calendar').css('left'))<=0){
+			}
+			if(array[2].length==2 && array[3].length==2){
+				str = str.replace("年","-");
+				str = str.replace("月","-");
+			}
+
+			//console.log(str);
+
+			if($('#date_calendar').attr("type")=="qf"){
 				$('#left_flat .qf_time').value(str);
 			}else{
 				$('#left_flat .dd_time').value(str);
@@ -632,8 +600,9 @@ function load(){
 		}
 	});
 
-
-
+	//$('#left_flat #date_calendar table td').click(function(e){
+	//
+	//});
 
 	//起飞选项输入框获得焦点
 	$('#left_flat .qf_text').bind('focus',function(){
@@ -683,7 +652,6 @@ function load(){
 
 }
 
-
 //异步查询航班数据
 function getFlight_data(e){
 	ajax({
@@ -692,7 +660,9 @@ function getFlight_data(e){
 		data:serializeSearch(),
 		success : function(text){
 			var data = JSON.parse(text);
-			alert(data.length);
+
+			console.log(data);
+			//alert(data.length);
 		},
 		error : function(text){
 			alert(text);
@@ -702,7 +672,6 @@ function getFlight_data(e){
 	predef(e);
 
 }
-
 
 //异步查询航空公司
 function get_company(){
@@ -1149,13 +1118,23 @@ function serializeSearch(){
 	search["dd_type"]=$('#left_flat .qf_option .dd_input').attr("key");
 	search["dd_text"]=$('#left_flat .dd_jc').value();
 	search["company"]=$('#left_flat .airline_company .company_text').value();
-	search["start_time"]=$('#left_flat .qf_time').value();
-	search["end_time"]=$('#left_flat .dd_time').value();
+	if($('#left_flat .qf_time').value()!=''){
+		search["start_time"]=$('#left_flat .qf_time').value()+" 00:00:00";
+	}else{
+		search["start_time"]=$('#left_flat .qf_time').value();
+	}
+
+	if($('#left_flat .dd_time').value()!=''){
+		search["end_time"]=$('#left_flat .dd_time').value()+" 00:00:00";
+	}else{
+		search["end_time"]=$('#left_flat .dd_time').value();
+	}
+
+
 
 	return search;
 
 }
-
 
 //隐藏日历div
 function hide_calendar(){
@@ -1176,6 +1155,8 @@ function hide_calendar(){
 
 //起飞时间文本框下显示日历div
 function show_calendar1(){
+
+	$('#date_calendar').attr("type","qf");
 
 	if($('#date_calendar').css('display')=='block'){
 		//$('#date_calendar').show().css('left','0px').css('width','0px').css('height','0px').opacity(0);
@@ -1213,6 +1194,7 @@ function show_calendar1(){
 
 //到达时间文本框下显示日历div
 function show_calendar2(){
+	$('#date_calendar').attr("type","dd");
 	if($('#date_calendar').css('display')=='block'){
 		//$('#date_calendar').show().css('left','180px').css('width','0px').css('height','0px').opacity(0);
 		$('#date_calendar').animate({
