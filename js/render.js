@@ -71,19 +71,19 @@ function getLine_xy(qf,dd){
 
 	//console.log("cx1:"+cx1+",cy1:"+cy1);
 	//console.log("cx2:"+cx2+",cy2:"+cy2);
-	console.log("bezier_x:"+bezier_x+"bezier_x:"+bezier_y);
-	console.log("bezier_cl:"+bezier_cl);
+	//console.log("bezier_x:"+bezier_x+"bezier_x:"+bezier_y);
+	//console.log("bezier_cl:"+bezier_cl);
 
 	var zf = Math.random();
-	console.log("zf:"+zf);
+	//console.log("zf:"+zf);
 	if(zf>0.4){
 		cx = cx1;
 		cy = cy1;
-		console.log("true");
+		//console.log("true");
 	}else{
 		cx = cx2;
 		cy = cy2;
-		console.log("false");
+		//console.log("false");
 	}
 
 
