@@ -629,6 +629,12 @@ svg {
     stroke: #75baff;
     stroke-width: 1px;
 }
+.line_bg{
+    fill: #f0f0f0;
+    fill-opacity: 0.5;
+    stroke: none;
+    stroke-width: 1px;
+}
 
 @keyframes line {
     to{

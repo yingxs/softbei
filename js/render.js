@@ -113,7 +113,24 @@ function getLine_xy(qf,dd){
 		 [cx,matchToSvg(cy)],    //曲线控制点坐标
 		 [xp,matchToSvg(yp)],   //p1 距离x1近
 		 [xq,matchToSvg(yq)],   //p2 距离x1近
-		 [l]                    //两地间距离
+		 [l],                    //两地间距离
+		 [
+			 [projection(qf)[0],projection(qf)[1]-5],  // k1
+			 [cx,matchToSvg(cy+5)],  // k2
+			 [projection(dd)[0],projection(dd)[1]-5],  // k3
+			 [projection(dd)[0],projection(dd)[1]+5],  // k4
+			 [cx,matchToSvg(cy-5)],  // k5
+			 [projection(qf)[0],projection(qf)[1]+5]  // k6
+		 ],
+		 "M "+
+		 projection(qf)[0] +","+( projection(qf)[1]-5 )+         //k1
+		 " Q "+
+		 cx+","+matchToSvg(cy+5)+" "+                       //k2
+		 projection(dd)[0]+","+(projection(dd)[1]-5)+" L" +  //k3
+		 projection(dd)[0]+","+(projection(dd)[1]+5)+        //k4
+		" Q "+
+		 cx+","+matchToSvg(cy-5)+" "+                            //k5
+		 projection(qf)[0]+","+(projection(qf)[1]+5)+" Z"
 	 ];
 
 

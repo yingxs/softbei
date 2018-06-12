@@ -80,6 +80,15 @@ function init2(){
 			.attr("class","boundary")
 			.attr("d",path);
 		//地图绘制完成
+		svg.append("defs")
+			.append("filter")
+			.attr("id","f1")
+			.attr("x","0")
+			.attr("y","0")
+			.append("feGaussianBlur")
+			.attr('in',"SourceGraphic")
+			.attr('stdDeviation',"0.6");
+
 
 		//解除锁屏
 		window.screen.animate({
@@ -354,9 +363,9 @@ function init2(){
 			step:10,
 			mul:{
 				left:point[0],
-				top:point[1],
+				top:point[1]
 			}
-		})
+		});
 
 
 
@@ -661,19 +670,26 @@ function getFlight_data(e){
 		url:"/index.php?c=index&a=search",
 		data:serializeSearch(),
 		success : function(text){
-			var data = JSON.parse(text);
-
+			var temp = JSON.parse(text);
 			//console.log(data);
 
-			var array=[];
+			var data=[];
 			(function(){
-				for(var i = 0;i<20;i++){
-					array[i]=data[i];
+				for(var i = 0;i<1;i++){
+					data[i]=temp[i];
 				}
 			})();
+
+
+			//曲线生成模式1，无附加背景
+			show_line(data);
+
+/*
+
+
 			var index = 0;
 
-			console.log(array);
+			//console.log(array);
 			//更新
 			var array_data=[] ;
 			d3.select('#svg_map g')
@@ -685,7 +701,65 @@ function getFlight_data(e){
 					array_data = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 
 					array[index++].len = array_data[9][0];
-					//console.log(array_data);
+					console.log(array_data);
+
+
+
+
+
+					////kx1,ky1
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][0][0])
+					//	.attr("cy",array_data[10][0][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					////kx2,ky2
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][1][0])
+					//	.attr("cy",array_data[10][1][1])
+					//	.attr("r",5)
+					//	.style("fill","blue");
+					////kx3,ky3
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][2][0])
+					//	.attr("cy",array_data[10][2][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					////kx4,ky4
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][3][0])
+					//	.attr("cy",array_data[10][3][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					//
+					////kx5,ky5
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][4][0])
+					//	.attr("cy",array_data[10][4][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					////kx6,ky6
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][5][0])
+					//	.attr("cy",array_data[10][5][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+
+
+
+
+
+
+
+
+
+					d3.select('#svg_map g')
+						.append("path")
+						.classed("line_bg",true)
+						.attr("d",function(){
+							return array_data[11];
+						}).on();
+
 					return array_data[0];
 
 				})
@@ -709,7 +783,122 @@ function getFlight_data(e){
 					//console.log(d);
 					array_data = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 					array[index++].len = array_data[9][0];
-					//console.log(array_data);
+					console.log(array_data);
+
+
+
+
+					////k1
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][0][0])
+					//	.attr("cy",array_data[10][0][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					////k6
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][1][0])
+					//	.attr("cy",array_data[10][1][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					////k3
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][2][0])
+					//	.attr("cy",array_data[10][2][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					////k4
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][3][0])
+					//	.attr("cy",array_data[10][3][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					//
+					////k5
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][4][0])
+					//	.attr("cy",array_data[10][4][1])
+					//	.attr("r",5)
+					//	.style("fill","red");
+					////k2
+					//d3.select("svg g").append("circle")
+					//	.attr("cx",array_data[10][5][0])
+					//	.attr("cy",array_data[10][5][1])
+					//	.attr("r",5)
+					//	.style("fill","blue");
+
+
+
+
+
+
+
+					d3.select('#svg_map g')
+						.append("path")
+						.classed("line_bg",true)
+						.attr("d",function(){
+							return array_data[11];
+						}).on('mouseenter',function(d){
+
+
+
+							//console.log("进2");
+							//console.log(this);
+							//console.log(d);
+							var point = d3.mouse(svg.node());
+							//alert(point[0]+","+svgToMatch(point[1]) );
+							//alert(point[0]+","+point[1] );
+							//console.log(d);
+
+
+							//鼠标移入，更新信息面板
+							$('#flight_info .flight_code span').html(d.flight_number);
+							$('#flight_info .flight_company span').html(d.airline_company);
+							$('#flight_info .flight_qf_jc span').html(d.qf_airport);
+							$('#flight_info .flight_mb_jc span').html(d.mb_airport);
+							$('#flight_info .flight_qf_time span').html(d.leave_downtime);
+							$('#flight_info .flight_dd_time span').html(d.come_downtime);
+
+							//鼠标移入，信息面板出现
+							$('#flight_info').animate({
+								t:30,
+								step:10,
+								mul:{
+									left:point[0],
+									top:point[1]+20,
+									o:100
+								}
+							}).show();
+
+
+
+
+							//鼠标移入，线条颜色高亮
+							d3.select('.line').attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
+
+
+						}).on('mouseout',function(){
+							//d3.select(this).style("stroke","#75baff");
+
+							//鼠标移出，线条颜色恢复
+							d3.select('.line').attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+							//console.log("出2");
+
+							//鼠标移出，信息面板隐藏
+							$('#flight_info').animate({
+								attr:'o',
+								target:0,
+								t:30,
+								step:10
+							}).hide();
+						});
+
+
+
+
+
+
+
+
 					return array_data[0];
 				})
 				.attr("len", function(d){
@@ -745,13 +934,14 @@ function getFlight_data(e){
 					}).show();
 
 					//鼠标移入，线条颜色高亮
-					d3.select(this).style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
+					d3.select(this).attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
+
 
 				}).on('mouseout',function(){
 					//d3.select(this).style("stroke","#75baff");
 
 					//鼠标移出，线条颜色恢复
-					d3.select(this).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+					d3.select(this).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
 					//console.log("出2");
 
 					//鼠标移出，信息面板隐藏
@@ -763,6 +953,8 @@ function getFlight_data(e){
 					}).hide();
 				});
 
+
+
 			//exit
 			d3.select('#svg_map g')
 				.selectAll("path.line")
@@ -772,7 +964,7 @@ function getFlight_data(e){
 
 			console.log(array);
 
-
+*/
 			//alert(data.length);
 		},
 		error : function(text){
@@ -783,6 +975,119 @@ function getFlight_data(e){
 	predef(e);
 
 }
+
+//曲线生成模式1，无附加背景(速度快，数据量大时使用，交互性差)
+function show_line(data){
+
+	var index = 0;
+	//更新
+	var array=[];
+	d3.select('#svg_map g')
+		.selectAll("path.line")
+		.data(data)
+		.attr("d",function(d){
+			//对两点之间进行相关计算，返回数组
+			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+
+			//将计算后的两地之间的坐标距离存入要进行绑定的数组
+			data[index++].len = array_data[9][0];
+
+			console.log(data);
+			return array[0];
+
+		})
+		.attr("len", function(d){
+			//显示两点之间的直线坐标距离
+			return d.len;
+		})
+		.on('mouseenter',function(){
+			//console.log("进1");
+		}).on('mouseout',function(){
+			//console.log("出1");
+		});
+
+
+
+	//enter
+	index = 0;
+	d3.select('#svg_map g')
+		.selectAll("path.line")
+		.data(data)
+		.enter()
+		.append("path")
+		.classed("line",true)
+		.attr("d",function(d){
+			//计算两地之间的相关数据
+			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			//将两点之间的直线坐标距离存储在要绑定的数组里
+			data[index++].len = array[9][0];
+
+			console.log(data);
+			return array[0];
+		})
+		.attr("len", function(d){
+			return d.len;
+		})
+		.on('mouseenter',function(d){
+			var point = d3.mouse(svg.node());
+			//鼠标移入，更新信息面板
+			$('#flight_info .flight_code span').html(d.flight_number);
+			$('#flight_info .flight_company span').html(d.airline_company);
+			$('#flight_info .flight_qf_jc span').html(d.qf_airport);
+			$('#flight_info .flight_mb_jc span').html(d.mb_airport);
+			$('#flight_info .flight_qf_time span').html(d.leave_downtime);
+			$('#flight_info .flight_dd_time span').html(d.come_downtime);
+
+			//鼠标移入，信息面板出现
+			$('#flight_info').animate({
+				t:30,
+				step:10,
+				mul:{
+					left:point[0],
+					top:point[1]+20,
+					o:100
+				}
+			}).show();
+
+			//鼠标移入，线条颜色高亮
+			d3.select(this).attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
+
+		}).on('mouseout',function(){
+			//d3.select(this).style("stroke","#75baff");
+
+			//鼠标移出，线条颜色恢复
+			d3.select(this).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+			//console.log("出2");
+
+			//鼠标移出，信息面板隐藏
+			$('#flight_info').animate({
+				attr:'o',
+				target:0,
+				t:30,
+				step:10
+			}).hide();
+		});
+
+	//exit
+	d3.select('#svg_map g')
+		.selectAll("path.line")
+		.data(data)
+		.exit()
+		.remove();
+
+}
+
+
+
+//曲线生成模式1，有附加背景(速度较慢，数据量小时使用，交互性好)
+function show_line_plus(){
+
+}
+
+
+
+
+
 
 //异步查询航空公司
 function get_company(){
