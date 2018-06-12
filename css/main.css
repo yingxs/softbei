@@ -627,7 +627,7 @@ svg {
 .line{
     fill: none;
     stroke: #75baff;
-    stroke-width: 2px;
+    stroke-width: 1px;
 }
 
 @keyframes line {

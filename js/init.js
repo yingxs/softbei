@@ -671,23 +671,31 @@ function getFlight_data(e){
 					array[i]=data[i];
 				}
 			})();
+			var index = 0;
 
-			//console.log(array);
+			console.log(array);
 			//更新
+			var array_data=[] ;
 			d3.select('#svg_map g')
 				.selectAll("path.line")
 				.data(data)
 				.attr("d",function(d){
 					//console.log("update:");
 					//console.log(d);
-					var array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-					//console.log(array);
-					return array[0];
+					array_data = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 
-				}).on('mouseenter',function(){
-					console.log("进1");
+					array[index++].len = array_data[9][0];
+					//console.log(array_data);
+					return array_data[0];
+
+				})
+				.attr("len", function(d){
+					return d.len;
+				})
+				.on('mouseenter',function(){
+					//console.log("进1");
 				}).on('mouseout',function(){
-					console.log("出1");
+					//console.log("出1");
 				});
 			//enter
 			d3.select('#svg_map g')
@@ -699,17 +707,25 @@ function getFlight_data(e){
 				.attr("d",function(d){
 					//console.log("enter:");
 					//console.log(d);
-					var array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-					//console.log(array);
-					return array[0];
-				}).on('mouseenter',function(d){
-					console.log("进2");
+					array_data = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+					array[index++].len = array_data[9][0];
+					//console.log(array_data);
+					return array_data[0];
+				})
+				.attr("len", function(d){
+					return d.len;
+				})
+				.on('mouseenter',function(d){
+					//console.log("进2");
 					//console.log(this);
 					//console.log(d);
 					var point = d3.mouse(svg.node());
 					//alert(point[0]+","+svgToMatch(point[1]) );
 					//alert(point[0]+","+point[1] );
-					console.log(d);
+					//console.log(d);
+
+
+					//鼠标移入，更新信息面板
 					$('#flight_info .flight_code span').html(d.flight_number);
 					$('#flight_info .flight_company span').html(d.airline_company);
 					$('#flight_info .flight_qf_jc span').html(d.qf_airport);
@@ -717,6 +733,7 @@ function getFlight_data(e){
 					$('#flight_info .flight_qf_time span').html(d.leave_downtime);
 					$('#flight_info .flight_dd_time span').html(d.come_downtime);
 
+					//鼠标移入，信息面板出现
 					$('#flight_info').animate({
 						t:30,
 						step:10,
@@ -727,12 +744,17 @@ function getFlight_data(e){
 						}
 					}).show();
 
-					d3.select(this).style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","4px");
+					//鼠标移入，线条颜色高亮
+					d3.select(this).style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
 
 				}).on('mouseout',function(){
 					//d3.select(this).style("stroke","#75baff");
-					d3.select(this).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","2px");
-					console.log("出2");
+
+					//鼠标移出，线条颜色恢复
+					d3.select(this).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+					//console.log("出2");
+
+					//鼠标移出，信息面板隐藏
 					$('#flight_info').animate({
 						attr:'o',
 						target:0,
@@ -747,6 +769,8 @@ function getFlight_data(e){
 				.data(array)
 				.exit()
 				.remove();
+
+			console.log(array);
 
 
 			//alert(data.length);

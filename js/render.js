@@ -46,11 +46,27 @@ function getLine_xy(qf,dd){
 	var k2 = -1/k1;
 	var b2 = bezier_y - k2*bezier_x;
 
+
+
+
 	//计算坐标系中两点之间的距离
 	var l = Math.sqrt(((x1-x2)*(x1-x2)) +((y1-y2)*(y1-y2)));
 
+
+
+
+
 	//控制点投影坐标距离控制点距离
 	var bezier_cl = RandomNum(80,200)  ;
+	if(l<80){
+		bezier_cl = RandomNum(10,20)  ;
+	}
+
+
+
+
+
+	//var bezier_cl = RandomNum(10,20)  ;
 	//console.log("k1:"+k1);
 	//console.log("b1:"+b1);
 	//console.log("k2:"+k2);
@@ -96,7 +112,8 @@ function getLine_xy(qf,dd){
 		 [bezier_x,matchToSvg(bezier_y) ],//曲线控制点在机场连线上的映射
 		 [cx,matchToSvg(cy)],    //曲线控制点坐标
 		 [xp,matchToSvg(yp)],   //p1 距离x1近
-		 [xq,matchToSvg(yq)]   //p2 距离x1近
+		 [xq,matchToSvg(yq)],   //p2 距离x1近
+		 [l]                    //两地间距离
 	 ];
 
 
@@ -147,7 +164,7 @@ function getLine_xyPlus(qf,dd){
 		[xm,ym],            //右曲线控制点
 		[right_x,right_y],  //右边界坐标
 		[left_x,left_y],     //左边界坐标
-		[xn,yn]             //左曲线控制点
+		[xn,yn],             //左曲线控制点
 	];
 
 
@@ -174,7 +191,7 @@ function RandomNum(Min, Max) {
 		return Min + 1;
 	}else if(Math.round(Rand * Max)==Max)
 	{
-		index++;
+		//index++;
 		return Max - 1;
 	}else{
 		var num = Min + Math.round(Rand * Range) - 1;
