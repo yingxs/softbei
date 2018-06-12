@@ -43,11 +43,11 @@ function getLine_xy(qf,dd){
 	var bezier_x = (RandomNum(xp,xq))*(1),
 		bezier_y = (k1*bezier_x+b1)*(1);
 
-
-
 	var k2 = -1/k1;
 	var b2 = bezier_y - k2*bezier_x;
 
+	//计算坐标系中两点之间的距离
+	var l = Math.sqrt(((x1-x2)*(x1-x2)) +((y1-y2)*(y1-y2)));
 
 	//控制点投影坐标距离控制点距离
 	var bezier_cl = RandomNum(80,200)  ;
@@ -149,9 +149,6 @@ function getLine_xyPlus(qf,dd){
 		[left_x,left_y],     //左边界坐标
 		[xn,yn]             //左曲线控制点
 	];
-
-
-
 
 
 }
