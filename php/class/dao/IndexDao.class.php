@@ -22,7 +22,7 @@ class IndexDao extends MySQLPDO{
         //show($array);
         //echo $qf_column."<br/>";
         //echo $mb_column."<br/>";
-        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` , `mb_airport`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight` WHERE 1=1 ";
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`, `mb_airport`,`mb_city`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight` WHERE 1=1 ";
         $param = [];
         if($array["qf_text"]!='' && $array["qf_text"]!=null ){
             $sql.= " AND $qf_column LIKE :qf_text ";

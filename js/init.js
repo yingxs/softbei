@@ -438,7 +438,7 @@ function load(){
 	$('#map').click(function(){
 		leftBox_anim(left_box.menu,10,30,-300,100);
 		leftBox_anim(left_box.search,10,30,-380,100);
-		leftBox_anim(left_box.filter,10,30,-300,100);
+		leftBox_anim(left_box.filter,10,30,-390,100);
 
 	});
 
@@ -657,10 +657,28 @@ function load(){
 			hide_company_info(false,this);
 		});
 
+	//选择筛选类型
+	$('#left_flat .filter .filter_type .hide').click(function(e){
+		$('#left_flat .filter .filter_type .show').css("border","1px solid #ddd");
+		$('#left_flat .filter .filter_type .hide').css("border","1px solid #739296");
+		$('#left_flat .filter .filter_type').attr("type","hide");
+
+	});
+	$('#left_flat .filter .filter_type .show').click(function(e){
+		$('#left_flat .filter .filter_type .hide').css("border","1px solid #ddd");
+		$('#left_flat .filter .filter_type .show').css("border","1px solid #739296");
+		$('#left_flat .filter .filter_type').attr("type","show");
+	});
+
+	//筛选-出发选项
+	$('#left_flat .filter .qf_option .qf_input').bind('focus',show_qf_opt_filter).bind('blur',hide_qf_opt);
+
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
 		getFlight_data(e);
 	});
+
+
 
 
 }
@@ -677,14 +695,13 @@ function getFlight_data(e){
 
 
 			var data=[];
-			data[0] = temp[0];
+			//data[0] = temp[0];
 			//data[1] = temp[1];
-			 /*(function(){
-				for(var i = 0,j=0;i>1 && i<=2 ;i++){
-					data[j++]=temp[i];
+			 (function(){
+				for(var i = 0;i<20 ;i++){
+					data[i]=temp[i];
 				}
 			})();
-			*/
 
 
 
@@ -1049,6 +1066,8 @@ function show_line(data){
 //曲线生成模式1，有附加背景(速度较慢，数据量小时使用，交互性好)
 function show_line_plus(data){
 
+	console.log(data);
+
 	//清空多余背景
 	d3.selectAll('#svg_map g .line_bg').remove();
 	//生成曲线
@@ -1063,58 +1082,21 @@ function show_line_plus(data){
 		})
 		.attr("d",function(d){
 
-
-			直接连接式
-			//对两点之间进行相关计算，返回数组
+			//直连式
+			//计算两地之间的相关数据
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			//将计算后的两地之间的坐标距离存入要进行绑定的数组
-			data[index++].len = array[9][0];
-
-			//console.log(data);
-			show_line_bg(array[11],d.flight_number);
-
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][0][0])
-				.attr("cy",array[10][0][1])
-				.attr("r",5)
-				.style("fill","red");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][1][0])
-				.attr("cy",array[10][1][1])
-				.attr("r",5)
-				.style("fill","yellow");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][2][0])
-				.attr("cy",array[10][2][1])
-				.attr("r",5)
-				.style("fill","green");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][3][0])
-				.attr("cy",array[10][3][1])
-				.attr("r",5)
-				.style("fill","blue");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][4][0])
-				.attr("cy",array[10][4][1])
-				.attr("r",5)
-				.style("fill","#000");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][5][0])
-				.attr("cy",array[10][5][1])
-				.attr("r",5)
-				.style("fill","purple");
-
-			return array[0];
+			//将两点之间的直线坐标距离存储在要绑定的数组里
+			//data[index++].len = array[9][0];
+			show_line_bg(d,array[11], d.flight_number);
 
 
 
-			/*
-			//断开式
+			/*//断开式
+			//计算两地之间的相关数据
 			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			return array[0];
+			show_line_bg(d,array[6], d.flight_number);
 			*/
-
-
+			return array[0];
 
 
 
@@ -1136,123 +1118,23 @@ function show_line_plus(data){
 			return "line_"+d.flight_number;
 		})
 		.attr("d",function(d){
+
+			//直连式
 			//计算两地之间的相关数据
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将两点之间的直线坐标距离存储在要绑定的数组里
 			data[index++].len = array[9][0];
+			show_line_bg(d,array[11], d.flight_number);
+
 
 
 
 			/*
-			//console.log(data);
-			show_line_bg(d,array[11],d.flight_number);
-
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][0][0])
-				.attr("cy",array[10][0][1])
-				.attr("r",5)
-				.style("fill","red");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][1][0])
-				.attr("cy",array[10][1][1])
-				.attr("r",5)
-				.style("fill","yellow");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][2][0])
-				.attr("cy",array[10][2][1])
-				.attr("r",5)
-				.style("fill","green");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][3][0])
-				.attr("cy",array[10][3][1])
-				.attr("r",5)
-				.style("fill","blue");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][4][0])
-				.attr("cy",array[10][4][1])
-				.attr("r",5)
-				.style("fill","#000");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[10][5][0])
-				.attr("cy",array[10][5][1])
-				.attr("r",5)
-				.style("fill","purple");
-
-			return array[0];
-
-			*/
-
-
 			//断开式
+			//计算两地之间的相关数据
 			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			console.log(array);
-
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][0][0])
-				.attr("cy",array[5][0][1])
-				.attr("r",5)
-				.style("fill","red");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][1][0])
-				.attr("cy",array[5][1][1])
-				.attr("r",5)
-				.style("fill","yellow");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][2][0])
-				.attr("cy",array[5][2][1])
-				.attr("r",5)
-				.style("fill","green");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][3][0])
-				.attr("cy",array[5][3][1])
-				.attr("r",5)
-				.style("fill","blue");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][4][0])
-				.attr("cy",array[5][4][1])
-				.attr("r",5)
-				.style("fill","#000");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][5][0])
-				.attr("cy",array[5][5][1])
-				.attr("r",5)
-				.style("fill","purple");
-
-
-
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][6][0])
-				.attr("cy",array[5][6][1])
-				.attr("r",5)
-				.style("fill","red");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][7][0])
-				.attr("cy",array[5][7][1])
-				.attr("r",5)
-				.style("fill","yellow");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][8][0])
-				.attr("cy",array[5][8][1])
-				.attr("r",5)
-				.style("fill","green");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][9][0])
-				.attr("cy",array[5][9][1])
-				.attr("r",5)
-				.style("fill","blue");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][10][0])
-				.attr("cy",array[5][10][1])
-				.attr("r",5)
-				.style("fill","#000");
-			d3.select("svg g").append("circle")
-				.attr("cx",array[5][11][0])
-				.attr("cy",array[5][11][1])
-				.attr("r",5)
-				.style("fill","purple");
-
 			show_line_bg(d,array[6], d.flight_number);
-
+			*/
 			return array[0];
 
 
@@ -1422,6 +1304,7 @@ function show_flight_info(d,that){
 	$('#flight_info .flight_mb_jc span').html(d.mb_airport);
 	$('#flight_info .flight_qf_time span').html(d.leave_downtime);
 	$('#flight_info .flight_dd_time span').html(d.come_downtime);
+	$('#flight_info .flight_city span').html(d.qf_city+"-"+d.mb_city);
 
 	//鼠标移入，信息面板出现
 	$('#flight_info').animate({
@@ -1451,8 +1334,11 @@ function hide_flight_info(that){
 		attr:'o',
 		target:0,
 		t:30,
-		step:10
-	}).hide();
+		step:15,
+		fn:function(){
+			$('#flight_info').hide();
+		}
+	});
 }
 
 //隐藏航空公司提示框
@@ -1486,6 +1372,21 @@ function show_qf_opt(){
 		}
 	}).show();
 	$('#left_flat .qf_option .qf_img_down').attr('src','svg/select_up.svg');
+
+}
+
+//显示筛选-起飞选项
+function show_qf_opt_filter(){
+
+	$('#left_flat .filter .qf_option .qf_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:104,
+			o:100
+		}
+	}).show();
+	$('#left_flat .filter .qf_option .qf_img_down').attr('src','svg/select_up.svg');
 
 }
 
