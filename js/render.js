@@ -139,7 +139,7 @@ function getLine_xy(qf,dd){
 }
 
 
-function getLine_xyPlus(qf,dd){
+function getLine_xy_plus(qf,dd){
 	//alert(qf+","+dd);
 	var width =$('svg').attr("width") ;
 	var height = $('svg').attr("height") ;
@@ -172,6 +172,39 @@ function getLine_xyPlus(qf,dd){
 	//alert(width);
 	//alert(x1+parseInt(width));
 	//alert(xm);
+	var k1_x=right_x,
+		k1_y=ym- 5,
+
+		k2_x=xm-5,
+		k2_y=ym-5,
+
+		k3_x=x1-5,
+		k3_y=y1,
+		k4_x=x1+5,
+		k4_y=y1+5,
+
+		k5_x=xm,
+		k5_y=ym+5,
+
+		k6_x=right_x,
+		k6_y=ym+ 5,
+
+		k7_x = left_x,
+		k7_y = yn-5,
+
+		k8_x = xn+5,
+		k8_y = yn-5,
+
+		k9_x = x2+5,
+		k9_y = y2-5,
+		k10_x = x2-5,
+		k10_y = y2+5,
+
+		k11_x = xn,
+		k11_y = yn+5,
+
+		k12_x = left_x,
+		k12_y = yn+5;
 
 
 
@@ -182,6 +215,23 @@ function getLine_xyPlus(qf,dd){
 		[right_x,right_y],  //右边界坐标
 		[left_x,left_y],     //左边界坐标
 		[xn,yn],             //左曲线控制点
+		[
+			[k1_x,k1_y], //k1
+			[k2_x,k2_y],    //k2
+			[k3_x,k3_y],//k3
+			[k4_x,k4_y],//k4
+			[k5_x,k5_y],//k5
+			[k6_x,k6_y],//k6
+			[k7_x,k7_y],//k6
+			[k8_x,k8_y],//k6
+			[k9_x,k9_y],//k6
+			[k10_x,k10_y],//k6
+			[k11_x,k11_y],//k6
+			[k12_x,k12_y]//k6
+		],
+		" M "+k1_x+","+k1_y+" Q "+k2_x+","+k2_y+ " "+k3_x+","+k3_y+" L "+k4_x+","+k4_y+" Q "+k5_x+","+k5_y+" "+k6_x+","+k6_y+
+		" M "+k7_x+","+k7_y+" Q "+k8_x+","+k8_y+ " "+k9_x+","+k9_y+" L "+k10_x+","+k10_y+" Q "+k11_x+","+k11_y+" "+k12_x+","+k12_y
+
 	];
 
 

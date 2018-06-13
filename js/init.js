@@ -675,12 +675,17 @@ function getFlight_data(e){
 			var temp = JSON.parse(text);
 			//console.log(data);
 
+
 			var data=[];
-			(function(){
-				for(var i = 0;i<20;i++){
-					data[i]=temp[i];
+			data[0] = temp[0];
+			//data[1] = temp[1];
+			 /*(function(){
+				for(var i = 0,j=0;i>1 && i<=2 ;i++){
+					data[j++]=temp[i];
 				}
 			})();
+			*/
+
 
 
 			//曲线生成模式1，无附加背景
@@ -998,6 +1003,10 @@ function show_line(data){
 			//将计算后的两地之间的坐标距离存入要进行绑定的数组
 			data[index++].len = array[9][0];
 
+
+
+
+
 			//console.log(data);
 			return array[0];
 
@@ -1053,6 +1062,9 @@ function show_line_plus(data){
 			return "line_"+d.flight_number;
 		})
 		.attr("d",function(d){
+
+
+			直接连接式
 			//对两点之间进行相关计算，返回数组
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将计算后的两地之间的坐标距离存入要进行绑定的数组
@@ -1060,7 +1072,52 @@ function show_line_plus(data){
 
 			//console.log(data);
 			show_line_bg(array[11],d.flight_number);
+
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][0][0])
+				.attr("cy",array[10][0][1])
+				.attr("r",5)
+				.style("fill","red");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][1][0])
+				.attr("cy",array[10][1][1])
+				.attr("r",5)
+				.style("fill","yellow");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][2][0])
+				.attr("cy",array[10][2][1])
+				.attr("r",5)
+				.style("fill","green");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][3][0])
+				.attr("cy",array[10][3][1])
+				.attr("r",5)
+				.style("fill","blue");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][4][0])
+				.attr("cy",array[10][4][1])
+				.attr("r",5)
+				.style("fill","#000");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][5][0])
+				.attr("cy",array[10][5][1])
+				.attr("r",5)
+				.style("fill","purple");
+
 			return array[0];
+
+
+
+			/*
+			//断开式
+			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			return array[0];
+			*/
+
+
+
+
+
 		})
 		.attr("len", function(d){
 			//显示两点之间的直线坐标距离
@@ -1084,10 +1141,122 @@ function show_line_plus(data){
 			//将两点之间的直线坐标距离存储在要绑定的数组里
 			data[index++].len = array[9][0];
 
+
+
+			/*
 			//console.log(data);
 			show_line_bg(d,array[11],d.flight_number);
 
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][0][0])
+				.attr("cy",array[10][0][1])
+				.attr("r",5)
+				.style("fill","red");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][1][0])
+				.attr("cy",array[10][1][1])
+				.attr("r",5)
+				.style("fill","yellow");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][2][0])
+				.attr("cy",array[10][2][1])
+				.attr("r",5)
+				.style("fill","green");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][3][0])
+				.attr("cy",array[10][3][1])
+				.attr("r",5)
+				.style("fill","blue");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][4][0])
+				.attr("cy",array[10][4][1])
+				.attr("r",5)
+				.style("fill","#000");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[10][5][0])
+				.attr("cy",array[10][5][1])
+				.attr("r",5)
+				.style("fill","purple");
+
 			return array[0];
+
+			*/
+
+
+			//断开式
+			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			console.log(array);
+
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][0][0])
+				.attr("cy",array[5][0][1])
+				.attr("r",5)
+				.style("fill","red");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][1][0])
+				.attr("cy",array[5][1][1])
+				.attr("r",5)
+				.style("fill","yellow");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][2][0])
+				.attr("cy",array[5][2][1])
+				.attr("r",5)
+				.style("fill","green");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][3][0])
+				.attr("cy",array[5][3][1])
+				.attr("r",5)
+				.style("fill","blue");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][4][0])
+				.attr("cy",array[5][4][1])
+				.attr("r",5)
+				.style("fill","#000");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][5][0])
+				.attr("cy",array[5][5][1])
+				.attr("r",5)
+				.style("fill","purple");
+
+
+
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][6][0])
+				.attr("cy",array[5][6][1])
+				.attr("r",5)
+				.style("fill","red");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][7][0])
+				.attr("cy",array[5][7][1])
+				.attr("r",5)
+				.style("fill","yellow");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][8][0])
+				.attr("cy",array[5][8][1])
+				.attr("r",5)
+				.style("fill","green");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][9][0])
+				.attr("cy",array[5][9][1])
+				.attr("r",5)
+				.style("fill","blue");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][10][0])
+				.attr("cy",array[5][10][1])
+				.attr("r",5)
+				.style("fill","#000");
+			d3.select("svg g").append("circle")
+				.attr("cx",array[5][11][0])
+				.attr("cy",array[5][11][1])
+				.attr("r",5)
+				.style("fill","purple");
+
+			show_line_bg(d,array[6], d.flight_number);
+
+			return array[0];
+
+
+
 		})
 		.attr("len", function(d){ return d.len; } );
 
