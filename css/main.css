@@ -630,8 +630,8 @@ svg {
     stroke-width: 1px;
 }
 .line_bg{
-    fill: #f0f0f0;
-    fill-opacity: 0.5;
+    fill: red;
+    fill-opacity: 0;
     stroke: none;
     stroke-width: 1px;
 }
@@ -649,8 +649,6 @@ svg {
     /*stroke: url(#grad1);*/
     stroke-width: 1px;
     /*stroke-dasharray: 50px;*/
-
-
 
 }
 #line-bar{

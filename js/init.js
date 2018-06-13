@@ -358,6 +358,8 @@ function init2(){
 		//alert(point[0]+","+svgToMatch(point[1]) );
 		//alert(point[0]+","+point[1] );
 
+
+
 		$('#flight_info').animate({
 			t:30,
 			step:10,
@@ -675,14 +677,19 @@ function getFlight_data(e){
 
 			var data=[];
 			(function(){
-				for(var i = 0;i<1;i++){
+				for(var i = 0;i<20;i++){
 					data[i]=temp[i];
 				}
 			})();
 
 
 			//曲线生成模式1，无附加背景
-			show_line(data);
+			//show_line(data);
+
+			//曲线生成模式2，附加背景
+			show_line_plus(data);
+
+
 
 /*
 
@@ -989,16 +996,16 @@ function show_line(data){
 			//对两点之间进行相关计算，返回数组
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将计算后的两地之间的坐标距离存入要进行绑定的数组
-			data[index++].len = array_data[9][0];
+			data[index++].len = array[9][0];
 
-			console.log(data);
+			//console.log(data);
 			return array[0];
 
 		})
 		.attr("len", function(d){
 			//显示两点之间的直线坐标距离
 			return d.len;
-		}).on('mouseenter',function(d){ show_flight_info(d); } ).on('mouseout',hide_flight_info);
+		}).on('mouseenter',function(d){ show_flight_info(d,this); } ).on('mouseout',function(d){ hide_flight_info(this) });
 
 
 	//enter
@@ -1015,7 +1022,7 @@ function show_line(data){
 			//将两点之间的直线坐标距离存储在要绑定的数组里
 			data[index++].len = array[9][0];
 
-			console.log(data);
+			//console.log(data);
 			return array[0];
 		})
 		.attr("len", function(d){ return d.len; } )
@@ -1030,19 +1037,129 @@ function show_line(data){
 
 }
 
-
-
 //曲线生成模式1，有附加背景(速度较慢，数据量小时使用，交互性好)
 function show_line_plus(data){
+
+	//清空多余背景
+	d3.selectAll('#svg_map g .line_bg').remove();
+	//生成曲线
+	var index = 0;
+	//曲线update
+	var array=[];
+	d3.select('#svg_map g')
+		.selectAll("path.line")
+		.data(data)
+		.attr("id",function(d){
+			return "line_"+d.flight_number;
+		})
+		.attr("d",function(d){
+			//对两点之间进行相关计算，返回数组
+			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			//将计算后的两地之间的坐标距离存入要进行绑定的数组
+			data[index++].len = array[9][0];
+
+			//console.log(data);
+			show_line_bg(array[11],d.flight_number);
+			return array[0];
+		})
+		.attr("len", function(d){
+			//显示两点之间的直线坐标距离
+			return d.len;
+		});
+
+	//曲线enter
+	index = 0;
+	d3.select('#svg_map g')
+		.selectAll("path.line")
+		.data(data)
+		.enter()
+		.append("path")
+		.classed("line",true)
+		.attr("id",function(d){
+			return "line_"+d.flight_number;
+		})
+		.attr("d",function(d){
+			//计算两地之间的相关数据
+			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			//将两点之间的直线坐标距离存储在要绑定的数组里
+			data[index++].len = array[9][0];
+
+			//console.log(data);
+			show_line_bg(d,array[11],d.flight_number);
+
+			return array[0];
+		})
+		.attr("len", function(d){ return d.len; } );
+
+	//曲线exit
+	d3.select('#svg_map g')
+		.selectAll("path.line")
+		.data(data)
+		.exit()
+		.remove();
+
+
+	console.log(data);
+	console.log(array);
+
+
+	function show_line_bg(data,path,flight_number){
+
+		var line_id;
+		d3.select('#svg_map g')
+			.append("path")
+			.datum(data)
+			.classed("line_bg",true)
+			.attr("id",function(){
+				return "line_bg_"+flight_number;
+			})
+			.attr("d",function(){
+				return path;
+			}).on("mouseenter",function(d){
+				line_id =  d3.select(this).attr("id").replace("line_bg_","line_");
+
+				//d3.select(line_id).
+				show_flight_info(d,'#svg_map g #'+line_id);
+				//console.log(typeof line_id);
+				//alert(d3.select(this).attr("id")+","+line_id);
+			}).on("mouseout",function(){
+				line_id =  d3.select(this).attr("id").replace("line_bg_","line_");
+				hide_flight_info('#svg_map g #'+line_id);
+			});
+
+	}
+
+
+/*
+
+	//生成曲线背景
+	index = 0;
+	//背景enter
+	array=[];
+	d3.select('#svg_map g')
+		.selectAll("path.line_bg")
+		.data(data)
+		.enter()
+		.append("path")
+		.classed("line_bg",true)
+		.attr("d",function(d){
+			//计算两地之间的相关数据
+			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			//将两点之间的直线坐标距离存储在要绑定的数组里
+			//data[index++].len = array[9][0];
+
+			//console.log(data);
+			return array[11];
+
+		})
+
+*/
+
+
 
 
 
 }
-
-
-
-
-
 
 //异步查询航空公司
 function get_company(){
@@ -1147,6 +1264,9 @@ function show_flight_info(d,that){
 			o:100
 		}
 	}).show();
+
+	//console.log(typeof that);
+	//console.log(that);
 
 	//鼠标移入，线条颜色高亮
 	d3.select(that).attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
