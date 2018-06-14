@@ -438,7 +438,7 @@ function load(){
 	$('#map').click(function(){
 		leftBox_anim(left_box.menu,10,30,-300,100);
 		leftBox_anim(left_box.search,10,30,-380,100);
-		leftBox_anim(left_box.filter,10,30,-390,100);
+		leftBox_anim(left_box.filter,10,30,-380,100);
 
 	});
 
@@ -447,7 +447,7 @@ function load(){
 
 		if( $(this).index() == 0 && parseInt( left_box.menu.css('left') )<0 ) {
 			//隐藏筛选块
-			leftBox_anim(left_box.filter,10,30,-300,100);
+			leftBox_anim(left_box.filter,10,30,-380,100);
 			//隐藏搜索块
 			leftBox_anim(left_box.search,10,30,-380,100);
 			//当点击菜单按钮时，显示菜单块
@@ -458,7 +458,7 @@ function load(){
 			//显示搜索块
 			leftBox_anim(left_box.search,10,30,36,100);
 			//隐藏筛选块
-			leftBox_anim(left_box.filter,10,30,-300,100);
+			leftBox_anim(left_box.filter,10,30,-380,100);
 		}else if($(this).index() == 1 && parseInt( left_box.search.css('left') )>0){
 			//隐藏搜索块
 			leftBox_anim(left_box.search,10,30,-380,100);
@@ -466,11 +466,11 @@ function load(){
 			//显示之前隐藏信息提示框
 			leftBox_anim($('#left_bar .diolg_ul li').eq($(this).index()),10,30,-150,0);
 			//显示筛选块
-			leftBox_anim(left_box.filter,10,30,35,100);
+			leftBox_anim(left_box.filter,10,30,36,100);
 			//隐藏搜索块
 			leftBox_anim(left_box.search,10,30,-380,100);
 		}else if($(this).index() == 2 && parseInt( left_box.filter.css('left') )>0){
-			leftBox_anim(left_box.filter,10,30,-280,100);
+			leftBox_anim(left_box.filter,10,30,-380,100);
 		}
 
 	});
@@ -657,28 +657,10 @@ function load(){
 			hide_company_info(false,this);
 		});
 
-	//选择筛选类型
-	$('#left_flat .filter .filter_type .hide').click(function(e){
-		$('#left_flat .filter .filter_type .show').css("border","1px solid #ddd");
-		$('#left_flat .filter .filter_type .hide').css("border","1px solid #739296");
-		$('#left_flat .filter .filter_type').attr("type","hide");
-
-	});
-	$('#left_flat .filter .filter_type .show').click(function(e){
-		$('#left_flat .filter .filter_type .hide').css("border","1px solid #ddd");
-		$('#left_flat .filter .filter_type .show').css("border","1px solid #739296");
-		$('#left_flat .filter .filter_type').attr("type","show");
-	});
-
-	//筛选-出发选项
-	$('#left_flat .filter .qf_option .qf_input').bind('focus',show_qf_opt_filter).bind('blur',hide_qf_opt);
-
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
 		getFlight_data(e);
 	});
-
-
 
 
 }
@@ -703,19 +685,13 @@ function getFlight_data(e){
 				}
 			})();
 
-
-
 			//曲线生成模式1，无附加背景
 			//show_line(data);
 
 			//曲线生成模式2，附加背景
 			show_line_plus(data);
 
-
-
 /*
-
-
 			var index = 0;
 
 			//console.log(array);
@@ -1004,7 +980,6 @@ function getFlight_data(e){
 	predef(e);
 
 }
-
 //曲线生成模式1，无附加背景(速度快，数据量大时使用，交互性差)
 function show_line(data){
 
@@ -1015,16 +990,19 @@ function show_line(data){
 		.selectAll("path.line")
 		.data(data)
 		.attr("d",function(d){
+
+			/*
+			//直连式
 			//对两点之间进行相关计算，返回数组
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将计算后的两地之间的坐标距离存入要进行绑定的数组
-			data[index++].len = array[9][0];
-
-
-
-
-
+			//data[index++].len = array[9][0];
 			//console.log(data);
+			return array[0];
+			*/
+
+			//断开式
+			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			return array[0];
 
 		})
@@ -1043,12 +1021,18 @@ function show_line(data){
 		.append("path")
 		.classed("line",true)
 		.attr("d",function(d){
-			//计算两地之间的相关数据
-			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			//将两点之间的直线坐标距离存储在要绑定的数组里
-			data[index++].len = array[9][0];
+			/*
+			 //直连式
+			 //对两点之间进行相关计算，返回数组
+			 array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			 //将计算后的两地之间的坐标距离存入要进行绑定的数组
+			 data[index++].len = array[9][0];
+			 //console.log(data);
+			 return array[0];
+			 */
 
-			//console.log(data);
+			//断开式
+			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			return array[0];
 		})
 		.attr("len", function(d){ return d.len; } )
@@ -1063,10 +1047,8 @@ function show_line(data){
 
 }
 
-//曲线生成模式1，有附加背景(速度较慢，数据量小时使用，交互性好)
+//曲线生成模式2,有附加背景(速度较慢，数据量小时使用，交互性好)
 function show_line_plus(data){
-
-	console.log(data);
 
 	//清空多余背景
 	d3.selectAll('#svg_map g .line_bg').remove();
@@ -1082,23 +1064,22 @@ function show_line_plus(data){
 		})
 		.attr("d",function(d){
 
-			//直连式
-			//计算两地之间的相关数据
+			//直接连接式
+			//对两点之间进行相关计算，返回数组
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			//将两点之间的直线坐标距离存储在要绑定的数组里
-			//data[index++].len = array[9][0];
-			show_line_bg(d,array[11], d.flight_number);
-
-
-
-			/*//断开式
-			//计算两地之间的相关数据
-			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			show_line_bg(d,array[6], d.flight_number);
-			*/
+			//将计算后的两地之间的坐标距离存入要进行绑定的数组
+			data[index++].len = array[9][0];
+			//console.log(data);
+			show_line_bg(d,array[11],d.flight_number);
 			return array[0];
 
-
+			/*
+			//断开式
+			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			console.log(array);
+			show_line_bg(d,array[6], d.flight_number);
+			return array[0];
+			*/
 
 		})
 		.attr("len", function(d){
@@ -1119,25 +1100,20 @@ function show_line_plus(data){
 		})
 		.attr("d",function(d){
 
-			//直连式
 			//计算两地之间的相关数据
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将两点之间的直线坐标距离存储在要绑定的数组里
 			data[index++].len = array[9][0];
-			show_line_bg(d,array[11], d.flight_number);
-
-
-
+			show_line_bg(d,array[11],d.flight_number);
+			return array[0];
 
 			/*
 			//断开式
-			//计算两地之间的相关数据
 			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			console.log(array);
 			show_line_bg(d,array[6], d.flight_number);
-			*/
 			return array[0];
-
-
+			*/
 
 		})
 		.attr("len", function(d){ return d.len; } );
@@ -1148,7 +1124,6 @@ function show_line_plus(data){
 		.data(data)
 		.exit()
 		.remove();
-
 
 	console.log(data);
 	console.log(array);
@@ -1180,37 +1155,8 @@ function show_line_plus(data){
 
 	}
 
-
-/*
-
-	//生成曲线背景
-	index = 0;
-	//背景enter
-	array=[];
-	d3.select('#svg_map g')
-		.selectAll("path.line_bg")
-		.data(data)
-		.enter()
-		.append("path")
-		.classed("line_bg",true)
-		.attr("d",function(d){
-			//计算两地之间的相关数据
-			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			//将两点之间的直线坐标距离存储在要绑定的数组里
-			//data[index++].len = array[9][0];
-
-			//console.log(data);
-			return array[11];
-
-		})
-
-*/
-
-
-
-
-
 }
+
 
 //异步查询航空公司
 function get_company(){
@@ -1304,7 +1250,6 @@ function show_flight_info(d,that){
 	$('#flight_info .flight_mb_jc span').html(d.mb_airport);
 	$('#flight_info .flight_qf_time span').html(d.leave_downtime);
 	$('#flight_info .flight_dd_time span').html(d.come_downtime);
-	$('#flight_info .flight_city span').html(d.qf_city+"-"+d.mb_city);
 
 	//鼠标移入，信息面板出现
 	$('#flight_info').animate({
@@ -1333,8 +1278,8 @@ function hide_flight_info(that){
 	$('#flight_info').animate({
 		attr:'o',
 		target:0,
-		t:30,
-		step:15,
+		t:20,
+		step:20,
 		fn:function(){
 			$('#flight_info').hide();
 		}
@@ -1372,21 +1317,6 @@ function show_qf_opt(){
 		}
 	}).show();
 	$('#left_flat .qf_option .qf_img_down').attr('src','svg/select_up.svg');
-
-}
-
-//显示筛选-起飞选项
-function show_qf_opt_filter(){
-
-	$('#left_flat .filter .qf_option .qf_opt').animate({
-		t:30,
-		step:10,
-		mul:{
-			h:104,
-			o:100
-		}
-	}).show();
-	$('#left_flat .filter .qf_option .qf_img_down').attr('src','svg/select_up.svg');
 
 }
 

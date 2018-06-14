@@ -457,42 +457,7 @@
                     </td>
                 </tr>
 
-                <tr class="qf_opt">
-                    <td>
-                        <input class="qf_input" type="text" name="qf"  >
-                        <img class="qf_img_down" src="/svg/select_down.svg"/>
 
-                        <ul class="qf_opt">
-                            <?php foreach($this->_data['query_type'] as $v) :?>
-                            <?php if($v['default']=='yes'):?>
-                            <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
-                            <?php  endif;?>
-
-                            <?php if($v['default']=='no'):?>
-                            <li value="<?=$v['id']?>" ><?=$v['type']?></li>
-                            <?php  endif;?>
-                            <?php endforeach;?>
-                        </ul>
-
-                    </td>
-                    <td></td>
-                    <td align="right">
-                        <img class="dd_img_down" src="/svg/select_down.svg"/>
-                        <input class="dd_input" type="text" name="dd"  value="">
-                        <ul class="dd_opt">
-                            <?php foreach($this->_data['query_type'] as $v) :?>
-                            <?php if($v['default']=='yes'):?>
-                            <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
-                            <?php  endif;?>
-
-                            <?php if($v['default']=='no'):?>
-                            <li value="<?=$v['id']?>" ><?=$v['type']?></li>
-                            <?php  endif;?>
-                            <?php endforeach;?>
-                        </ul>
-                    </td>
-
-                </tr>
 
 
             </form>
