@@ -28,8 +28,11 @@ function init2(){
 	(function(){
 		for(var i=0 ;i<li_list.length;i++){
 			if($(li_list[i]).attr('select')=='select'){
+
+				//查询面板
 				$('#left_flat .qf_option  .qf_input').value("出发："+$(li_list[i]).html());
 				$('#left_flat .qf_option  .qf_input').attr("key",$(li_list[i]).attr("value"));
+
 				$('#left_flat .qf_option  .dd_input').value("到达："+$(li_list[i]).html());
 				$('#left_flat .qf_option  .dd_input').attr("key",$(li_list[i]).attr("value"));
 
@@ -37,6 +40,20 @@ function init2(){
 				$('#left_flat .dd_jc').attr("placeholder","到达"+$(li_list[i]).html().replace('按',''));
 
 				//alert("起飞"+$(li_list[i]).html().replace('按',''));
+
+
+
+
+				//过滤面板
+				$('#left_flat .filter .filter_qf_td .filter_qf_input').value("出发："+$(li_list[i]).html());
+				$('#left_flat .filter .filter_qf_td .filter_qf_input').attr("key",$(li_list[i]).attr("value"));
+
+				$('#left_flat .filter .filter_dd_td .filter_dd_input').value("到达："+$(li_list[i]).html());
+				$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("key",$(li_list[i]).attr("value"));
+
+
+
+
 			}
 		}
 	})();
@@ -492,28 +509,28 @@ function load(){
 		}
 	});
 
-	//查询出发选项
+	//查询-出发选项显示与隐藏
 	$('#left_flat .qf_option .qf_input').bind('focus',show_qf_opt).bind('blur',hide_qf_opt);
 	$('#left_flat .qf_option .qf_img_down').click(function(){
 		if($('#left_flat .qf_option .qf_opt').css("display")=="block"){
-			hide_qf_opt();
+			$('#left_flat .qf_option .qf_input').ge(0).blur();
 		}else{
-			show_qf_opt();
+			$('#left_flat .qf_option .qf_input').ge(0).focus();
 		}
 	});
 
-	//查询到达选项
+	//查询-到达选项显示与隐藏
 	$('#left_flat .qf_option .dd_input').bind('focus',show_dd_opt).bind('blur',hide_dd_opt);
 	$('#left_flat .qf_option .dd_img_down').click(function(){
 		if($('#left_flat .qf_option .dd_opt').css("display")=="block"){
-			hide_dd_opt();
+			$('#left_flat .qf_option .dd_input').ge(0).blur();
 		}else{
-			show_dd_opt();
+			$('#left_flat .qf_option .dd_input').ge(0).focus();
 		}
 
 	});
 
-	//起飞选项
+	//查询-选择起飞选项
 	$('#left_flat .qf_option .qf_opt li').bind('mousedown',function(){
 		var str = $(this).html();
 		var key = $(this).attr('value');
@@ -522,7 +539,9 @@ function load(){
 		$('#left_flat .qf_text').attr('placeholder',"起飞"+$(this).html().replace("按",""));
 	});
 
-	//到达选项
+
+
+	//查询-选择到达选项
 	$('#left_flat .qf_option .dd_opt li').bind('mousedown',function(){
 		var str = $(this).html();
 		var key = $(this).attr('value');
@@ -531,6 +550,62 @@ function load(){
 		$('#left_flat  .dd_jc').attr('placeholder',"到达"+$(this).html().replace("按",""));
 
 	});
+
+
+	//过滤-起飞选项的显示与隐藏
+	$('#left_flat .filter .filter_qf_td .filter_qf_input').bind('focus',show_filter_qf_opt).bind('blur',hide_filter_qf_opt);
+	$('#left_flat .filter .filter_qf_td .qf_img_down').click(function(){
+		if($('#left_flat .filter .filter_qf_td .filter_qf_opt').css("display")=="block"){
+			$('#left_flat .filter .filter_qf_td .filter_qf_input').ge(0).blur();
+		}else{
+			$('#left_flat .filter .filter_qf_td .filter_qf_input').ge(0).focus();
+		}
+	});
+
+	//过滤-到达选项的显示与隐藏
+	$('#left_flat .filter .filter_dd_td .filter_dd_input').bind('focus',show_filter_dd_opt).bind('blur',hide_filter_dd_opt);
+	$('#left_flat .filter .filter_dd_td .dd_img_down').click(function(){
+		if($('#left_flat .filter .filter_dd_td .filter_dd_opt').css("display")=="block"){
+			$('#left_flat .filter .filter_dd_td .filter_dd_input').ge(0).blur();
+		}else{
+			$('#left_flat .filter .filter_dd_td .filter_dd_input').ge(0).focus();
+		}
+	});
+
+
+
+
+
+	//过滤-选择起飞选项
+	$('#left_flat .filter .filter_qf_td .filter_qf_opt li').bind('mousedown',function(){
+		var str = $(this).html();
+		var key = $(this).attr('value');
+		$('#left_flat .filter .filter_qf_td .filter_qf_input').value("出发："+str);
+		$('#left_flat .filter .filter_qf_td .filter_qf_input').attr("key",key);
+		//$('#left_flat .qf_text').attr('placeholder',"起飞"+$(this).html().replace("按",""));
+	});
+
+	//过滤-选择到达选项
+	$('#left_flat .filter .filter_dd_td .filter_dd_opt li').bind('mousedown',function(){
+		var str = $(this).html();
+		var key = $(this).attr('value');
+		$('#left_flat .filter .filter_dd_td .filter_dd_input').value("到达："+str);
+		$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("key",key);
+		//$('#left_flat  .dd_jc').attr('placeholder',"到达"+$(this).html().replace("按",""));
+
+	});
+
+
+
+
+
+
+
+
+
+
+
+
 
 	//中转选项
 	$('#left_flat .td_zz .zz_select').bind('focus',function(){
@@ -661,6 +736,23 @@ function load(){
 	$('#left_flat .from1_button .submit').click(function(e){
 		getFlight_data(e);
 	});
+
+
+	$('#left_flat .filter .filter_type .hide').click(function(e){
+		$('#left_flat .filter .filter_type .show').css("border","1px solid #ddd");
+		$('#left_flat .filter .filter_type .hide').css("border","1px solid #739296");
+		//筛选结果类型为隐藏不符合要求的数据
+		$('#left_flat .filter .filter_type').attr("type","hide");
+
+	});
+
+	$('#left_flat .filter .filter_type .show').click(function(e){
+		$('#left_flat .filter .filter_type .hide').css("border","1px solid #ddd");
+		$('#left_flat .filter .filter_type .show').css("border","1px solid #739296");
+		//筛选结果类型为高亮显示符合要求的数据
+		$('#left_flat .filter .filter_type').attr("type","show");
+	});
+
 
 
 }
@@ -1305,7 +1397,7 @@ function hide_company_info(bool,that){
 
 }
 
-//显示起飞选项
+//显示查询-起飞选项
 function show_qf_opt(){
 
 	$('#left_flat .qf_option .qf_opt').animate({
@@ -1320,7 +1412,73 @@ function show_qf_opt(){
 
 }
 
-//隐藏起飞选项
+//显示过滤-起飞选项
+function show_filter_qf_opt(){
+
+	$('#left_flat .filter .filter_qf_td .filter_qf_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:104,
+			o:100
+		}
+	}).show();
+	$('#left_flat .filter .filter_qf_td .qf_img_down').attr('src','svg/select_up.svg');
+
+}
+
+//隐藏过滤-起飞选项
+function hide_filter_qf_opt(){
+
+	$('#left_flat .filter .filter_qf_td .filter_qf_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:0,
+			o:0
+		},
+		fn:function(){
+			$('#left_flat .filter .filter_qf_td .filter_qf_opt').hide();
+			$('#left_flat .filter .filter_qf_td .qf_img_down').attr('src','svg/select_down.svg');
+		}
+	});
+}
+
+//隐藏过滤-到达选项
+function hide_filter_dd_opt(){
+
+	$('#left_flat .filter .filter_dd_td .filter_dd_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:0,
+			o:0
+		},
+		fn:function(){
+			$('#left_flat .filter .filter_dd_td .filter_dd_opt').hide();
+			$('#left_flat .filter .filter_dd_td .qf_img_down').attr('src','svg/select_down.svg');
+		}
+	});
+}
+
+
+
+//显示过滤-到达选项
+function show_filter_dd_opt(){
+
+	$('#left_flat .filter .filter_dd_td .filter_dd_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:104,
+			o:100
+		}
+	}).show();
+	$('#left_flat .filter .filter_dd_td .qf_img_down').attr('src','svg/select_up.svg');
+
+}
+
+//隐藏查询-起飞选项
 function hide_qf_opt(){
 	$('#left_flat .qf_option .qf_opt').animate({
 		t:30,

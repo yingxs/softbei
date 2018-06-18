@@ -920,12 +920,12 @@ svg {
 #left_flat .filter table .filter_type span:nth-child(1){
     margin-left: 3%;
 
-    border: 1px solid #739296;
+    border: 1px solid #ddd;
 }
 
 #left_flat .filter table .filter_type span:nth-child(2){
 
-    border: 1px solid #ddd;
+    border: 1px solid #739296;
 }
 
 #left_flat .filter table .filter_type hr{
@@ -1025,6 +1025,113 @@ svg {
     background: #f0f0f0;
     cursor: pointer;
 }
+
+
+
+#left_flat .filter table .filter_qf_td  {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#left_flat .filter table .filter_qf_td .filter_qf_input {
+    border: none;
+    width: 80%;
+    background: none;
+    text-indent: 2.0rem;
+    border-bottom: 1px solid #ddd;
+    padding: 8px 0;
+    outline: none;
+}
+
+
+#left_flat .filter table .filter_qf_td img.qf_img_down {
+    width: 10px;
+    position: relative;
+    left: -15px;
+    cursor: pointer;
+}
+
+
+#left_flat .filter table .filter_qf_td .filter_qf_opt {
+    position: absolute;
+    display: none;
+    /*opacity: 0;*/
+    /*filter: alpha(opacity=0);*/
+    width: 80%;
+    height: 0;
+    background: #f6f6f6;
+    border: 1px solid #ddd;
+    padding: 5px 0;
+    box-shadow: 4px 10px 20px #ddd;
+    z-index: 2;
+    overflow: hidden;
+}
+
+#left_flat .filter table .filter_qf_td .filter_qf_opt li {
+    padding: 3px 0px;
+    text-indent: 18px;
+    font-size: 1.5rem;
+}
+#left_flat .filter table .filter_qf_td .filter_qf_opt li:hover {
+    background: #f2f2f2;
+    cursor: pointer;
+
+}
+
+
+#left_flat .filter table .filter_dd_td  {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#left_flat .filter table .filter_dd_td .filter_dd_input {
+    border: none;
+    width: 80%;
+    background: none;
+    text-indent: 2.0rem;
+    border-bottom: 1px solid #ddd;
+    padding: 8px 0;
+    outline: none;
+}
+
+
+#left_flat .filter table .filter_dd_td img.dd_img_down {
+    width: 10px;
+    position: relative;
+    left: 125px;
+    cursor: pointer;
+}
+
+#left_flat .filter table .filter_dd_td .filter_dd_opt {
+    position: absolute;
+    display: none;
+    /*opacity: 0;*/
+    /*filter: alpha(opacity=0);*/
+    width: 80%;
+    height: 0;
+    background: #f6f6f6;
+    border: 1px solid #ddd;
+    padding: 5px 0;
+    box-shadow: 4px 10px 20px #ddd;
+    z-index: 2;
+    right: 0;
+    overflow: hidden;
+}
+
+#left_flat .filter table .filter_dd_td .filter_dd_opt li {
+    text-align: left;
+    padding: 3px 0px;
+    text-indent: 20px;
+    font-size: 1.5rem;
+}
+#left_flat .filter table .filter_dd_td .filter_dd_opt li:hover {
+    background: #f2f2f2;
+    cursor: pointer;
+
+}
+
 
 
 

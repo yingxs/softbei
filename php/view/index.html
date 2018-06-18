@@ -447,15 +447,54 @@
     <span class="filter">
         <h4>SXPI航班数据可视化</h4>
         <h5>数据筛选</h5>
-        <table border="0" width="30%" align="center" cellpadding="0" cellspacing="0">
+        <table border="0" width="90%" align="center" cellpadding="0" cellspacing="0">
             <form>
                 <tr>
-                    <td class="filter_type" colspan="3" >
+                    <td class="filter_type" colspan="3" type="show" >
                         <span class="hide">只显示筛选后的数据</span>
                         <span class="show">高亮显示筛选的数据</span>
                         <hr >
                     </td>
                 </tr>
+
+                <tr>
+                    <td class="filter_qf_td" >
+                        <input class="filter_qf_input" type="text"/>
+                        <img class="qf_img_down" src="/svg/select_down.svg"/>
+                        <ul class="filter_qf_opt">
+                            <?php foreach($this->_data['query_type'] as $v) :?>
+                            <?php if($v['default']=='yes'):?>
+                            <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
+                            <?php  endif;?>
+
+                            <?php if($v['default']=='no'):?>
+                            <li value="<?=$v['id']?>" ><?=$v['type']?></li>
+                            <?php  endif;?>
+                            <?php endforeach;?>
+                        </ul>
+
+                    </td>
+                    <td></td>
+                    <td align="right" class="filter_dd_td">
+                        <img class="dd_img_down" src="/svg/select_down.svg"/>
+                        <input class="filter_dd_input" type="text"/>
+                        <ul class="filter_dd_opt">
+                            <?php foreach($this->_data['query_type'] as $v) :?>
+                            <?php if($v['default']=='yes'):?>
+                            <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
+                            <?php  endif;?>
+
+                            <?php if($v['default']=='no'):?>
+                            <li value="<?=$v['id']?>" ><?=$v['type']?></li>
+                            <?php  endif;?>
+                            <?php endforeach;?>
+                        </ul>
+
+                    </td>
+                </tr>
+
+              
+
 
 
 
