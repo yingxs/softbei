@@ -624,9 +624,6 @@ function load(){
 
 	});
 
-
-
-
 	//查询-起始时间文本框获得焦点后，日历div显示
 	$('#left_flat .qf_time').bind('focus',function(){
 		$('#date_calendar').attr("type","qf").show().animate({
@@ -838,7 +835,7 @@ function load(){
 			'#left_flat .filter .filter_qf_td .filter_qf_input',
 			'#left_flat .filter .filter_qf_text_td .filter_qf_info',
 			'#left_flat .filter .filter_qf_text_td .filter_qf_info .context',
-			'#left_flat .filter .filter_qf_text_td .filter_qf_info .loading');
+			'#left_flat .filter .filter_qf_text_td .filter_qf_info .loading','qf');
 
 	}).bind('blur',function(){
 
@@ -861,16 +858,77 @@ function load(){
 			'#left_flat .filter .filter_qf_td .filter_qf_input',
 			'#left_flat .filter .filter_qf_text_td .filter_qf_info',
 			'#left_flat .filter .filter_qf_text_td .filter_qf_info .context',
-			'#left_flat .filter .filter_qf_text_td .filter_qf_info .loading');
+			'#left_flat .filter .filter_qf_text_td .filter_qf_info .loading','qf');
+
+	});
+
+	//过滤-到达选项输入框获得焦点，过滤-到达选项输入框失去焦点，过滤-到达选项输入框键入事件,异步查询
+	$('#left_flat .filter .filter_dd_text_td .filter_dd_text').bind('focus',function(){
+		//console.log("keyup:get_qf_opt2()");
+		//p_text,p_input,p_ul,p_context,p_loading
+		get_qf_opt2('#left_flat .filter .filter_dd_text_td .filter_dd_text',
+			'#left_flat .filter .filter_dd_td .filter_dd_input',
+			'#left_flat .filter .filter_dd_text_td .filter_dd_info',
+			'#left_flat .filter .filter_dd_text_td .filter_dd_info .context',
+			'#left_flat .filter .filter_dd_text_td .filter_dd_info .loading','dd');
+
+	}).bind('blur',function(){
+
+		//console.log("blur");
+		//隐藏提示面板
+		$("#left_flat .filter .filter_dd_text_td .filter_dd_info").animate({
+			attr:'h',
+			target:0,
+			step:10,
+			t:20,
+			fn:function(){
+				$("#left_flat .filter .filter_dd_text_td .filter_dd_info").hide();
+			}
+		});
+		//hide_select_info(false,0);
+	}).bind('keyup',function(){
+		//console.log("keyup:get_qf_opt2()");
+		//p_text,p_input,p_ul,p_context,p_loading
+		get_qf_opt2('#left_flat .filter .filter_dd_text_td .filter_dd_text',
+			'#left_flat .filter .filter_dd_td .filter_dd_input',
+			'#left_flat .filter .filter_dd_text_td .filter_dd_info',
+			'#left_flat .filter .filter_dd_text_td .filter_dd_info .context',
+			'#left_flat .filter .filter_dd_text_td .filter_dd_info .loading','dd');
 
 	});
 
 
+	//过滤-航司输入框获得焦点，过滤-航司输入框失去焦点，过滤-航司输入框键入事件,异步查询
+	$('#left_flat .filter .filter_company_td .filter_company_text').bind('focus',function(){
+
+		//p_text,p_ul,p_context,p_loading
+		filter_get_company('#left_flat .filter .filter_company_td .filter_company_text',
+						"#left_flat .filter .filter_company_td .filter_company_info",
+						"#left_flat .filter .filter_company_td .filter_company_info .context",
+						"#left_flat .filter .filter_company_td .filter_company_info .loading");
 
 
+	}).bind('blur',function(){
 
+		//console.log("blur");
+		//隐藏提示面板
+		$("#left_flat .filter .filter_company_td .filter_company_info").animate({
+			attr:'h',
+			target:0,
+			step:10,
+			t:20,
+			fn:function(){
+				$("#left_flat .filter .filter_company_td .filter_company_info").hide();
+			}
+		});
+		//hide_select_info(false,0);
+	}).bind('keyup',function(){
 
-
+		filter_get_company('#left_flat .filter .filter_company_td .filter_company_text',
+			"#left_flat .filter .filter_company_td .filter_company_info",
+			"#left_flat .filter .filter_company_td .filter_company_info .context",
+			"#left_flat .filter .filter_company_td .filter_company_info .loading");
+	});
 
 
 
@@ -895,6 +953,12 @@ function load(){
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
 		getFlight_data(e);
+	});
+
+	//确认过滤
+	$('#left_flat .filter .filter_button .submit').click(function(e){
+		predef(e);
+		console.log(serializeFilter());
 	});
 
 	//选择只显示筛选的数据
@@ -1492,6 +1556,131 @@ function get_company(){
 	}
 }
 
+
+function filter_get_company(p_text,p_ul,p_context,p_loading){
+	if( trim($(p_text).value())!='' ){
+		var text = $(p_text).value();
+
+		//查询开始前，显示加载中动画，隐藏内容区
+		$(p_ul).show().opacity(100).css("height","auto");
+		$(p_context).hide();
+		$(p_loading+" .ing").show();
+		$(p_loading+" .trim").hide();
+		$(p_loading).show().animate({
+			attr:'o',
+			target:100,
+			step:10,
+			t:30
+		}).opacity(0);
+
+
+		ajax({
+			method:'get',
+			url:"/index.php?c=index&a=searchInfo",
+			data:{
+				"type":"company",
+				"text":text
+			},
+			success : function(text){
+				//查询成功，隐藏加载中动画,显示内容区
+				$(p_loading).hide();
+				$(p_context).show();
+
+
+				//提示框内容节点
+				var element =  d3.select(p_context);
+
+				var data = JSON.parse(text);
+
+				//当查询结果为空时
+				if(data.length==0){
+
+					$(p_ul).css("display","block").css("height","25px");
+					$(p_loading).css("display","block");
+					$(p_loading+" .ing").css("display","none");
+					$(p_loading+" .trim").css("display","block");
+
+				}
+
+
+				//更新
+				element.selectAll("li")
+					.data(data)
+					.text(function(d){
+						return d;
+					}).on('mousedown',function(){
+
+						var text = trim($(this).html());
+						$(p_text).value( text );
+
+						$(p_ul).animate({
+							attr:'o',
+							target:0,
+							step:10,
+							t:20,
+							fn:function(){
+								$(p_ul).hide();
+							}
+						});
+
+						//hide_select_info(true,0,this);
+						//hide_select_info(true,0,this);
+					});
+
+				//进入
+				element.selectAll("li")
+					.data(data)
+					.enter()
+					.append("li")
+					.text(function(d){
+						return d;
+					}).on('mousedown',function(){
+
+						var text = trim($(this).html());
+						$(p_text).value( text );
+
+						$(p_ul).animate({
+							attr:'o',
+							target:0,
+							step:10,
+							t:20,
+							fn:function(){
+								$(p_ul).hide();
+							}
+						});
+
+						//hide_select_info(true,0,this);
+					});
+
+				//退出
+				element.selectAll("li")
+					.data(data)
+					.exit()
+					.remove();
+
+			},
+			error : function(text){
+				alert("error"+text);
+			},
+			async:true
+		});
+	}else if( trim($(p_text).value())=='' ) {
+		//console.log(trim($(p_text).value())=='');
+		//隐藏提示面板
+		$(p_ul).animate({
+			attr:'o',
+			target:0,
+			step:10,
+			t:20,
+			fn:function(){
+				$(p_ul).hide();
+			}
+		});
+
+	}
+}
+
+
 //航班信息面板显示
 function show_flight_info(d,that){
 	var point = d3.mouse(svg.node());
@@ -1777,7 +1966,7 @@ function get_qf_opt(){
 	}
 }
 //根据起飞选项类型查询机场/国家
-function get_qf_opt2(p_text,p_input,p_ul,p_context,p_loading){
+function get_qf_opt2(p_text,p_input,p_ul,p_context,p_loading,state){
 	if( trim($(p_text).value())!='' ){
 		var type = $(p_input).attr("key");
 		var text = $(p_text).value();
@@ -1801,7 +1990,7 @@ function get_qf_opt2(p_text,p_input,p_ul,p_context,p_loading){
 			data:{
 				"type":type,
 				"text":text,
-				"state":"qf"
+				"state":state
 			},
 			success : function(text){
 				//查询成功，隐藏加载中动画,显示内容区
@@ -2139,6 +2328,7 @@ function serializeSearch(){
 //过滤表单序列化
 function serializeFilter(){
 	var filter = {};
+	filter["filter_type"]=$('#left_flat .filter .filter_type').attr("type");
 	filter["qf_type"]=$('#left_flat .filter .filter_qf_td .filter_qf_input').attr("key");
 	filter["qf_text"]=$('#left_flat .filter .filter_qf_text_td .filter_qf_text').value();
 	filter["dd_type"]=$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("key");

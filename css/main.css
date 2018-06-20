@@ -1304,9 +1304,27 @@ svg {
      background: #f6f6f6;
      box-shadow: 4px 10px 20px #ddd;
      z-index: 2;
-
+     border:1px solid #ddd;
+     display: none;
+     overflow: hidden;
 
 }
+
+#left_flat .filter table .filter_dd_text_td .filter_dd_info li {
+    text-indent: 1.5rem;
+    color: #666;
+    font-size: 1.2rem;
+    padding-top:0.2rem ;
+    padding-bottom:0.2rem ;
+    cursor: pointer;
+
+}
+#left_flat .filter table .filter_dd_text_td .filter_dd_info li:hover {
+    background: #f2f2f2;
+}
+
+
+
 
 
 #left_flat .filter table .filter_company_td{
@@ -1323,14 +1341,45 @@ svg {
      background: #f6f6f6;
      box-shadow: 4px 10px 20px #ddd;
      z-index: 2;
+    border:1px solid #ddd;
+    display: none;
+    overflow: hidden;
+}
 
+#left_flat .filter table .filter_company_td .filter_company_info li {
+    text-indent: 1.5rem;
+    color: #666;
+    font-size: 1.2rem;
+    padding-top:0.2rem ;
+    padding-bottom:0.2rem ;
+    cursor: pointer;
 
 }
+#left_flat .filter table .filter_company_td .filter_company_info li:hover {
+    background: #f2f2f2;
+}
+
+
+
 
 #left_flat .filter table .loading{
     display: none;
     opacity: 0;
     filter: alpha(opacity=0);
+}
+
+#left_flat .filter .filter_button .submit{
+    background: #bbe1ff;
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 1.5rem;
+    padding: 0.8rem;
+    color: #f9f9f9;
+    font-size: 1.8rem;
+    border-radius: 13px;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
 
 

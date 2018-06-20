@@ -94,6 +94,7 @@ class IndexDao extends MySQLPDO{
                 $array[] = $vv;
            }
         }
+        sleep(2);
         echo json_encode($array);
 
     }
