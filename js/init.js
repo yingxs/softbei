@@ -821,18 +821,68 @@ function load(){
 		get_dd_opt();
 	});
 
-	//起飞选项输入框失去焦点
+	//查询-起飞选项输入框失去焦点
 	$('#left_flat .qf_text').bind('blur',function(){
 		hide_select_info(false,0);
 	});
+
+
+
+
+
+	//过滤-起飞选项输入框获得焦点，过滤-起飞选项输入框失去焦点，过滤-起飞选项输入框键入事件,异步查询
+	$('#left_flat .filter .filter_qf_text_td .filter_qf_text').bind('focus',function(){
+		//console.log("keyup:get_qf_opt2()");
+		//p_text,p_input,p_ul,p_context,p_loading
+		get_qf_opt2('#left_flat .filter .filter_qf_text_td .filter_qf_text',
+			'#left_flat .filter .filter_qf_td .filter_qf_input',
+			'#left_flat .filter .filter_qf_text_td .filter_qf_info',
+			'#left_flat .filter .filter_qf_text_td .filter_qf_info .context',
+			'#left_flat .filter .filter_qf_text_td .filter_qf_info .loading');
+
+	}).bind('blur',function(){
+
+		//console.log("blur");
+		//隐藏提示面板
+		$("#left_flat .filter .filter_qf_text_td .filter_qf_info").animate({
+			attr:'h',
+			target:0,
+			step:10,
+			t:20,
+			fn:function(){
+				$("#left_flat .filter .filter_qf_text_td .filter_qf_info").hide();
+			}
+		});
+		//hide_select_info(false,0);
+	}).bind('keyup',function(){
+		//console.log("keyup:get_qf_opt2()");
+		//p_text,p_input,p_ul,p_context,p_loading
+		get_qf_opt2('#left_flat .filter .filter_qf_text_td .filter_qf_text',
+			'#left_flat .filter .filter_qf_td .filter_qf_input',
+			'#left_flat .filter .filter_qf_text_td .filter_qf_info',
+			'#left_flat .filter .filter_qf_text_td .filter_qf_info .context',
+			'#left_flat .filter .filter_qf_text_td .filter_qf_info .loading');
+
+	});
+
+
+
+
+
+
+
+
+
 
 	//到达选项输入框失去焦点
 	$('#left_flat .dd_jc').bind('blur',function(){
 		hide_select_info(false,190);
 	});
 
-	//起飞选项输入框键入事件,异步查询
+	//查询-起飞选项输入框键入事件,异步查询
 	$('#left_flat .qf_text').bind('keyup',get_qf_opt);
+
+
 
 	//到达选项输入框键入事件,异步查询
 	$('#left_flat .dd_jc').bind('keyup',get_dd_opt);
@@ -1176,7 +1226,7 @@ function getFlight_data(e){
 			//alert(data.length);
 		},
 		error : function(text){
-			alert(text);
+			alert("error"+text);
 		},
 		async:true
 	});
@@ -1433,7 +1483,7 @@ function get_company(){
 
 			},
 			error:function(text){
-				alert(text)
+				alert("error"+text)
 			},
 			async:true
 		});
@@ -1716,7 +1766,7 @@ function get_qf_opt(){
 				})();
 			},
 			error : function(text){
-				alert(text);
+				alert("error"+text);
 			},
 			async:true
 
@@ -1725,6 +1775,159 @@ function get_qf_opt(){
 	}else if ( trim($('#left_flat .qf_text').value())=='' ) {
 		hide_select_info(false,0,this);
 	}
+}
+//根据起飞选项类型查询机场/国家
+function get_qf_opt2(p_text,p_input,p_ul,p_context,p_loading){
+	if( trim($(p_text).value())!='' ){
+		var type = $(p_input).attr("key");
+		var text = $(p_text).value();
+
+		//查询开始前，显示加载中动画，隐藏内容区
+		$(p_ul).css("width","15rem").show().opacity(100).css("height","auto");
+		$(p_context).hide();
+		$(p_loading+" .ing").show();
+		$(p_loading+" .trim").hide();
+		$(p_loading).show().animate({
+			attr:'o',
+			target:100,
+			step:10,
+			t:30
+		}).opacity(0);
+
+
+		ajax({
+			method:'get',
+			url:"/index.php?c=index&a=searchInfo",
+			data:{
+				"type":type,
+				"text":text,
+				"state":"qf"
+			},
+			success : function(text){
+				//查询成功，隐藏加载中动画,显示内容区
+				$(p_loading).hide();
+				$(p_context).show();
+
+
+				//提示框内容节点
+				var element =  d3.select(p_context);
+
+				var data = JSON.parse(text);
+
+				//当查询结果为空时
+				if(data.length==0){
+
+					$(p_ul).css("display","block").css("height","25px");
+					$(p_loading).css("display","block");
+					$(p_loading+" .ing").css("display","none");
+					$(p_loading+" .trim").css("display","block");
+
+				}
+
+				//存储查询结果的最长值
+				var max_lenght = 0;
+
+				//更新
+				element.selectAll("li")
+					.data(data)
+					.text(function(d){
+						if(d.length>max_lenght){
+							max_lenght = d.length;
+						}
+						//console.log(d+":"+d.length);
+						//console.log("max_lenght:"+max_lenght);
+						return d;
+
+					}).on('mousedown',function(){
+						//hide_select_info(true,0,this);
+					});
+
+				//进入
+				element.selectAll("li")
+					.data(data)
+					.enter()
+					.append("li")
+					.text(function(d){
+						if(d.length>max_lenght){
+							max_lenght = d.length;
+						}
+						//console.log(d+":"+d.length);
+						//console.log("max_lenght:"+max_lenght);
+						return d;
+					}).on('mousedown',function(){
+
+
+						var text = trim($(this).html());
+						var key = $(p_input).value();
+						if(key.indexOf("机场") > -1){
+							var result = /\([A-Z\/]+\)/i.exec(text);
+							if(result!=null){
+								//console.log(result);
+								result = result[0];
+								//console.log(result);
+								result = result.replace("(","");
+								//console.log(result);
+								result = result.replace(")","");
+								//console.log(result);
+								$(p_text).value( result );
+							}else{
+								$(p_text).value( text );
+							}
+
+						}else{
+							$(p_text).value( text );
+						}
+
+						$(p_ul).animate({
+							attr:'o',
+							target:0,
+							step:10,
+							t:20,
+							fn:function(){
+								$(p_ul).hide();
+							}
+						});
+
+						hide_select_info(true,0,this);
+					});
+
+				//退出
+				element.selectAll("li")
+					.data(data)
+					.exit()
+					.remove();
+
+				//当查询结果最长长度小于等于17，提示框的宽度是15rem,反之为33rem
+				if(max_lenght<=17){
+					$(p_ul).css("width","15rem");
+				}else{
+					$(p_ul).css("width","33rem");
+				}
+
+				//console.log(max_lenght);
+				//alert("error"+text);
+			},
+			error : function(text){
+				alert("error"+text);
+			},
+			async:true
+		});
+	}else if( trim($(p_text).value())=='' ) {
+		//console.log(trim($(p_text).value())=='');
+		//隐藏提示面板
+		$(p_ul).animate({
+			attr:'o',
+			target:0,
+			step:10,
+			t:20,
+			fn:function(){
+				$(p_ul).hide();
+			}
+		});
+
+	}
+
+	//console.log(serializeFilter());
 }
 
 //根据到达选项类型查询机场/国家
@@ -1809,7 +2012,7 @@ function get_dd_opt(){
 				})();
 			},
 			error : function(text){
-				alert(text);
+				alert("error"+text);
 			},
 			async:true
 
@@ -1940,6 +2143,8 @@ function serializeFilter(){
 	filter["qf_text"]=$('#left_flat .filter .filter_qf_text_td .filter_qf_text').value();
 	filter["dd_type"]=$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("key");
 	filter["dd_text"]=$('#left_flat .filter .filter_dd_text_td .filter_dd_text').value();
+	filter["start_time"]=$('#left_flat .filter .filter_time .filter_qf_time').value();
+	filter["end_time"]=$('#left_flat .filter .filter_time .filter_dd_time').value();
 
 	return filter;
 }
