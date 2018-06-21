@@ -493,8 +493,6 @@ function load(){
 		}
 
 	});
-
-
 	$("#left_bar .span_menu ul li").click(function(){
 		if( $(this).index() == 0 /*&& parseInt( left_box.menu.css('left') )<0*/ ) {
 			//当点击菜单任意选项时，隐藏菜单块
@@ -575,8 +573,10 @@ function load(){
 	$('#left_flat .filter .filter_qf_td .filter_qf_opt li').bind('mousedown',function(){
 		var str = $(this).html();
 		var key = $(this).attr('value');
+		var column = $(this).attr('column');
 		$('#left_flat .filter .filter_qf_td .filter_qf_input').value("出发："+str);
 		$('#left_flat .filter .filter_qf_td .filter_qf_input').attr("key",key);
+		$('#left_flat .filter .filter_qf_td .filter_qf_input').attr("column",column);
 		$('#left_flat .filter .filter_qf_text_td .filter_qf_text').attr('placeholder',"起飞"+$(this).html().replace("按",""));
 	});
 
@@ -584,8 +584,10 @@ function load(){
 	$('#left_flat .filter .filter_dd_td .filter_dd_opt li').bind('mousedown',function(){
 		var str = $(this).html();
 		var key = $(this).attr('value');
+		var column = $(this).attr('column');
 		$('#left_flat .filter .filter_dd_td .filter_dd_input').value("到达："+str);
 		$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("key",key);
+		$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("column",column);
 		$('#left_flat .filter .filter_dd_text_td .filter_dd_text').attr('placeholder',"到达"+$(this).html().replace("按",""));
 
 	});
@@ -751,7 +753,6 @@ function load(){
 		}
 	});
 
-
 	//鼠标移动到日历div上后，删除失去焦点事件函数，添加鼠标移出事件
 	//$('#left_flat #date_calendar').bind('mouseenter',function(e){
 	//	removeEvent($('#left_flat .qf_time').ge(0),'blur',hide_calendar);
@@ -799,11 +800,6 @@ function load(){
 
 
 
-
-
-
-
-
 	});
 
 	//起飞选项输入框获得焦点
@@ -822,10 +818,6 @@ function load(){
 	$('#left_flat .qf_text').bind('blur',function(){
 		hide_select_info(false,0);
 	});
-
-
-
-
 
 	//过滤-起飞选项输入框获得焦点，过滤-起飞选项输入框失去焦点，过滤-起飞选项输入框键入事件,异步查询
 	$('#left_flat .filter .filter_qf_text_td .filter_qf_text').bind('focus',function(){
@@ -930,8 +922,6 @@ function load(){
 			"#left_flat .filter .filter_company_td .filter_company_info .loading");
 	});
 
-
-
 	//到达选项输入框失去焦点
 	$('#left_flat .dd_jc').bind('blur',function(){
 		hide_select_info(false,190);
@@ -939,8 +929,6 @@ function load(){
 
 	//查询-起飞选项输入框键入事件,异步查询
 	$('#left_flat .qf_text').bind('keyup',get_qf_opt);
-
-
 
 	//到达选项输入框键入事件,异步查询
 	$('#left_flat .dd_jc').bind('keyup',get_dd_opt);
@@ -958,7 +946,7 @@ function load(){
 	//确认过滤
 	$('#left_flat .filter .filter_button .submit').click(function(e){
 		predef(e);
-		console.log(serializeFilter());
+		Filter_data();
 	});
 
 	//选择只显示筛选的数据
@@ -982,8 +970,39 @@ function load(){
 
 }
 
+
+
+//数据过滤
+function Filter_data(){
+
+	var element = d3.select('#svg_map g');
+	var line_list = element.selectAll("path.line");
+	var filter = serializeFilter();
+	console.log(line_list[0]);
+	for(var i = 0 ;i<line_list[0].length;i++){
+		d3.select(line_list[0][i]).style(function(d){
+			console.log(d);
+			//只显示筛选后的数据
+			if(filter.filter_type=='hide'){
+
+			}else if(filter.filter_type=='show'){
+
+			}
+		});
+	}
+	//console.log(line_list);
+
+}
+
+
+
+
+
+
 //异步查询航班数据
 function getFlight_data(e){
+
+	//validate(serializeSearch());
 	ajax({
 		method:'get',
 		url:"/index.php?c=index&a=search",
@@ -991,8 +1010,6 @@ function getFlight_data(e){
 		success : function(text){
 			var temp = JSON.parse(text);
 			//console.log(data);
-
-
 			var data=[];
 			//data[0] = temp[0];
 			//data[1] = temp[1];
@@ -1442,8 +1459,8 @@ function show_line_plus(data){
 		.exit()
 		.remove();
 
-	console.log(data);
-	console.log(array);
+	//console.log(data);
+	//console.log(array);
 
 
 	function show_line_bg(data,path,flight_number){
@@ -1556,7 +1573,7 @@ function get_company(){
 	}
 }
 
-
+//过滤面板查询航司
 function filter_get_company(p_text,p_ul,p_context,p_loading){
 	if( trim($(p_text).value())!='' ){
 		var text = $(p_text).value();
@@ -1680,11 +1697,12 @@ function filter_get_company(p_text,p_ul,p_context,p_loading){
 	}
 }
 
-
 //航班信息面板显示
 function show_flight_info(d,that){
 	var point = d3.mouse(svg.node());
+	//console.log(d);
 	//鼠标移入，更新信息面板
+	$('#flight_info .flight_city span').html(d.qf_city + "-" + d.mb_city);
 	$('#flight_info .flight_code span').html(d.flight_number);
 	$('#flight_info .flight_company span').html(d.airline_company);
 	$('#flight_info .flight_qf_jc span').html(d.qf_airport);
@@ -2389,5 +2407,46 @@ function show_calendar(){
 	}
 
 }
+
+//表单数据验证s
+function validate(obj){
+		//console.log(obj);
+		//Object.keys(obj).forEach(function(key){
+		//	console.log(key,obj[key]);
+		//	return true;
+		//})
+	var array = Object.keys(obj),key,value,flag=false;
+
+	//console.log(array);
+
+
+	if( ( trim(obj["qf_text"]) != '' || trim(obj["dd_text"]) != '' ) && trim(obj["start_time"]) != '' && trim(obj["end_time"]) != ''  ){
+		flag=true;
+	}
+
+
+	if(flag){
+		(function(){
+			for(var i = 0;i<array.length;i++){
+				key = array[i];
+				value = obj[array[i]];
+
+
+				//console.log(key,value);
+			}
+		})();
+	}else{
+
+		return [false,"起飞/目标信息不能为空，起始时间不能为空"];
+	}
+
+
+}
+
+//验证单列数据
+function validate_col(){
+
+}
+
 
 

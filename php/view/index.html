@@ -464,11 +464,11 @@
                         <ul class="filter_qf_opt">
                             <?php foreach($this->_data['query_type'] as $v) :?>
                             <?php if($v['default']=='yes'):?>
-                            <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
+                            <li column="<?=$v['column']?>" value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
                             <?php  endif;?>
 
                             <?php if($v['default']=='no'):?>
-                            <li value="<?=$v['id']?>" ><?=$v['type']?></li>
+                            <li column="<?=$v['column']?>" value="<?=$v['id']?>" ><?=$v['type']?></li>
                             <?php  endif;?>
                             <?php endforeach;?>
                         </ul>
@@ -481,11 +481,11 @@
                         <ul class="filter_dd_opt">
                             <?php foreach($this->_data['query_type'] as $v) :?>
                             <?php if($v['default']=='yes'):?>
-                            <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
+                            <li column="<?=$v['column']?>" value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
                             <?php  endif;?>
 
                             <?php if($v['default']=='no'):?>
-                            <li value="<?=$v['id']?>" ><?=$v['type']?></li>
+                            <li column="<?=$v['column']?>" value="<?=$v['id']?>" ><?=$v['type']?></li>
                             <?php  endif;?>
                             <?php endforeach;?>
                         </ul>

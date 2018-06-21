@@ -15,6 +15,7 @@ class Index {
         //取出查询类型
         $dao = new IndexDao();
         $this->_data['query_type'] = $dao->QueryType();
+        //show($this->_data['query_type']);
         $this->display('index');
 
     }
@@ -112,5 +113,14 @@ class Index {
         require VIEW.$file.".html";
 
     }
+
+
+    function show($data){
+    	echo "<pre>";
+    	print_r($data);
+    	echo "</pre>";
+
+    }
+
 }
 
