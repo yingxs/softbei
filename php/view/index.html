@@ -57,6 +57,14 @@
                 <tr>
                     <td class="search_qf_text_td">
                         <input class="qf_text" type="text" name="qf_jc" key="0" placeholder="">
+                        <div class="popover search_ariport_popover  fade right in " style=" " >
+                            <div class="arrow" style="top: 50%;"></div>
+                            <h3 class="popover-title">注意</h3>
+                            <div class="popover-content">
+                                <p>1.机场、城市、国家名称不能含有特殊字符</p>
+                                <p>2.起飞和到达地理信息必须填写其中一项</p>
+                            </div>
+                        </div>
                         <ul class="search_qf_info" type="qf">
                             <div class="loading" >
                                 <div class="ing">
@@ -110,6 +118,14 @@
                 <tr>
                     <td style="position: relative" >
                         <input id="qf_time" class="qf_time" type="text" placeholder="起始日期" />
+                        <div class="popover search_time_popover  fade right in " style=" " >
+                            <div class="arrow" style="top: 50%;"></div>
+                            <h3 class="popover-title">注意</h3>
+                            <div class="popover-content">
+                                <p>1.起始日期和截止日期都必须填写，不能含特殊字符</p>
+                                <p>2.日期格式为:xxxx-xx-xx</p>
+                            </div>
+                        </div>
                         <div id="date_calendar">
                             <div  id="calendar_note">
                                 <div class="month_prev"  >
@@ -412,6 +428,13 @@
                 <tr>
                     <td colspan="3" class="airline_company" >
                         <input class="company_text" type="text"  placeholder="航空公司">
+                        <div class="popover search_company_popover  fade right in " style=" " >
+                            <div class="arrow" style="top: 50%;"></div>
+                            <h3 class="popover-title">注意</h3>
+                            <div class="popover-content">
+                                <p>航空公司名称不能包含特殊字符</p>
+                            </div>
+                        </div>
                         <img src="/svg/plane.svg"/>
                         <ul class="search_company_info" >
                             <div class="loading" >

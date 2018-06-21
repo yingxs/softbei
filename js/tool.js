@@ -120,6 +120,42 @@ function addEvent(obj,type,fn){
 	}
 }
 
+addEvent.exec = function(event){
+	var e = event || addEvent.fixEvent(window.event);
+	var es = this.events[e.type];
+	for(var i in es){
+		es[i].call(this,e);
+	}
+};
+
+
+//同一个注册函数进行屏蔽
+addEvent.equal = function(es,fn){
+	for(var i in es){
+		if(es[i] == fn)return true;
+	}
+	return false;
+};
+
+//把IE常用的Event对象配对到W3C中去
+addEvent.fixEvent = function(event){
+	event.preventDefault = addEvent.fixEvent.preventDefault;
+	event.stopPropagation =addEvent.fixEvent.stopPropagation;
+	event.target = event.srcElement;
+	return event;
+};
+
+//IE阻止默认行为
+addEvent.fixEvent.preventDefault = function(){
+	this.returnValue = false;
+};
+
+//IE取消冒泡
+addEvent.fixEvent.stopPropagation = function(){
+	this.cancelBubble = true;
+};
+
+
 //跨浏览器删除事件
 function removeEvent(obj,type,fn){
 	if(typeof obj.removeEventListener != 'undefined'){
