@@ -211,12 +211,12 @@ html, body {
 
 }
 
-
+/*查询面板*/
  #left_flat span:nth-child(1){
      width: 380px;
      height: 100%;
-    left:-380px;
-    /*left:36px;*/
+    /*left:-380px;*/
+    left:36px;
     background: #f3f3f3;
      border-right: 1px solid #eeeeee;
      box-shadow: 0 0 4px #dbdada;
@@ -336,13 +336,14 @@ html, body {
 }
 
 
-
+/*过滤面板*/
  #left_flat span:nth-child(2){
      width: 380px;
      height: 100%;
     /*left:-100px;*/
     /*left:-300px;*/
-     left:36px;
+     /*left:36px;*/
+     left:-385px;
      color: #666;
 
     background: #f3f3f3;
@@ -1255,6 +1256,9 @@ svg {
     width: 1.8rem;
 }
 
+
+
+/*过滤-起飞提示框*/
 #left_flat .filter table .filter_qf_text_td{
     position: relative;
     top: 0;
@@ -1289,7 +1293,7 @@ svg {
     background: #f2f2f2;
 }
 
-
+/*过滤-到达提示框*/
 #left_flat .filter table .filter_dd_text_td{
     position: relative;
     top: 0;
@@ -1326,7 +1330,7 @@ svg {
 
 
 
-
+/*过滤-航司*/
 #left_flat .filter table .filter_company_td{
     position: relative;
     top: 0;
@@ -1362,6 +1366,127 @@ svg {
 
 
 
+
+
+
+/*查询-起飞*/
+#left_flat .search_qf_text_td {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#left_flat .search_qf_text_td .search_qf_info {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: 36px;
+    background: #f6f6f6;
+    box-shadow: 4px 10px 20px #ddd;
+    z-index: 2;
+    border:1px solid #ddd;
+    display: none;
+    overflow: hidden;
+
+
+}
+
+#left_flat .search_qf_text_td .search_qf_info li {
+    text-indent: 1.5rem;
+    color: #666;
+    font-size: 1.2rem;
+    padding-top:0.2rem ;
+    padding-bottom:0.2rem ;
+    cursor: pointer;
+
+}
+#left_flat .search_qf_text_td .search_qf_info li:hover {
+    background: #f2f2f2;
+}
+
+/*查询-到达信息面板*/
+#left_flat .search_dd_text_td{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#left_flat .search_dd_text_td .search_dd_info {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: 36px;
+    background: #f6f6f6;
+    box-shadow: 4px 10px 20px #ddd;
+    z-index: 2;
+    border:1px solid #ddd;
+    display: none;
+    overflow: hidden;
+
+}
+
+#left_flat .search_dd_text_td .search_dd_info  li {
+    text-indent: 1.5rem;
+    color: #666;
+    font-size: 1.2rem;
+    padding-top:0.2rem ;
+    padding-bottom:0.2rem ;
+    cursor: pointer;
+
+}
+#left_flat .search_dd_text_td .search_dd_info  li:hover {
+    background: #f2f2f2;
+}
+
+/*查询-航司面板*/
+#left_flat .airline_company{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#left_flat .airline_company .search_company_info {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: 36px;
+    background: #f6f6f6;
+    box-shadow: 4px 10px 20px #ddd;
+    z-index: 2;
+    border:1px solid #ddd;
+    display: none;
+    overflow: hidden;
+}
+
+#left_flat .airline_company .search_company_info li {
+    text-indent: 1.5rem;
+    color: #666;
+    font-size: 1.2rem;
+    padding-top:0.2rem ;
+    padding-bottom:0.2rem ;
+    cursor: pointer;
+
+}
+#left_flat .airline_company .search_company_info li:hover {
+    background: #f2f2f2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#left_flat  .loading{
+    display: none;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
 #left_flat .filter table .loading{
     display: none;
     opacity: 0;
