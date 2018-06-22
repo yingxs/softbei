@@ -624,315 +624,316 @@ function Filter_data(){
 //异步查询航班数据
 function getFlight_data(e){
 	predef(e);
-	console(validate_search());
-	//ajax({
-	//	method:'get',
-	//	url:"/index.php?c=index&a=search",
-	//	data:serializeSearch(),
-	//	success : function(text){
-	//		var temp = JSON.parse(text);
-	//		//console.log(data);
-	//		var data=[];
-	//		//data[0] = temp[0];
-	//		//data[1] = temp[1];
-	//		(function(){
-	//			for(var i = 0;i<20 ;i++){
-	//				data[i]=temp[i];
-	//			}
-	//		})();
-	//
-	//		//曲线生成模式1，无附加背景
-	//		//show_line(data);
-	//
-	//		//曲线生成模式2，附加背景
-	//		show_line_plus(data);
-	//
-	//		/*
-	//		 var index = 0;
-	//
-	//		 //console.log(array);
-	//		 //更新
-	//		 var array_data=[] ;
-	//		 d3.select('#svg_map g')
-	//		 .selectAll("path.line")
-	//		 .data(data)
-	//		 .attr("d",function(d){
-	//		 //console.log("update:");
-	//		 //console.log(d);
-	//		 array_data = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-	//
-	//		 array[index++].len = array_data[9][0];
-	//		 console.log(array_data);
-	//
-	//
-	//
-	//
-	//
-	//		 ////kx1,ky1
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][0][0])
-	//		 //	.attr("cy",array_data[10][0][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 ////kx2,ky2
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][1][0])
-	//		 //	.attr("cy",array_data[10][1][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","blue");
-	//		 ////kx3,ky3
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][2][0])
-	//		 //	.attr("cy",array_data[10][2][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 ////kx4,ky4
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][3][0])
-	//		 //	.attr("cy",array_data[10][3][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 //
-	//		 ////kx5,ky5
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][4][0])
-	//		 //	.attr("cy",array_data[10][4][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 ////kx6,ky6
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][5][0])
-	//		 //	.attr("cy",array_data[10][5][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//		 d3.select('#svg_map g')
-	//		 .append("path")
-	//		 .classed("line_bg",true)
-	//		 .attr("d",function(){
-	//		 return array_data[11];
-	//		 }).on();
-	//
-	//		 return array_data[0];
-	//
-	//		 })
-	//		 .attr("len", function(d){
-	//		 return d.len;
-	//		 })
-	//		 .on('mouseenter',function(){
-	//		 //console.log("进1");
-	//		 }).on('mouseout',function(){
-	//		 //console.log("出1");
-	//		 });
-	//		 //enter
-	//		 d3.select('#svg_map g')
-	//		 .selectAll("path.line")
-	//		 .data(array)
-	//		 .enter()
-	//		 .append("path")
-	//		 .classed("line",true)
-	//		 .attr("d",function(d){
-	//		 //console.log("enter:");
-	//		 //console.log(d);
-	//		 array_data = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-	//		 array[index++].len = array_data[9][0];
-	//		 console.log(array_data);
-	//
-	//
-	//
-	//
-	//		 ////k1
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][0][0])
-	//		 //	.attr("cy",array_data[10][0][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 ////k6
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][1][0])
-	//		 //	.attr("cy",array_data[10][1][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 ////k3
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][2][0])
-	//		 //	.attr("cy",array_data[10][2][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 ////k4
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][3][0])
-	//		 //	.attr("cy",array_data[10][3][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 //
-	//		 ////k5
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][4][0])
-	//		 //	.attr("cy",array_data[10][4][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","red");
-	//		 ////k2
-	//		 //d3.select("svg g").append("circle")
-	//		 //	.attr("cx",array_data[10][5][0])
-	//		 //	.attr("cy",array_data[10][5][1])
-	//		 //	.attr("r",5)
-	//		 //	.style("fill","blue");
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//		 d3.select('#svg_map g')
-	//		 .append("path")
-	//		 .classed("line_bg",true)
-	//		 .attr("d",function(){
-	//		 return array_data[11];
-	//		 }).on('mouseenter',function(d){
-	//
-	//
-	//
-	//		 //console.log("进2");
-	//		 //console.log(this);
-	//		 //console.log(d);
-	//		 var point = d3.mouse(svg.node());
-	//		 //alert(point[0]+","+svgToMatch(point[1]) );
-	//		 //alert(point[0]+","+point[1] );
-	//		 //console.log(d);
-	//
-	//
-	//		 //鼠标移入，更新信息面板
-	//		 $('#flight_info .flight_code span').html(d.flight_number);
-	//		 $('#flight_info .flight_company span').html(d.airline_company);
-	//		 $('#flight_info .flight_qf_jc span').html(d.qf_airport);
-	//		 $('#flight_info .flight_mb_jc span').html(d.mb_airport);
-	//		 $('#flight_info .flight_qf_time span').html(d.leave_downtime);
-	//		 $('#flight_info .flight_dd_time span').html(d.come_downtime);
-	//
-	//		 //鼠标移入，信息面板出现
-	//		 $('#flight_info').animate({
-	//		 t:30,
-	//		 step:10,
-	//		 mul:{
-	//		 left:point[0],
-	//		 top:point[1]+20,
-	//		 o:100
-	//		 }
-	//		 }).show();
-	//
-	//
-	//
-	//
-	//		 //鼠标移入，线条颜色高亮
-	//		 d3.select('.line').attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
-	//
-	//
-	//		 }).on('mouseout',function(){
-	//		 //d3.select(this).style("stroke","#75baff");
-	//
-	//		 //鼠标移出，线条颜色恢复
-	//		 d3.select('.line').attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
-	//		 //console.log("出2");
-	//
-	//		 //鼠标移出，信息面板隐藏
-	//		 $('#flight_info').animate({
-	//		 attr:'o',
-	//		 target:0,
-	//		 t:30,
-	//		 step:10
-	//		 }).hide();
-	//		 });
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//		 return array_data[0];
-	//		 })
-	//		 .attr("len", function(d){
-	//		 return d.len;
-	//		 })
-	//		 .on('mouseenter',function(d){
-	//		 //console.log("进2");
-	//		 //console.log(this);
-	//		 //console.log(d);
-	//		 var point = d3.mouse(svg.node());
-	//		 //alert(point[0]+","+svgToMatch(point[1]) );
-	//		 //alert(point[0]+","+point[1] );
-	//		 //console.log(d);
-	//
-	//
-	//		 //鼠标移入，更新信息面板
-	//		 $('#flight_info .flight_code span').html(d.flight_number);
-	//		 $('#flight_info .flight_company span').html(d.airline_company);
-	//		 $('#flight_info .flight_qf_jc span').html(d.qf_airport);
-	//		 $('#flight_info .flight_mb_jc span').html(d.mb_airport);
-	//		 $('#flight_info .flight_qf_time span').html(d.leave_downtime);
-	//		 $('#flight_info .flight_dd_time span').html(d.come_downtime);
-	//
-	//		 //鼠标移入，信息面板出现
-	//		 $('#flight_info').animate({
-	//		 t:30,
-	//		 step:10,
-	//		 mul:{
-	//		 left:point[0],
-	//		 top:point[1]+20,
-	//		 o:100
-	//		 }
-	//		 }).show();
-	//
-	//		 //鼠标移入，线条颜色高亮
-	//		 d3.select(this).attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
-	//
-	//
-	//		 }).on('mouseout',function(){
-	//		 //d3.select(this).style("stroke","#75baff");
-	//
-	//		 //鼠标移出，线条颜色恢复
-	//		 d3.select(this).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
-	//		 //console.log("出2");
-	//
-	//		 //鼠标移出，信息面板隐藏
-	//		 $('#flight_info').animate({
-	//		 attr:'o',
-	//		 target:0,
-	//		 t:30,
-	//		 step:10
-	//		 }).hide();
-	//		 });
-	//
-	//
-	//
-	//		 //exit
-	//		 d3.select('#svg_map g')
-	//		 .selectAll("path.line")
-	//		 .data(array)
-	//		 .exit()
-	//		 .remove();
-	//
-	//		 console.log(array);
-	//
-	//		 */
-	//		//alert(data.length);
-	//	},
-	//	error : function(text){
-	//		alert("error"+text);
-	//	},
-	//	async:true
-	//});
+//	console.log("result:") ;
+//	console.log(validate_search()) ;
+	ajax({
+		method:'get',
+		url:"/index.php?c=index&a=search",
+		data:serializeSearch(),
+		success : function(text){
+			var temp = JSON.parse(text);
+			//console.log(data);
+			var data=[];
+			//data[0] = temp[0];
+			//data[1] = temp[1];
+			(function(){
+				for(var i = 0;i<20 ;i++){
+					data[i]=temp[i];
+				}
+			})();
+	
+			//曲线生成模式1，无附加背景
+			//show_line(data);
+	
+			//曲线生成模式2，附加背景
+			show_line_plus(data);
+	
+			/*
+			 var index = 0;
+	
+			 //console.log(array);
+			 //更新
+			 var array_data=[] ;
+			 d3.select('#svg_map g')
+			 .selectAll("path.line")
+			 .data(data)
+			 .attr("d",function(d){
+			 //console.log("update:");
+			 //console.log(d);
+			 array_data = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+	
+			 array[index++].len = array_data[9][0];
+			 console.log(array_data);
+	
+	
+	
+	
+	
+			 ////kx1,ky1
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][0][0])
+			 //	.attr("cy",array_data[10][0][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 ////kx2,ky2
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][1][0])
+			 //	.attr("cy",array_data[10][1][1])
+			 //	.attr("r",5)
+			 //	.style("fill","blue");
+			 ////kx3,ky3
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][2][0])
+			 //	.attr("cy",array_data[10][2][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 ////kx4,ky4
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][3][0])
+			 //	.attr("cy",array_data[10][3][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 //
+			 ////kx5,ky5
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][4][0])
+			 //	.attr("cy",array_data[10][4][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 ////kx6,ky6
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][5][0])
+			 //	.attr("cy",array_data[10][5][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+	
+	
+	
+	
+	
+	
+	
+	
+	
+			 d3.select('#svg_map g')
+			 .append("path")
+			 .classed("line_bg",true)
+			 .attr("d",function(){
+			 return array_data[11];
+			 }).on();
+	
+			 return array_data[0];
+	
+			 })
+			 .attr("len", function(d){
+			 return d.len;
+			 })
+			 .on('mouseenter',function(){
+			 //console.log("进1");
+			 }).on('mouseout',function(){
+			 //console.log("出1");
+			 });
+			 //enter
+			 d3.select('#svg_map g')
+			 .selectAll("path.line")
+			 .data(array)
+			 .enter()
+			 .append("path")
+			 .classed("line",true)
+			 .attr("d",function(d){
+			 //console.log("enter:");
+			 //console.log(d);
+			 array_data = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
+			 array[index++].len = array_data[9][0];
+			 console.log(array_data);
+	
+	
+	
+	
+			 ////k1
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][0][0])
+			 //	.attr("cy",array_data[10][0][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 ////k6
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][1][0])
+			 //	.attr("cy",array_data[10][1][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 ////k3
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][2][0])
+			 //	.attr("cy",array_data[10][2][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 ////k4
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][3][0])
+			 //	.attr("cy",array_data[10][3][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 //
+			 ////k5
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][4][0])
+			 //	.attr("cy",array_data[10][4][1])
+			 //	.attr("r",5)
+			 //	.style("fill","red");
+			 ////k2
+			 //d3.select("svg g").append("circle")
+			 //	.attr("cx",array_data[10][5][0])
+			 //	.attr("cy",array_data[10][5][1])
+			 //	.attr("r",5)
+			 //	.style("fill","blue");
+	
+	
+	
+	
+	
+	
+	
+			 d3.select('#svg_map g')
+			 .append("path")
+			 .classed("line_bg",true)
+			 .attr("d",function(){
+			 return array_data[11];
+			 }).on('mouseenter',function(d){
+	
+	
+	
+			 //console.log("进2");
+			 //console.log(this);
+			 //console.log(d);
+			 var point = d3.mouse(svg.node());
+			 //alert(point[0]+","+svgToMatch(point[1]) );
+			 //alert(point[0]+","+point[1] );
+			 //console.log(d);
+	
+	
+			 //鼠标移入，更新信息面板
+			 $('#flight_info .flight_code span').html(d.flight_number);
+			 $('#flight_info .flight_company span').html(d.airline_company);
+			 $('#flight_info .flight_qf_jc span').html(d.qf_airport);
+			 $('#flight_info .flight_mb_jc span').html(d.mb_airport);
+			 $('#flight_info .flight_qf_time span').html(d.leave_downtime);
+			 $('#flight_info .flight_dd_time span').html(d.come_downtime);
+	
+			 //鼠标移入，信息面板出现
+			 $('#flight_info').animate({
+			 t:30,
+			 step:10,
+			 mul:{
+			 left:point[0],
+			 top:point[1]+20,
+			 o:100
+			 }
+			 }).show();
+	
+	
+	
+	
+			 //鼠标移入，线条颜色高亮
+			 d3.select('.line').attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
+	
+	
+			 }).on('mouseout',function(){
+			 //d3.select(this).style("stroke","#75baff");
+	
+			 //鼠标移出，线条颜色恢复
+			 d3.select('.line').attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+			 //console.log("出2");
+	
+			 //鼠标移出，信息面板隐藏
+			 $('#flight_info').animate({
+			 attr:'o',
+			 target:0,
+			 t:30,
+			 step:10
+			 }).hide();
+			 });
+	
+	
+	
+	
+	
+	
+	
+	
+			 return array_data[0];
+			 })
+			 .attr("len", function(d){
+			 return d.len;
+			 })
+			 .on('mouseenter',function(d){
+			 //console.log("进2");
+			 //console.log(this);
+			 //console.log(d);
+			 var point = d3.mouse(svg.node());
+			 //alert(point[0]+","+svgToMatch(point[1]) );
+			 //alert(point[0]+","+point[1] );
+			 //console.log(d);
+	
+	
+			 //鼠标移入，更新信息面板
+			 $('#flight_info .flight_code span').html(d.flight_number);
+			 $('#flight_info .flight_company span').html(d.airline_company);
+			 $('#flight_info .flight_qf_jc span').html(d.qf_airport);
+			 $('#flight_info .flight_mb_jc span').html(d.mb_airport);
+			 $('#flight_info .flight_qf_time span').html(d.leave_downtime);
+			 $('#flight_info .flight_dd_time span').html(d.come_downtime);
+	
+			 //鼠标移入，信息面板出现
+			 $('#flight_info').animate({
+			 t:30,
+			 step:10,
+			 mul:{
+			 left:point[0],
+			 top:point[1]+20,
+			 o:100
+			 }
+			 }).show();
+	
+			 //鼠标移入，线条颜色高亮
+			 d3.select(this).attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
+	
+	
+			 }).on('mouseout',function(){
+			 //d3.select(this).style("stroke","#75baff");
+	
+			 //鼠标移出，线条颜色恢复
+			 d3.select(this).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+			 //console.log("出2");
+	
+			 //鼠标移出，信息面板隐藏
+			 $('#flight_info').animate({
+			 attr:'o',
+			 target:0,
+			 t:30,
+			 step:10
+			 }).hide();
+			 });
+	
+	
+	
+			 //exit
+			 d3.select('#svg_map g')
+			 .selectAll("path.line")
+			 .data(array)
+			 .exit()
+			 .remove();
+	
+			 console.log(array);
+	
+			 */
+			//alert(data.length);
+		},
+		error : function(text){
+			alert("error"+text);
+		},
+		async:true
+	});
 
 
 }
@@ -2111,50 +2112,74 @@ function validate_search(){
 	var flag = [false,""];
 	var result_qf,result_dd;
 
+//	console.log(flag);
 	result_qf = validate_col('#left_flat .search_qf_text_td .qf_text');
 	result_dd = validate_col('#left_flat .search_dd_text_td .dd_jc');
-	if( result_qf == 0 && result_dd == 0 ){
-		flag[0] = true;
-		flag[1] = "";
-		return flag;
-	}else if(result_qf == 1 || result_dd == 1 ){
+	if(result_qf == 1 || result_dd == 1 ){
 		flag[0] = false;
 		flag[1] = "起飞和到达地理信息不能含特殊字符和数字,长度不能超过50!";
-		return flag;
 	}else if(result_qf == 2 && result_dd == 2 ){
 		flag[0] = false;
 		flag[1] = "起飞和到达地理信息至少有一项不为空!";
-		return flag;
-	}
-
-	//
-	result_qf = validate_time('#left_flat .qf_time');
-	result_dd = validate_time('#left_flat .dd_time');
-
-	if( result_qf == 0 && result_dd == 0 ){
+		
+	}else if( result_qf == 0 || result_dd == 0 ){
 		flag[0] = true;
 		flag[1] = "";
-		return flag;
-	}else if(result_qf == 1 || result_dd == 1 ){
-		flag[0] = false;
-		flag[1] = "起飞和到达地理信息不能含特殊字符和数字,长度不能超过50!";
-		return flag;
-	}else if(result_qf == 2 || result_dd == 2 ){
-		flag[0] = false;
-		flag[1] = "起始日期和截止日期均不能为空!";
+		
+	}
+	
+//	console.log(flag);
+	if(flag[0]){  //如果起飞和到达地理信息正确，就继续判断
+		result_qf = validate_time('#left_flat .qf_time');
+		result_dd = validate_time('#left_flat .dd_time');
+		if(result_qf == 1 || result_dd == 1 ){
+			flag[0] = false;
+			flag[1] = "日期格式错误，请输入xxxx-xx-xx格式的日期";
+			
+		}else if(result_qf == 2 || result_dd == 2 ){
+			flag[0] = false;
+			flag[1] = "起始日期和截止日期均不能为空!";
+			
+		}else if(result_qf == 0 && result_dd == 0 ){
+			flag[0] = true;
+			flag[1] = "";
+		}
+	}else{			//如果起飞和到达地理信息不正确，就返回
 		return flag;
 	}
-
-	result_qf = validate_col('#left_flat .airline_company .company_text');
-	if(result_qf == 0 || result_qf == 2){
-		flag[0] = true;
-		flag[1] = "";
+//	console.log(flag);
+	
+	
+	//console.log(flag);
+	if(flag[0]){	//如果时间信息正确，就继续判断
+		result_qf = validate_col('#left_flat .airline_company .company_text');
+		if(result_qf == 0 || result_qf == 2){
+			flag[0] = true;
+			flag[1] = "";
+			//console.log("step:1");
+		}else{
+			flag[0] = false;
+			flag[1] = "航空公司名称不能含特殊字符和数字,长度不能超过50!";
+			//console.log("step:2");
+		}
+	}else{			//如果时间信息不正确，就继续判断
 		return flag;
+	}
+	
+	if(flag){
+		return flag;	
 	}else{
 		flag[0] = false;
-		flag[1] = "航空公司名称不能含特殊字符和数字,长度不能超过50!";
+		flag[1] = "抱歉，未知错误！";
 		return flag;
 	}
+//	console.log(result_qf);
+//	console.log(result_dd);
+//	console.log(flag);
+	
+	//console.log(flag);
+
+	
 
 
 
@@ -2168,7 +2193,7 @@ function validate_col(clazz){
 		var reg = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>?~！@#￥……&*（）——|{}【】‘；：”“'。，、0-9？+-]");
 		var str = trim(obj.value() );
 		var flag = reg.test(str);
-		console.log(str.length);
+		//console.log(str.length);
 		if(flag || str.length>=50){
 			obj.css("border-bottom","1.5px dashed #ebccd1");
 			return 1;   //含非法字符或过长
@@ -2177,7 +2202,7 @@ function validate_col(clazz){
 			obj.css("border-bottom","1px solid #ddd");
 			return 0;   //合法
 		}
-		console.log("起飞文本框失去焦点数据验证"+flag);
+		//console.log("起飞文本框失去焦点数据验证"+flag);
 	}else{
 		obj.css("border-bottom","1px solid #ddd");
 		return 2;       //为空
@@ -2194,16 +2219,17 @@ function validate_time(clazz){
 		var flag = reg.test(str);
 		if(flag){
 			obj.css("border-bottom","1px solid #ddd");
+			return 0;	//合法
 
 		}else{
 			obj.css("border-bottom","1.5px dashed #ebccd1");
 			//show_popover("#left_flat  .search_time_popover",obj.ge(0));
-			return false;
+			return 1;  //含非法字符
 		}
 	}else{
-		console.log("时间为空");
+		//console.log("时间为空");
 		obj.css("border-bottom","1px solid #ddd");
-		return false;
+		return 2;		//空白
 	}
 
 

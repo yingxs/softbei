@@ -986,6 +986,7 @@ function load(){
 			'#left_flat .search_dd_text_td .search_dd_info .loading','dd');
 	}).bind('mousedown',function(e){
 		if($('#left_flat .search_qf_text_td .search_ariport_popover').css('display')=='block' ){
+			$('#left_flat .search_qf_text_td .qf_text').css("border-bottom","1px solid #ddd");
 			removeEvent($('#left_flat .search_qf_text_td .qf_text').ge(0),"blur",search_qf_text_blur);
 			console.log("起飞输入框失去焦点函数被删除");
 		}
@@ -1067,8 +1068,8 @@ function load(){
 		//统一添加事件
 		$('#left_flat .search_dd_text_td .dd_jc').bind('blur',search_dd_text_blur);
 		$('#left_flat .search_qf_text_td .qf_text').bind('blur',search_qf_text_blur);
-		console.log("document恢复起飞输入框的失去焦点函数");
-		console.log("document恢复到达输入框的失去焦点函数");
+//		console.log("document恢复起飞输入框的失去焦点函数");
+//		console.log("document恢复到达输入框的失去焦点函数");
 	})
 
 }
