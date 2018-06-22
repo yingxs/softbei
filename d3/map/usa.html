@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <script type="text/javascript" src="/js/topojson.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+        }
+
+        svg {
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+        circle {
+            fill: none;
+            stroke: steelblue;
+        }
+    </style>
+</head>
+<body>
+
+
+</body>
+
+<script>
+
+    var width = 960,height=500;
+
+    var path = d3.geo.path();
+
+    var svg = d3.select("body").append("svg")
+            .attr("width",width)
+            .style("border","1px solid red")
+            .attr("height",height);
+
+
+    var g = svg.append('g').call(
+            d3.behavior.zoom()
+                    .scaleExtent([1,10])
+                    .on("zoom",zoom)
+
+    );
+
+
+    function zoom(){
+        g.attr("transform","translate("+d3.event.translate+")scale("+d3.event.scale+")");
+    }
+
+    d3.json("us.json",function(error,topology){
+        g.selectAll("path")
+                .data(
+                        topojson.feature(topology,topology.objects.states).features)
+                                .enter()
+                                .append("path")
+                                .attr("d",path);
+        var date = topojson.feature(topology,topology.objects.states).features;
+    })
+
+
+
+</script>
+</html>

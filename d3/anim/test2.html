@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        .box{
+            width: 500px;
+            height: 500px;
+        }
+        .v-bar{
+            background: #19768f;
+        }
+    </style>
+</head>
+<body>
+    <div id="dollar" class="clear">
+        <span>Custom Dollar Interpolation<br/></span>
+    </div>
+    <div id="alphabet" class="clear">
+        <span>Custom alphabet Interpolation<br/></span>
+    </div>
+
+</body>
+
+<script>
+
+    /**
+     * 柱形动画
+     * @type {number}
+     */
+
+    var id= 0,data=[],duration = 500,chartHeight = 100,charWidth=680;
+    for(var i = 0 ;i<20;i++){
+        push(data);
+    }
+
+    function render(data){
+        var selection = d3.select("div").selectAll("div.v-bar")
+                .data(data,function(d){
+                    return d.id;
+                });
+
+        //enter
+        selection.enter().append("div")
+                .attr("class","v-bar")
+                .style("position","fixed")
+                .style("top",chartHeight+"px")
+                .style("left",function(d,i){
+                    return barLeft(i+1)+"px";
+                })
+                .style('height','0px')
+                .append("span");
+
+        //更新
+        selection.transition()
+                .duration(duration).style("top",function(d){
+                   return chartHeight - barHeight(d)+"px";
+                }).style("left",function(d,i){
+                    return barLeft(i)+"px";
+                }).style("height",function(d,i){
+                    return barHeight(d)+"px";
+                }).select("span").text(function(d){
+                    return d.value;
+                });
+
+        selection.exit().transition().duration(duration).style("left",function(){
+            return barLeft(-1)+"px";
+        }).remove();
+    }
+
+    function push(data){
+        data.push({
+            id:++id,
+            value:Math.round(Math.random() * chartHeight)
+        });
+    }
+
+    function barLeft(i){
+        //柱形条的起始位置是  i * (barwidth+gap)
+        return i * (30+2);
+    }
+
+    function barHeight(d){
+        return d.value;
+    }
+
+    setInterval(function(){
+        data.shift();
+        push(data);
+        render(data);
+    },2000);
+
+    render(data);
+
+    d3.select("body")
+            .append("div")
+            .attr("class","baseline")
+            .style("position","fixed")
+            .style("top",chartHeight+"px")
+            .style("left",0+"px")
+            .style("width",charWidth+"px");
+
+
+
+
+
+    var selection = d3.select("div").selectAll("div.v-bar")
+            .data(data,function(d){
+                return d.id;
+            });
+    //enter
+    alert(selection.enter());
+
+
+    //更新
+//    selection.transition()
+//            .duration(duration).style("top",function(d){
+//                return chartHeight - barHeight(d)+"px";
+//            }).style("left",function(d,i){
+//                return barLeft(i)+"px";
+//            }).style("height",function(d,i){
+//                return barHeight(d)+"px";
+//            }).select("span").text(function(d){
+//                return d.value;
+//            });
+//
+//    selection.exit().transition().duration(duration).style("left",function(){
+//        return barLeft(-1)+"px";
+//    }).remove();
+
+
+</script>
+</html>

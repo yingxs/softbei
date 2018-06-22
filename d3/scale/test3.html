@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        .cell{
+            margin: 2px;
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="color" class="clear">
+        <span>Linear Color Interpolation<br/></span>
+    </div>
+    <div id="color-diverage" class="clear">
+        <span>Poly-Linear Color Interpolation<br/></span>
+    </div>
+
+</body>
+
+<script>
+
+    /**
+     * 颜色插值
+     * @type {number}
+     */
+
+    var max = 21,data=[];
+    var colorScale = d3.scale.linear()
+            .domain([0,max])
+            .range(['white','#4169e1']);
+
+    function divergingScale(pivot){
+        var divergingColorScale = d3.scale.linear()
+                .domain([0,pivot,max])
+                .range(["white","#4169e1","white"]);
+        return divergingColorScale;
+    }
+
+    for(var i = 0; i < max; ++i){
+        data.push(i);
+    }
+
+    function render(data,scale,selector){
+        //enter部分
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .enter()
+                .append("div")
+                .classed("cell",true)
+                .append('span');
+        //exit部分
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .exit().remove();
+
+        //update部分
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .style("display","inline-block")
+                .style("background-color",function(d){
+                    return scale(d);
+                }).select("span").text(function(d,i){
+                    return i;
+                });
+    }
+
+    render(data,colorScale,"#color");
+    render(data,divergingScale(5),"#color-diverage");
+
+</script>
+</html>

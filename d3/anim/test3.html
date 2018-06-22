@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        .box{
+            width: 500px;
+            height: 500px;
+        }
+        .v-bar{
+            background: #19768f;
+        }
+        .fixed-cell{
+            display: inline-block;
+            position: absolute; 
+        }
+    </style>
+</head>
+<body>
+    <div id="dollar" class="clear">
+        <span>Custom Dollar Interpolation<br/></span>
+    </div>
+    <div id="alphabet" class="clear">
+        <span>Custom alphabet Interpolation<br/></span>
+    </div>
+
+</body>
+
+<script>
+
+    /**
+     * 缓动动画
+     * @type {number}
+     */
+
+    var data = ['linear','cuclic','cublic-in-out','sin','sin-out','exp','circle','back','bounce',function(t){
+        return t*t;
+    }];
+
+    colors = d3.scale.category10();
+
+    d3.select("body").selectAll("div")
+            .data(data)
+            .enter()
+            .append("div")
+            .attr("class","fixed-cell")
+            .style("top",function(d,i){
+                return i*40+"px";
+            }).style("background-color",function(d,i){
+                return colors(i);
+            }).style('color',"white").style("left","500px").text(function(d){
+                if(typeof d === 'function') return 'custom';
+                return d;
+            });
+
+
+    d3.selectAll("div").each(function(d){
+        d3.select(this)
+                .transition()
+                .ease(d)
+                .duration(1500)
+                .style("left","10px");
+    });
+
+</script>
+</html>

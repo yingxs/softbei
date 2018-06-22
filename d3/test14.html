@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        #container{
+            border: 1px solid #000;
+        }
+        div.v-bar{
+            display: inline-block;
+            margin: 1px;
+            background: #19768f;
+            padding: 1px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="container"></div>
+</body>
+
+<script>
+    /*
+        将函数绑定为数据
+     */
+    var data = [];                                                          //A
+
+    var next = function(x){                                                 //B
+        return 15+x*x;
+    };
+
+    var newData = function(){                                               //C
+        alert("newData");
+        data.push(next);
+        return data;
+    };
+
+    function render(){
+        var selection = d3.select("#container")
+                .selectAll('div')
+                .data(newData);                                              //D
+                //如果你将一个函数作为参数传递给data函数，那么d3会直接调用这个额函数，并将其返回值
+                //作为参数传给data函数
+
+
+        selection.enter().append("div").append("span");
+        selection.exit().remove();
+
+        selection.attr("class","v-bar")
+                .style("height",function(d,i){
+                    alert(i);
+                    return d(i)+"px";                                          //E
+                })
+                .select("span").text(function(d,i){
+                    return d(i);                                                //F
+                });
+    }
+
+//    setInterval(function(){
+//        render();
+//    },1500);
+
+    document.onclick = function(){
+        render();
+    };
+
+
+
+
+
+
+</script>
+</html>

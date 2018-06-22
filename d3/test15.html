@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        #container{
+            border: 1px solid #000;
+        }
+        div.h-bar{
+            margin: 1px;
+            background: #19768f;
+            padding: 1px;
+        }
+        div.selected{
+            margin: 1px;
+            background: #0066ff;
+            padding: 1px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="control-group">
+        <button onclick="select('Retail')">Retail</button>
+        <button onclick="select('Gas')">Gas</button>
+        <button onclick="select('Dining')">Dining</button>
+        <button onclick="select()">Clear</button>
+    </div>
+
+</body>
+
+<script>
+   /*
+        数据过滤
+    */
+    var data = [
+        {expense:10,category:'Retail'},
+        {expense:15,category:'Gas'},
+        {expense:30,category:'Retail'},
+        {expense:50,category:'Dining'},
+        {expense:80,category:'Gas'},
+        {expense:65,category:'Retail'},
+        {expense:55,category:'Gas'},
+        {expense:30,category:'Dining'},
+        {expense:20,category:'Retail'},
+        {expense:10,category:'Dining'},
+        {expense:8,category:'Gas'}
+    ];
+
+    function render(data,category){
+        d3.select("body")
+                .selectAll("div.h-bar")
+                .data(data)
+                .enter()
+                .append("div")
+                .attr("class","h-bar")
+                .append("span");
+
+        d3.select("body")
+                .selectAll("div.h-bar")
+                .data(data).exit().remove();
+
+        d3.select("body")
+                .selectAll("div.h-bar")
+                .data(data)
+                .attr("class","h-bar")
+                .style('width',function(d){
+                    return (d.expense*5)+"px";
+                })
+                .select('span').text(function(d){
+                    return d.category;
+                });
+        d3.select("body")
+                .selectAll("div.h-bar")
+                .filter(function(d,i){
+                    return d.category == category;
+                }).classed("selected",true);
+
+    }
+
+   function select(category){
+       alert(category);
+       render(data,category);
+   }
+
+    render(data);
+
+
+
+
+
+</script>
+</html>

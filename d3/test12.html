@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        div.h-bar{
+            background: #005580;
+            margin: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+</body>
+
+<script>
+
+   var data = [10,15,30,50,80,65,55,30,20,10,8];
+
+    function render(data){
+        //进入(Enter)
+        d3.select('body')
+                .selectAll('div.h-bar')
+                .data(data)
+                .enter()
+                .append('div')
+                .attr('class','h-bar')
+                .append('span');
+
+        //更新(Update)
+        d3.select('body').selectAll("div.h-bar")
+                .data(data)
+                .style('width',function(d){
+                    return (d*3)+'px';
+                }).select('span').text(function(d){
+                    return d;
+                });
+
+        //退出
+        d3.select("body")
+                .selectAll("div.h-bar")
+                .data(data)
+                .exit()
+                .remove();
+
+
+
+    }
+
+
+//   setInterval(function(){
+//      data.shift();
+//       data.push(Math.round(Math.random()*100))
+//        render(data);
+//   },2000);
+//
+//
+//
+//
+//    render(data);
+
+   var result = d3.select('body')
+           .selectAll('div.h-bar')
+           .data(data)
+           .enter();
+alert(result)
+
+
+</script>
+</html>

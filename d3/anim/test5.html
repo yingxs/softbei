@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        .box{
+            width: 500px;
+            height: 500px;
+        }
+        .v-bar{
+            background: #19768f;
+        }
+        .fixed-cell{
+            display: inline-block;
+            position: absolute; 
+        }
+    </style>
+</head>
+<body>
+
+
+</body>
+
+<script>
+
+    /**
+     * 级联过渡
+     * @type {number}
+     */
+
+    var body = d3.select("body");
+
+    function teleport(s){
+        s.transition().duration(3000)
+                .style("width","200px")
+                .style("height","1px")
+         .transition().duration(1000)
+                .style("width","600px")
+         .transition().duration(3000)
+                .style("left","800px")
+                .style("width","80px")
+                .style("height","80px");
+    }
+
+    body.append("div")
+            .style("position","fixed")
+            .style("background-color","steelblue")
+            .style("left","10px")
+            .style("width","80px")
+            .style("height","80px")
+            .call(teleport);
+
+</script>
+</html>

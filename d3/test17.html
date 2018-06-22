@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        #container{
+            border: 1px solid #000;
+        }
+        div.h-bar{
+            margin: 1px;
+            background: #19768f;
+            padding: 1px;
+        }
+        div.selected{
+            margin: 1px;
+            background: #0066ff;
+            padding: 1px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="control-group">
+        <button onclick="load()">Load Data from JSON feed</button>
+    </div>
+<div id="chart"></div>
+
+</body>
+
+<script>
+   /*
+        服务器加载数据
+    */
+    var data = [
+        {expense:10,category:'Retail'},
+        {expense:15,category:'Gas'},
+        {expense:30,category:'Retail'},
+        {expense:50,category:'Dining'},
+        {expense:80,category:'Gas'},
+        {expense:65,category:'Retail'},
+        {expense:55,category:'Gas'},
+        {expense:30,category:'Dining'},
+        {expense:20,category:'Retail'},
+        {expense:10,category:'Dining'},
+        {expense:8,category:'Gas'}
+    ];
+
+
+    function render(data){
+        d3.select("#chart").selectAll("div.h-bar")
+                .data(data)
+                .enter()
+                .append('div')
+                .attr('class','h-bar')
+                .append('span');
+
+        d3.select("#chart").selectAll("div.h-bar")
+                .data(data)
+                .exit()
+                .remove();
+
+        d3.select("#chart").selectAll('div.h-bar')
+                .data(data)
+                .attr('class','h-bar').style('width',function(d){
+                    return (d.expense * 5) + "px";
+                }).select('span').text(function(d){
+                    return d.category;
+                })
+    }
+
+   function load(){
+       d3.json("data.json",function(error,json){
+          data = data.concat(json);
+           render(data);
+       });
+   }
+
+    render(data);
+
+
+
+
+</script>
+</html>

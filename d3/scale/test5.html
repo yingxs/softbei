@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <style>
+        .cell{
+            margin: 2px;
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+        div.v-bar{
+            display: inline-block;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="dollar" class="clear">
+        <span>Custom Dollar Interpolation<br/></span>
+    </div>
+    <div id="alphabet" class="clear">
+        <span>Custom alphabet Interpolation<br/></span>
+    </div>
+
+</body>
+
+<script>
+
+    /**
+     * 美元插值功能
+     * @type {number}
+     */
+    d3.interpolators.push(function(a,b){
+        var re = /^\$([0-9,.]+)$/,
+                ma,mb,f = d3.format(",.02f");
+        if((ma = re.exec(a)) && (mb = re.exec(b)) ){
+            a = parseFloat(ma[1]);
+            b = parseFloat(mb[1]);
+
+            return function(t){
+                return "$"+f(a+b*t);
+            };
+        }
+    })
+
+</script>
+</html>

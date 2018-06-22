@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Axis Ticks</title>
+    <link rel="stylesheet" type="text/css" href="/d3/css/styles.css"/>
+    <script type="text/javascript" src="/js/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var width = 500,
+            height = 500,
+            margin = 50,
+            x = d3.scale.linear() // <-A
+                    .domain([0, 10])
+                    .range([margin, width - margin]),
+            y = d3.scale.linear() // <-B
+                    .domain([0, 10])
+                    .range([height - margin, margin]);
+
+    var data = [ // <-C
+        [
+            {x: 0, y: 5},{x: 1, y: 9},{x: 2, y: 7},
+            {x: 3, y: 5},{x: 4, y: 3},{x: 6, y: 4},
+            {x: 7, y: 2},{x: 8, y: 3},{x: 9, y: 2}
+        ],
+
+        d3.range(10).map(function(i){
+            return {x: i, y: Math.sin(i) + 5};
+        })
+    ];
+
+
+    var svg = d3.select("body").append("svg");
+
+    svg.attr("height", height)
+            .attr("width", width);
+
+
+
+    renderAxes(svg);
+    render("linear");
+    renderDots(svg);
+
+
+    function render(mode){
+        var line = d3.svg.line()
+                .interpolate(mode)
+                .x(function(){
+                    return x(d.x);
+                })
+                .y(function(){
+                    return y(d.y);
+                });
+        svg.selectAll("path.line")
+                .data(data)
+                .enter()
+                .append("path")
+                .attr("class","line");
+
+        svg.selectAll("path.line").data(data).attr("d",function(d){
+            return line(d);
+        });
+
+        function renderDots(svg){
+            data.forEach(function(set){
+                svg.append("g")
+                        .selectAll("circle")
+                        .data(set)
+                        .enter()
+                        .append("circle")
+                        .attr("class","dot")
+                        .attr("cx",function(d){
+                            return x(d.x);
+                        })
+                        .attr("cy",function(d){
+                            return y(d.y);
+                        })
+                        .attr("r",4.5);
+            })
+        }
+    }
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
