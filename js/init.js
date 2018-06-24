@@ -83,7 +83,7 @@ function init2(){
 
 
 	//定义地图投影
-	var projection = d3.geo.equirectangular().scale(240).translate(translate);
+	var projection = d3.geo.equirectangular().scale(300).translate(translate);
 	//定义地理路径生成器
 	var path = d3.geo.path().projection(projection);
 
@@ -107,6 +107,14 @@ function init2(){
 			.append("feGaussianBlur")
 			.attr('in',"SourceGraphic")
 			.attr('stdDeviation',"0.6");
+		svg.append("defs")
+			.append("filter")
+			.attr("id","f2")
+			.attr("x","0")
+			.attr("y","0")
+			.append("feGaussianBlur")
+			.attr('in',"SourceGraphic")
+			.attr('stdDeviation',"0.8");
 
 
 		//解除锁屏
@@ -341,7 +349,7 @@ function init2(){
 
 
 
-		//g.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+		g.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
 
 
 
@@ -379,14 +387,14 @@ function init2(){
 
 
 
-		$('#flight_info').animate({
-			t:30,
-			step:10,
-			mul:{
-				left:point[0],
-				top:point[1]
-			}
-		});
+//		$('#flight_info').animate({
+//			t:30,
+//			step:10,
+//			mul:{
+//				left:point[0],
+//				top:point[1]
+//			}
+//		});
 
 
 
@@ -1035,12 +1043,13 @@ function load(){
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
 		getFlight_data(e);
+		leftBox_anim(left_box.search,10,30,-380,100);
 	});
 
 	//确认过滤
 	$('#left_flat .filter .filter_button .submit').click(function(e){
 		predef(e);
-		Filter_data();
+		filter_data();
 	});
 
 	//选择只显示筛选的数据
@@ -1070,7 +1079,25 @@ function load(){
 		$('#left_flat .search_qf_text_td .qf_text').bind('blur',search_qf_text_blur);
 //		console.log("document恢复起飞输入框的失去焦点函数");
 //		console.log("document恢复到达输入框的失去焦点函数");
-	})
+
+
+		//
+		d3.selectAll('#map svg #g1 .line_bg').on('click',function(){
+			$('#flight_info').animate({
+				attr:'o',
+				target:0,
+				t:10,
+				step:30,
+				fn:function(){
+					$('#flight_info').hide();
+				}
+			});
+		})
+		
+	});
+	
+	
+	
 
 }
 

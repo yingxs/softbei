@@ -7,7 +7,7 @@ function getLine_xy(qf,dd){
 	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
 	var translate = [(width/2)-(svg_left/2)+(35/2),height/2];
 	//定义地图投影
-	var projection = d3.geo.equirectangular().scale(240).translate(translate);
+	var projection = d3.geo.equirectangular().scale(300).translate(translate);
 	//定义地理路径生成器
 	var path = d3.geo.path().projection(projection);
 
@@ -60,6 +60,18 @@ function getLine_xy(qf,dd){
 	var bezier_cl = RandomNum(80,200)  ;
 	if(l<80){
 		bezier_cl = RandomNum(10,20)  ;
+	}
+	
+	if(l>80 && l<90){
+		bezier_cl = RandomNum(20,30)  ;
+	}
+	
+	if(l>90 && l<150){
+		bezier_cl = RandomNum(30,50)  ;
+	}
+	
+	if(l>150 && l<220){
+		bezier_cl = RandomNum(50,80)  ;
 	}
 
 

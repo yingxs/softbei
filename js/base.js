@@ -507,6 +507,20 @@ function removeWhiteNode(node){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //查询面板起飞文本框失去焦点
 function search_qf_text_blur(){
 
@@ -598,28 +612,244 @@ function hide_popover(clazz){
 }
 
 //数据过滤
-function Filter_data(){
+function filter_data(){
 
 	var element = d3.select('#svg_map g');
 	var line_list = element.selectAll("path.line");
-	var filter = serializeFilter();
-	console.log(line_list[0]);
-	for(var i = 0 ;i<line_list[0].length;i++){
-		d3.select(line_list[0][i]).style(function(d){
-			console.log(d);
-			//只显示筛选后的数据
-			if(filter.filter_type=='hide'){
-
-			}else if(filter.filter_type=='show'){
-
-			}
-		});
+	var filter_data = serializeFilter();
+	var filter_type = filter_data['filter_type'];
+	if( trim(filter_data['qf_text'])=='' && trim(filter_data['mb_text'])=='' && trim(filter_data['airline_company'])=='' && trim(filter_data['start_time'])=='' && trim(filter_data['end_time'])==''  ){
+		alert("过滤条件不可全部为空");
+		return ;
 	}
+	
+	var array_column = [];
+	d3.selectAll('#left_flat .filter_qf_td .filter_qf_opt li').each(function(){
+		array_column[ parseInt(d3.select(this).attr("value"))]=d3.select(this).attr("column");
+	});
+	
+	if(line_list[0].length==0){
+		alert("抱歉，您还未查询出任何数据，不能进行筛选.");
+	}else if(line_list[0].length>0){
+		var pattern = new RegExp('box','i');
+		var qf_type,mb_type;
+		qf_type = "qf_"+array_column[filter_data['qf_type']];
+		mb_type = "mb_"+array_column[filter_data['mb_type']];
+//		console.log(qf_type);
+//		console.log(mb_type);
+		
+		var flag1 = false,flag2 = false,flag3 = false,flag = true,array_text=[];
+		line_list.each(function(d,i){
+			
+//			console.log(d[qf_type]);
+//			console.log(filter_data['qf_text']);
+//			console.log( (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  ));
+			var trim_flag1 = trim(filter_data['qf_text'])!='',
+				check_text1 = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1,
+				trim_flag2 = trim(filter_data['mb_text'])!='',
+				check_text2 = (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  )>-1,
+				trim_flag3 = trim(filter_data['airline_company'])!='',
+				check_text3 = d.airline_company.toLowerCase().indexOf( filter_data['airline_company'].toLowerCase()  )>-1;
+
+			//初始化数组
+			array_text=[];
+			if(trim(filter_data['qf_text'])!=''){
+				array_text.push(check_text1);
+			}
+			if(trim(filter_data['mb_text'])!=''){
+				array_text.push(check_text2);
+			}
+			if(trim(filter_data['airline_company'])!=''){
+				array_text.push(check_text3);
+			}
+
+
+
+
+			//(function(){
+			//	for(var i = 0 ; i < array_text.length ; i++){
+			//		if( array_text[i] ){
+			//			flag = true && flag;
+			//		}else{
+            //
+			//			if(flag){
+			//				flag = true && flag;
+			//			}else{
+			//				flag = false || flag;
+			//			}
+            //
+			//		}
+			//	}
+            //
+			//})();
+
+
+			if(array_text.length==1){
+				flag = array_text[0];
+			}else if(array_text.length==2){
+				flag = array_text[0] && array_text[1];
+			}else if(array_text.length==3){
+				flag = array_text[0] && array_text[1] && array_text[2];
+			}
+
+
+
+
+
+
+			if( flag ){
+				d3.select(this).attr("type","filter");
+				d3.select(this).style("stroke","#14ffae").attr("filter","url(#f2)");
+				//console.log(this);
+
+			}else{
+				d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+			}
+
+			console.log(array_text,":",flag);
+
+
+
+
+
+
+//
+//
+//			if( trim_flag1 && check_text1){
+////				console.log(d[qf_type],":",filter_data['qf_text'],true);
+//				flag1 = true;
+//			}else{
+////				console.log("起飞地理信息为空，或不匹配");
+//				flag1 = false;
+//			}
+//
+//			console.log("flag1",flag1);
+//
+//			if( trim_flag2 && check_text2 ){
+////					console.log(d[mb_type],":",filter_data['mb_text'],true);
+//				flag2 = true;
+//			}else{
+////					console.log("目标地理信息为空，或不匹配");
+//				flag2 = false;
+//			}
+//
+//			console.log("flag2",flag2);
+//
+//			if( trim_flag3 && check_text3 ){
+////					console.log(d[airline_company],":",filter_data['airline_company'],true);
+//				flag3 = true;
+//			}else{
+////					console.log("航空公司为空，或不匹配");
+//				flag3 = false;
+//			}
+//
+//
+//
+//			console.log("flag3",flag3);
+//
+//
+//
+//			if(trim_flag1 && trim_flag2  && check_text1 && check_text2){
+//				flag = true;
+//			}else{
+//				flag = false;
+//			}
+//
+//			if(trim_flag1 && trim_flag3 && check_text1 && check_text3 ){
+//				flag = true;
+//			}else{
+//				flag = false;
+//			}
+//
+//			if( trim_flag2 && trim_flag3 && check_text2 && check_text3 ){
+//				flag = true;
+//			}else{
+//				flag = false;
+//			}
+//
+//			if(trim_flag1 && trim_flag2 && trim_flag3 && check_text1 && check_text2 && check_text3 ){
+//				flag = true;
+//			}else{
+//				flag = false;
+//			}
+//
+//			if(trim_flag1 && check_text1 ){
+//				flag = true;
+//			}else{
+//				flag = false;
+//			}
+//			if(trim_flag2 ){
+//				flag = true;
+//			}else{
+//				flag = false;
+//			}
+//			if(trim_flag3 ){
+//				flag = true;
+//			}else{
+//				flag = false;
+//			}
+
+
+			
+
+			
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}else{
+		alert("抱歉，未知错误.");
+	}
+	
+	
+	
+	
+	
+//company:""
+//dd_text:""
+//dd_type:"3"
+//end_time:""
+//filter_type:"show"
+//qf_text:""
+//qf_type:"3"
+//start_time:""
+	
+	
+	
+//	for(var i = 0 ;i<line_list[0].length;i++){
+//		d3.select(line_list[0][i]).style(function(d){
+//			console.log(d);
+//			//只显示筛选后的数据
+//			if(filter.filter_type=='hide'){
+//
+//			}else if(filter.filter_type=='show'){
+//
+//			}
+//		});
+//	}
 	//console.log(line_list);
 
 }
-
-
 
 //异步查询航班数据
 function getFlight_data(e){
@@ -634,13 +864,17 @@ function getFlight_data(e){
 			var temp = JSON.parse(text);
 			//console.log(data);
 			var data=[];
+			
 			//data[0] = temp[0];
 			//data[1] = temp[1];
 			(function(){
-				for(var i = 0;i<20 ;i++){
+				for(var i = 0;i<40 ;i++){
 					data[i]=temp[i];
 				}
 			})();
+			
+			console.log(data[0]);
+//			var data = temp;
 	
 			//曲线生成模式1，无附加背景
 			//show_line(data);
@@ -1042,7 +1276,7 @@ function show_line_plus(data){
 		.attr("len", function(d){
 			//显示两点之间的直线坐标距离
 			return d.len;
-		});
+		}).style("stroke","#75baff").attr("type",null).attr("filter",null);
 
 	//曲线enter
 	index = 0;
@@ -1063,7 +1297,6 @@ function show_line_plus(data){
 			data[index++].len = array[9][0];
 			show_line_bg(d,array[11],d.flight_number);
 			return array[0];
-
 			/*
 			 //断开式
 			 array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
@@ -1073,7 +1306,7 @@ function show_line_plus(data){
 			 */
 
 		})
-		.attr("len", function(d){ return d.len; } );
+		.attr("len", function(d){ return d.len; } ).attr("type",null).attr("filter",null);
 
 	//曲线exit
 	d3.select('#svg_map g')
@@ -1340,6 +1573,7 @@ function show_flight_info(d,that){
 	$('#flight_info .flight_mb_jc span').html(d.mb_airport);
 	$('#flight_info .flight_qf_time span').html(d.leave_downtime);
 	$('#flight_info .flight_dd_time span').html(d.come_downtime);
+	$('#flight_info .flight_len span').html(d.len);
 
 	//鼠标移入，信息面板出现
 	$('#flight_info').animate({
@@ -1361,8 +1595,13 @@ function show_flight_info(d,that){
 
 //航班信息面板隐藏
 function hide_flight_info(that){
-	//鼠标移出，线条颜色恢复
-	d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+	//鼠标移出，线条颜色恢复.如果是筛选出的线条，就恢复高亮的颜色
+	if( d3.select(that).attr('type')=='filter' ){
+		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#14ffae").style("stroke-width","1px");
+	}else{
+		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+	}
+
 	//console.log("出2");
 	//鼠标移出，信息面板隐藏
 	$('#flight_info').animate({
@@ -2048,10 +2287,11 @@ function serializeFilter(){
 	filter["filter_type"]=$('#left_flat .filter .filter_type').attr("type");
 	filter["qf_type"]=$('#left_flat .filter .filter_qf_td .filter_qf_input').attr("key");
 	filter["qf_text"]=$('#left_flat .filter .filter_qf_text_td .filter_qf_text').value();
-	filter["dd_type"]=$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("key");
-	filter["dd_text"]=$('#left_flat .filter .filter_dd_text_td .filter_dd_text').value();
+	filter["mb_type"]=$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("key");
+	filter["mb_text"]=$('#left_flat .filter .filter_dd_text_td .filter_dd_text').value();
 	filter["start_time"]=$('#left_flat .filter .filter_time .filter_qf_time').value();
 	filter["end_time"]=$('#left_flat .filter .filter_time .filter_dd_time').value();
+	filter["airline_company"]=$('#left_flat .filter filter_company_td .filter_company_text').value();
 
 	return filter;
 }

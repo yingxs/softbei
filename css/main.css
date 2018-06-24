@@ -613,6 +613,11 @@ svg {
     stroke: #75baff;
     stroke-width: 1px;
 }
+.line_filter{
+    fill: none;
+    stroke: #14ffae;
+    stroke-width: 1px;
+}
 .line_bg{
     fill: red;
     fill-opacity: 0;
