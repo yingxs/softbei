@@ -373,12 +373,12 @@ function init2(){
 	*/
 
 	//当窗口大小发生变化时，重新计算svg画布的大小
-	$(document).resize(function(){
-		var width =parseInt(getInner().width) ;
-		var height = parseInt(getInner().height) ;
-		var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
-	    svg.attr('width',width-svg_left).attr('height',height);
-	});
+	//$(document).resize(function(){
+     //   //var width =parseInt(getInner().width) ;
+     //   //var height = parseInt(getInner().height) ;
+     //   //var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
+	//    //svg.attr('width',width-svg_left).attr('height',height);
+	//});
 
 	svg.on("click",function(){
 		var point = d3.mouse(svg.node());
