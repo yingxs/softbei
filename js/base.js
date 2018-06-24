@@ -695,16 +695,28 @@ function filter_data(){
 
 
 
+			if(filter_type=="show"){
+				if( flag ){
+					d3.select(this).style("display","bloke");
+					d3.select(this).attr("type","filter");
+					d3.select(this).style("stroke","#14ffae").attr("filter","url(#f2)");
+					//console.log(this);
 
+				}else{
+					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+				}
+			}else if(filter_type=="hide"){
+				if( flag ){
+					d3.select(this).attr("type","filter");
+					d3.select(this).style("display","bloke");
+					//console.log(this);
+				}else{
+					d3.select(this).style("display","none");
+					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+				}
 
-			if( flag ){
-				d3.select(this).attr("type","filter");
-				d3.select(this).style("stroke","#14ffae").attr("filter","url(#f2)");
-				//console.log(this);
-
-			}else{
-				d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
 			}
+
 
 			console.log(array_text,":",flag);
 
@@ -1322,6 +1334,22 @@ function show_line_plus(data){
 			}).on("mouseout",function(){
 				line_id =  d3.select(this).attr("id").replace("line_bg_","line_");
 				hide_flight_info('#svg_map g #'+line_id);
+			}).on("click",function(){
+				$('#flight_info').animate({
+					attr:'o',
+					target:0,
+					t:10,
+					step:30,
+					fn:function(){
+						$('#flight_info').hide();
+					}
+				});
+				d3.select('#flight_info_plus')
+					.style("display","block")
+					.transition()
+					.duration(500)
+					.style("bottom","0px")
+					.style("opacity","0.8");
 			});
 
 	}

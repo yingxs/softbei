@@ -70,8 +70,11 @@ function getLine_xy(qf,dd){
 		bezier_cl = RandomNum(30,50)  ;
 	}
 	
-	if(l>150 && l<220){
+	if(l>150 && l<250){
 		bezier_cl = RandomNum(50,80)  ;
+	}
+	if(l>250 && l<400){
+		bezier_cl = RandomNum(70,90)  ;
 	}
 
 

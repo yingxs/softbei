@@ -4,10 +4,11 @@ $(function(){
 	//初始化显示地图
 	//遮罩画布
 	var screen = $('#screen');
-	window.screen=screen;
 	window.map = null;
 	screen.lock().resize(function(){
-		//screen.lock();
+		if(screen.css("display")=='block'){
+			screen.lock();
+		}
 	}).opacity(30);
 	$('#loading').show();
 
@@ -62,10 +63,10 @@ function init2(){
 
 
 	//获取浏览器可视区的大小以及左边侧栏的宽度
-	var width =parseInt(getInner().width) ;
-	var height = parseInt(getInner().height) ;
+	var width =screen.width-parseInt(getStyle($('#left_bar').ge(0),"width"))  ;
+	var height = parseInt(parseInt(getStyle($('#left_bar').ge(0),"height"))) ;
 	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
-	var translate = [(width/2)-(svg_left/2),height/2];
+	var translate = [width/2,height/2];
 
 
 	//滚动条隐藏
@@ -77,7 +78,7 @@ function init2(){
 	var div = d3.select("#map");
 	//定义拖拽
 	var zoomer = d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", zoom);
-	var svg = div.append("svg").attr('width',width-svg_left).attr('id',"svg_map").attr('height',height).call(zoomer).style("margin-left",svg_left);
+	var svg = div.append("svg").attr('width',width).attr('id',"svg_map").attr('height',height).call(zoomer).style("margin-left",svg_left);
 	window.svg = svg;
 	var g = svg.append('g').attr("id","g1").style("border","1px solid red");
 
@@ -118,13 +119,13 @@ function init2(){
 
 
 		//解除锁屏
-		window.screen.animate({
+		$('#screen').animate({
 			attr:'o',
 			target:0,
 			step:30,
 			t:10,
 			fn:function(){
-				window.screen.unlock();
+				$('#screen').unlock();
 			}
 		});
 
@@ -136,6 +137,11 @@ function init2(){
 			t:10
 
 		});
+
+
+
+
+
 
 /*
 		//异步请求曲线数据
@@ -1082,22 +1088,35 @@ function load(){
 
 
 		//
-		d3.selectAll('#map svg #g1 .line_bg').on('click',function(){
-			$('#flight_info').animate({
-				attr:'o',
-				target:0,
-				t:10,
-				step:30,
-				fn:function(){
-					$('#flight_info').hide();
-				}
-			});
-		})
-		
+
 	});
-	
-	
-	
+
+	//d3.selectAll('#map svg #g1 .line_bg').on('click',function(){
+	//	$('#flight_info').animate({
+	//		attr:'o',
+	//		target:0,
+	//		t:10,
+	//		step:30,
+	//		fn:function(){
+	//			$('#flight_info').hide();
+	//		}
+	//	});
+    //
+    //
+	//	$('#flight_info_plus').show().animate({
+	//		t:10,
+	//		step:30,
+	//		mul:{
+	//			y:0,
+	//			o:80
+	//		}
+	//	});
+    //
+	//});
+
+
+
+
 
 }
 
