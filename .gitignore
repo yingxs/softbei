@@ -5,7 +5,8 @@ RemoteSystemsTempFiles
 .project
 .idea/
 b/
-*test.html
+d3/
+*test*.html
 canvas
 test
 资料

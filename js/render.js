@@ -40,8 +40,15 @@ function getLine_xy(qf,dd){
 	//贝瑟尔曲线控制点在两地连线上的投影坐标
 	//var bezier_x = (RandomNum(xm,xn))*(1),
 	//	bezier_y = (k1*bezier_x+b1)*(1);
-	var bezier_x = (RandomNum(xp,xq))*(1),
-		bezier_y = (k1*bezier_x+b1)*(1);
+
+	console.log("x1,y1:",projection(qf)[0],projection(qf)[1]);
+	console.log("x2,y2:",projection(dd)[0],projection(dd)[1]);
+	console.log("k1,b1:",k1,b1);
+
+	var bezier_x = RandomNum(xp,xq),
+		bezier_y = (k1*bezier_x)+b1;
+	console.log("bezier_x,bezier_y:",bezier_x,matchToSvg(bezier_y) );
+
 
 	var k2 = -1/k1;
 	var b2 = bezier_y - k2*bezier_x;
@@ -65,16 +72,13 @@ function getLine_xy(qf,dd){
 	if(l>80 && l<90){
 		bezier_cl = RandomNum(20,30)  ;
 	}
-	
+
 	if(l>90 && l<150){
 		bezier_cl = RandomNum(30,50)  ;
 	}
-	
+
 	if(l>150 && l<250){
 		bezier_cl = RandomNum(50,80)  ;
-	}
-	if(l>250 && l<400){
-		bezier_cl = RandomNum(70,90)  ;
 	}
 
 
@@ -258,29 +262,40 @@ function getLine_xy_plus(qf,dd){
 
 
 
-
 function RandomNum(Min, Max) {
 	if(Min>Max){
 		var temp = Min;
-			Min = Max;
-			Max = temp;
+		Min = Max;
+		Max = temp;
 	}else if(Min == Max){
 		console.log("Min==Max");
+		return ;
 	}
+
+	if(Max-Min<1){
+		while(true){
+			var x_num = Min+Math.random();
+			if(x_num<Max){
+				return x_num;
+			}
+		}
+
+	}
+
 	var Range = Max - Min;
 	var Rand = Math.random();
-	if(Math.round(Rand * Range)==0){
+	if((Rand * Range)==0){
 		return Min + 1;
-	}else if(Math.round(Rand * Max)==Max)
+	}else if((Rand * Max)==Max)
 	{
-		//index++;
+		index++;
 		return Max - 1;
 	}else{
-		var num = Min + Math.round(Rand * Range) - 1;
+		var num = Min + (Rand * Range) - 1;
 		return num;
 	}
-}
 
+}
 function getZF(){
 	var zf = Math.random();
 	if(zf>0.4){

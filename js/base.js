@@ -856,18 +856,19 @@ function getFlight_data(e){
 		success : function(text){
 			var temp = JSON.parse(text);
 			//console.log(data);
-			var data=[];
+			//var data=[];
 			
 			//data[0] = temp[0];
 			//data[1] = temp[1];
-			(function(){
-				for(var i = 0;i<40 ;i++){
-					data[i]=temp[i];
-				}
-			})();
+			//(function(){
+			//	for(var i = 0;i<40 ;i++){
+			//		data[i]=temp[i];
+			//	}
+			//})();
 			
-			console.log(data[0]);
-//			var data = temp;
+			//console.log(data[0]);
+			console.log(temp[0]);
+			var data = temp;
 	
 			//曲线生成模式1，无附加背景
 			//show_line(data);
@@ -1253,8 +1254,48 @@ function show_line_plus(data){
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将计算后的两地之间的坐标距离存入要进行绑定的数组
 			data[index++].len = array[9][0];
-			//console.log(data);
+			console.log(array);
 			show_line_bg(d,array[11],d.flight_number);
+
+			////x1
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[1][0])
+			//	.attr("cy",array[1][1])
+			//	.attr("r",5)
+			//	.style("fill","#000");
+			////x2
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[2][0])
+			//	.attr("cy",array[2][1])
+			//	.attr("r",5)
+			//	.style("fill","#000");
+            //
+			////三等分点1 距离x1近
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[3][0])
+			//	.attr("cy",array[3][1])
+			//	.attr("r",5)
+			//	.style("fill","red");
+            //
+			////三等分点2 距离x2近
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[4][0])
+			//	.attr("cy",array[4][1])
+			//	.attr("r",5)
+			//	.style("fill","orange");
+            //
+			////控制点的映射点
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[5][0])
+			//	.attr("cy",array[5][1])
+			//	.attr("r",5)
+			//	.style("fill","green");
+
+
+
+
+
+
 			return array[0];
 
 			/*
@@ -1289,6 +1330,45 @@ function show_line_plus(data){
 			//将两点之间的直线坐标距离存储在要绑定的数组里
 			data[index++].len = array[9][0];
 			show_line_bg(d,array[11],d.flight_number);
+
+			////x1
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[1][0])
+			//	.attr("cy",array[1][1])
+			//	.attr("r",5)
+			//	.style("fill","#000");
+			////x2
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[2][0])
+			//	.attr("cy",array[2][1])
+			//	.attr("r",5)
+			//	.style("fill","#000");
+            //
+			////三等分点1 距离x1近
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[3][0])
+			//	.attr("cy",array[3][1])
+			//	.attr("r",5)
+			//	.style("fill","red");
+            //
+			////三等分点2 距离x2近
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[4][0])
+			//	.attr("cy",array[4][1])
+			//	.attr("r",5)
+			//	.style("fill","orange");
+            //
+			////控制点的映射点
+			//d3.select("svg g").append("circle")
+			//	.attr("cx",array[5][0])
+			//	.attr("cy",array[5][1])
+			//	.attr("r",5)
+			//	.style("fill","green");
+            //
+
+
+
+
 			return array[0];
 			/*
 			 //断开式
