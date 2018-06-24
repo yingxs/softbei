@@ -707,8 +707,8 @@ function filter_data(){
 				}
 			}else if(filter_type=="hide"){
 				if( flag ){
-					d3.select(this).attr("type","filter");
-					d3.select(this).style("display","bloke");
+					d3.select(this).attr("type","filter_hide").attr("filter",null);
+					d3.select(this).style("display","bloke").style("stroke","#75baff");
 					//console.log(this);
 				}else{
 					d3.select(this).style("display","none");
@@ -1310,7 +1310,7 @@ function show_line_plus(data){
 		.attr("len", function(d){
 			//显示两点之间的直线坐标距离
 			return d.len;
-		}).style("stroke","#75baff").attr("type",null).attr("filter",null);
+		}).style("stroke","#75baff").style("display","block").attr("type",null).attr("filter",null);
 
 	//曲线enter
 	index = 0;
@@ -1687,6 +1687,8 @@ function hide_flight_info(that){
 	//鼠标移出，线条颜色恢复.如果是筛选出的线条，就恢复高亮的颜色
 	if( d3.select(that).attr('type')=='filter' ){
 		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#14ffae").style("stroke-width","1px");
+	}else if(d3.select(that).attr('type')=='filter_hide'){
+		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
 	}else{
 		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
 	}
