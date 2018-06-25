@@ -341,177 +341,196 @@ function getPoint(bezier_x,bezier_y){
 }
 
 
+function pieChart(clazz,width,height) {
+	var _chart = {};
 
+	var _width = width, _height = height,
+		_data = [],
+		_colors = d3.scale.category20(),
+		_svg,
+		_bodyG,
+		_pieG,
+		_radius = 200,
+		_innerRadius = 10;
 
+	_chart.render = function () {
+		d3.selectAll("#flight_info_plus .qf_delay_chart svg").remove();
+		if (!_svg) {
+			_svg = d3.select(clazz).append("svg")
+				.attr("height", _height)
+				.attr("width", _width)
+				.classed("chart",true);
+		}
 
+		renderBody(_svg);
 
+	};
 
+	function renderBody(svg) {
+		if (!_bodyG)
+			_bodyG = svg.append("g")
+				.attr("class", "body");
 
-
-
-
-
-
-function change(width,height,data) {
-	//init
-
-	d3.select("#flight_info_plus .qf_delay_chart svg.qf_delaylen_chart").remove();
-
-	var svg = d3.select("#flight_info_plus .qf_delay_chart")
-		.append("svg")
-		.attr("width",width)
-		.attr("height",height)
-		.classed("qf_delaylen_chart",true)
-		.append("g");
-
-	svg.append("g")
-		.attr("class", "slices");
-	svg.append("g")
-		.attr("class", "labels");
-	svg.append("g")
-		.attr("class", "lines");
-
-	var radius = Math.min(width, height) / 2;
-
-	var pie = d3.layout.pie()
-		.sort(null)
-		.value(function(d) {
-			return d.value;
-		});
-
-	var arc = d3.svg.arc()
-		.outerRadius(radius * 0.8)
-		.innerRadius(radius * 0.4);
-
-	var outerArc = d3.svg.arc()
-		.innerRadius(radius * 0.9)
-		.outerRadius(radius * 0.9);
-
-
-	svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-	var key = function(d){ return d.data.label; };
-
-	var color = d3.scale.ordinal()
-		.domain(["延误率", "准时率", "提前率"])
-		.range(["orange", "green", "blue"]);
-
-
-
-	/* ------- PIE SLICES -------*/
-	var slice = svg.select(".slices").selectAll("path.slice")
-		.data(pie(data), key);
-
-	//enter
-	slice.enter()
-		.insert("path")
-		.style("fill", function(d) { return color(d.data.label); })
-		.attr("class", "slice");
-
-	slice.transition().duration(1000)
-		.attrTween("d", function(d) {
-			var currentArc = this.__current__; // <-C
-			//console.log("this",this.__current__);
-
-			if (!currentArc)
-				currentArc = {startAngle: 0,
-					endAngle: 0};
-
-			var interpolate = d3.interpolate(
-				currentArc, d);
-
-			this.__current__ = interpolate(1);//<-D
-
-			return function (t) {
-				return arc(interpolate(t));
-			};
-		});
-
-	//exit
-	slice.exit()
-		.remove();
-
-	/* ------- TEXT LABELS -------*/
-
-	var text = svg.select(".labels").selectAll("text")
-		.data(pie(data), key);
-
-	//text.enter()
-	//	.append("text")
-	//	.attr("dy", ".35em")
-	//	.text(function(d) {
-	//		return d.data.label;
-	//	});
-
-	var left ;
-		text.enter()
-		.append("text")
-		.attr("dy", ".35em")
-		.text(function (d) {
-			if(d.data.value!=0){
-				return d.data.label+":"+(d.data.value*100).toFixed(2)+"%";
-			}
-
-		}).style("animation","text_opacitytoone 1.2s ease forwards");
-
-	function midAngle(d){
-		return d.startAngle + (d.endAngle - d.startAngle)/2;
+		renderPie();
 	}
 
-	text.transition().duration(1000)
-		.attrTween("transform", function(d) {
-			this._current = this._current || d;
-			var interpolate = d3.interpolate(this._current, d);
-			this._current = interpolate(0);
-//			console.log("d",d);
-//			console.log("this._current",this._current);
-//			console.log("interpolate",interpolate);
-			return function(t) {
-				var d2 = interpolate(t);
-				var pos = outerArc.centroid(d2);
-				pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-				return "translate("+ pos +")";
-			};
-		})
-		.styleTween("text-anchor", function(d){
-			this._current = this._current || d;
-			var interpolate = d3.interpolate(this._current, d);
-			this._current = interpolate(0);
-			return function(t) {
-				var d2 = interpolate(t);
-				return midAngle(d2) < Math.PI ? "start":"end";
-			};
-		});
+	function renderPie() {
+		var pie = d3.layout.pie() // <-A        //创建圆形布局，并制定了数据的取值和排序方式
+			.sort(function (d) {
+				return d.id;
+			})
+			.value(function (d) {
+				return d.value;
+			});
 
-	text.exit()
-		.remove();
+		var arc = d3.svg.arc()
+			.outerRadius(_radius)
+			.innerRadius(_innerRadius);
 
-	/* ------- SLICE TO TEXT POLYLINES -------*/
+		if (!_pieG)
+			_pieG = _bodyG.append("g")
+				.attr("class", "pie")
+				.attr("transform", "translate("
+				+ _radius
+				+ ","
+				+ _radius + ")");
 
-	var polyline = svg.select(".lines").selectAll("polyline")
-		.data(pie(data), key);
+		renderSlices(pie, arc);
 
-	polyline.enter()
-		.append("polyline");
+		renderLabels(pie, arc);
+	}
 
-	polyline.transition().duration(1000)
-		.attrTween("points", function(d){
-			this._current = this._current || d;
-			var interpolate = d3.interpolate(this._current, d);
-			this._current = interpolate(0);
-			return function(t) {
-				var d2 = interpolate(t);
-				var pos = outerArc.centroid(d2);
-				pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-				return [arc.centroid(d2), outerArc.centroid(d2), pos];
-			};
-		});
+	function renderSlices(pie, arc) {
 
-	polyline.style("animation","line_opacitytoone 1.2s ease forwards");
+		var slices = _pieG.selectAll("path.arc")
+			.data(pie(_data)); // <-B
+		 console.log(_data);
+		 console.log(pie(_data));
 
-	polyline.exit()
-		.remove();
+
+		slices.enter()
+			.append("path")
+			.attr("class", "arc")
+			.attr("fill", function (d, i) {
+				return _colors(i);
+			});
+
+
+
+		slices.transition()
+			.attrTween("d", function (d) {
+				var currentArc = this.__current__; // <-C
+
+				if (!currentArc)
+					currentArc = {startAngle: 0,
+						endAngle: 0};
+
+				var interpolate = d3.interpolate(
+					currentArc, d);
+
+				this.__current__ = interpolate(1);//<-D
+
+				return function (t) {
+					return arc(interpolate(t));
+				};
+			});
+		slices.exit().remove();
+	}
+
+	function renderLabels(pie, arc) {
+		console.log(_data);
+		var labels = _pieG.selectAll("text.label")
+			.data(pie(_data)); // <-E
+
+		labels.enter()
+			.append("text")
+			.attr("class", "label");
+
+		labels.transition()
+			.attr("transform", function (d) {
+				return "translate("
+					+ arc.centroid(d) + ")"; // <-F
+			})
+			.attr("dy", ".35em")
+			.attr("text-anchor", "middle")
+			.text(function (d) {
+				if(d.data.value!=0){
+
+					return "延误率:"+(d.data.value*100).toFixed(2)+"%";
+				}
+
+			});
+	}
+
+	_chart.width = function (w) {
+		if (!arguments.length) return _width;
+		_width = w;
+		return _chart;
+	};
+
+	_chart.height = function (h) {
+		if (!arguments.length) return _height;
+		_height = h;
+		return _chart;
+	};
+
+	_chart.colors = function (c) {
+		if (!arguments.length) return _colors;
+		_colors = c;
+		return _chart;
+	};
+
+	_chart.radius = function (r) {
+		if (!arguments.length) return _radius;
+		_radius = r;
+		return _chart;
+	};
+
+	_chart.innerRadius = function (r) {
+		if (!arguments.length) return _innerRadius;
+		_innerRadius = r;
+		return _chart;
+	};
+
+	_chart.data = function (d) {
+		if (!arguments.length) return _data;
+		_data = d;
+		return _chart;
+	};
+
+	return _chart;
 }
+
+
+
+
+function randomData() {
+	return Math.random() * 9 + 1;
+}
+
+function update() {
+	for (var j = 0; j < data.length; ++j)
+		data[j].value = randomData();
+
+	chart.render();
+}
+
+//var numberOfDataPoint = 6,
+//	data = [];
+
+//data = d3.range(numberOfDataPoint).map(function (i) {
+//	return {id: i, value: randomData()};
+//});
+
+//data = [
+//	{id:1,value:0.9746},
+//	{id:2,value:0.0254},
+//	{id:3,value:0.0000}
+//];
+
+
+//    console.log(data);
+
 
 
 

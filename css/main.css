@@ -600,20 +600,7 @@ svg {
     background: #94ADB3;
 }
 
-svg.chart{
-    border: 1px solid red;
-    background: #f2f2f2
 
-}
-
-#flight_info_plus .qf_delay_chart svg.chart{
-    margin-left: 80px;
-}
-
-#flight_info_plus .qf_delay_chart svg.chart .label{
-    fill: #f7f7f7;
-    font-size: 1.2rem;
-}
 
 .land {
     fill: #F2F2F2;
@@ -1738,6 +1725,58 @@ svg.chart{
     height: 50%;
 
 }
+
+
+
+#flight_info_plus .qf_delay_chart svg.qf_delaylen_chart{
+
+    background: #f2f2f2;
+    border: 1px solid red;
+    margin-left: 100px;
+}
+
+
+#flight_info_plus .qf_delay_chart  g.lines polyline{
+    stroke: black;
+    stroke-width: 2px;
+    fill: none;
+    opacity: 0;
+}
+
+#flight_info_plus .qf_delay_chart  g.labels text{
+    fill: #666;
+    font-size: 1.5rem;
+    opacity: 0;
+}
+
+/*透明度渐变动画*/
+@keyframes opacitytozero {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
+@keyframes text_opacitytoone {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+@keyframes line_opacitytoone {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 0.3;
+    }
+}
+
+
 
 
 

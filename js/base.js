@@ -1441,8 +1441,8 @@ function show_line_plus(data){
 						var chart = pieChart('#flight_info_plus .qf_delay_chart')
 							.width(300)
 							.height(300)
-							.radius(150)
-							.innerRadius(60)
+							.radius(100)
+							.innerRadius(20)
 							.data(data["leave_delay"]["delay"]);
 
 						chart.render();
