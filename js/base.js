@@ -723,8 +723,6 @@ function filter_data(){
 
 
 
-
-
 //
 //
 //			if( trim_flag1 && check_text1){
@@ -1254,7 +1252,7 @@ function show_line_plus(data){
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将计算后的两地之间的坐标距离存入要进行绑定的数组
 			data[index++].len = array[9][0];
-			console.log(array);
+			//console.log(array);
 			show_line_bg(d,array[11],d.flight_number);
 
 			////x1
@@ -1424,6 +1422,39 @@ function show_line_plus(data){
 						$('#flight_info').hide();
 					}
 				});
+				//alert(d3.select(this).attr("id").replace("line_bg_",""));
+				//alert(d3.select('#svg_map g #'+line_id).attr('type'));
+				var search_obj = serializeSearch();
+
+				ajax({
+					method:'get',
+					url:"/index.php?c=index&a=getdelayInfo",
+					data:{
+						"flight_number":d3.select(this).attr("id").replace("line_bg_",""),
+						"start_time":search_obj.start_time,
+						"end_time":search_obj.end_time
+					},
+					success:function(text){
+						data = JSON.parse(text);
+						console.log(data);
+
+						var chart = pieChart('#flight_info_plus .qf_delay_chart')
+							.width(300)
+							.height(300)
+							.radius(150)
+							.innerRadius(60)
+							.data(data["leave_delay"]["delay"]);
+
+						chart.render();
+
+						//console.log(data);
+					},
+					error:function(text){
+						alert(text);
+					},
+					async:true
+				});
+
 				d3.select('#flight_info_plus')
 					.style("display","block")
 					.transition()
@@ -2354,16 +2385,19 @@ function serializeSearch(){
 	search["dd_type"]=$('#left_flat .qf_option .dd_input').attr("key");
 	search["dd_text"]=$('#left_flat .dd_jc').value();
 	search["company"]=$('#left_flat .airline_company .company_text').value();
-	if($('#left_flat .qf_time').value()!=''){
-		search["start_time"]=$('#left_flat .qf_time').value()+" 00:00:00";
+
+	var temp = trim($('#left_flat .qf_time').value());
+	if(temp!=''){
+		search["start_time"]=temp+" 00:00:00";
 	}else{
-		search["start_time"]=$('#left_flat .qf_time').value();
+		search["start_time"]=temp;
 	}
 
-	if($('#left_flat .dd_time').value()!=''){
-		search["end_time"]=$('#left_flat .dd_time').value()+" 00:00:00";
+	temp = trim($('#left_flat .dd_time').value());
+	if(temp!=''){
+		search["end_time"]=temp+" 00:00:00";
 	}else{
-		search["end_time"]=$('#left_flat .dd_time').value();
+		search["end_time"]=temp;
 	}
 
 
@@ -2380,10 +2414,22 @@ function serializeFilter(){
 	filter["qf_text"]=$('#left_flat .filter .filter_qf_text_td .filter_qf_text').value();
 	filter["mb_type"]=$('#left_flat .filter .filter_dd_td .filter_dd_input').attr("key");
 	filter["mb_text"]=$('#left_flat .filter .filter_dd_text_td .filter_dd_text').value();
-	filter["start_time"]=$('#left_flat .filter .filter_time .filter_qf_time').value();
-	filter["end_time"]=$('#left_flat .filter .filter_time .filter_dd_time').value();
-	filter["airline_company"]=$('#left_flat .filter filter_company_td .filter_company_text').value();
 
+	var temp = trim($('#left_flat .filter .filter_time .filter_qf_time').value());
+	if(temp!=''){
+		filter["start_time"]=temp+" 00:00:00";
+	}else{
+		filter["start_time"]=temp;
+	}
+
+	temp = trim($('#left_flat .filter .filter_time .filter_dd_time').value());
+	if(temp!=''){
+		filter["end_time"]=temp+" 00:00:00";
+	}else{
+		filter["end_time"]=temp;
+	}
+
+	filter["airline_company"]=$('#left_flat .filter .filter_company_td .filter_company_text').value();
 	return filter;
 }
 

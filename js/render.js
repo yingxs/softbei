@@ -41,13 +41,13 @@ function getLine_xy(qf,dd){
 	//var bezier_x = (RandomNum(xm,xn))*(1),
 	//	bezier_y = (k1*bezier_x+b1)*(1);
 
-	console.log("x1,y1:",projection(qf)[0],projection(qf)[1]);
-	console.log("x2,y2:",projection(dd)[0],projection(dd)[1]);
-	console.log("k1,b1:",k1,b1);
+	//console.log("x1,y1:",projection(qf)[0],projection(qf)[1]);
+	//console.log("x2,y2:",projection(dd)[0],projection(dd)[1]);
+	//console.log("k1,b1:",k1,b1);
 
 	var bezier_x = RandomNum(xp,xq),
 		bezier_y = (k1*bezier_x)+b1;
-	console.log("bezier_x,bezier_y:",bezier_x,matchToSvg(bezier_y) );
+	//console.log("bezier_x,bezier_y:",bezier_x,matchToSvg(bezier_y) );
 
 
 	var k2 = -1/k1;
@@ -157,7 +157,6 @@ function getLine_xy(qf,dd){
 	//return ["M " + projection(qf)[0]+","+projection(qf)[1]+" Q "+cx+","+cy+projection(dd)[0]+","+projection(dd)[1]];
 }
 
-
 function getLine_xy_plus(qf,dd){
 	//alert(qf+","+dd);
 	var width =$('svg').attr("width") ;
@@ -256,12 +255,6 @@ function getLine_xy_plus(qf,dd){
 
 }
 
-
-
-
-
-
-
 function RandomNum(Min, Max) {
 	if(Min>Max){
 		var temp = Min;
@@ -319,9 +312,6 @@ function matchToSvg(y){
 	return height-y;
 }
 
-
-
-
 function getPoint(bezier_x,bezier_y){
 	// 求直线
 	//var k = (560 - 556) / (439 - 1238);
@@ -349,6 +339,199 @@ function getPoint(bezier_x,bezier_y){
 
 
 }
+
+
+function pieChart(clazz,width,height) {
+	var _chart = {};
+
+	var _width = width, _height = height,
+		_data = [],
+		_colors = d3.scale.category20(),
+		_svg,
+		_bodyG,
+		_pieG,
+		_radius = 200,
+		_innerRadius = 10;
+
+	_chart.render = function () {
+		d3.selectAll("#flight_info_plus .qf_delay_chart svg").remove();
+		if (!_svg) {
+			_svg = d3.select(clazz).append("svg")
+				.attr("height", _height)
+				.attr("width", _width)
+				.classed("chart",true);
+		}
+
+		renderBody(_svg);
+
+	};
+
+	function renderBody(svg) {
+		if (!_bodyG)
+			_bodyG = svg.append("g")
+				.attr("class", "body");
+
+		renderPie();
+	}
+
+	function renderPie() {
+		var pie = d3.layout.pie() // <-A        //创建圆形布局，并制定了数据的取值和排序方式
+			.sort(function (d) {
+				return d.id;
+			})
+			.value(function (d) {
+				return d.value;
+			});
+
+		var arc = d3.svg.arc()
+			.outerRadius(_radius)
+			.innerRadius(_innerRadius);
+
+		if (!_pieG)
+			_pieG = _bodyG.append("g")
+				.attr("class", "pie")
+				.attr("transform", "translate("
+				+ _radius
+				+ ","
+				+ _radius + ")");
+
+		renderSlices(pie, arc);
+
+		renderLabels(pie, arc);
+	}
+
+	function renderSlices(pie, arc) {
+
+		var slices = _pieG.selectAll("path.arc")
+			.data(pie(_data)); // <-B
+		 console.log(_data);
+		 console.log(pie(_data));
+
+
+		slices.enter()
+			.append("path")
+			.attr("class", "arc")
+			.attr("fill", function (d, i) {
+				return _colors(i);
+			});
+
+
+
+		slices.transition()
+			.attrTween("d", function (d) {
+				var currentArc = this.__current__; // <-C
+
+				if (!currentArc)
+					currentArc = {startAngle: 0,
+						endAngle: 0};
+
+				var interpolate = d3.interpolate(
+					currentArc, d);
+
+				this.__current__ = interpolate(1);//<-D
+
+				return function (t) {
+					return arc(interpolate(t));
+				};
+			});
+		slices.exit().remove();
+	}
+
+	function renderLabels(pie, arc) {
+		console.log(_data);
+		var labels = _pieG.selectAll("text.label")
+			.data(pie(_data)); // <-E
+
+		labels.enter()
+			.append("text")
+			.attr("class", "label");
+
+		labels.transition()
+			.attr("transform", function (d) {
+				return "translate("
+					+ arc.centroid(d) + ")"; // <-F
+			})
+			.attr("dy", ".35em")
+			.attr("text-anchor", "middle")
+			.text(function (d) {
+				if(d.data.value!=0){
+
+					return "延误率:"+(d.data.value*100).toFixed(2)+"%";
+				}
+
+			});
+	}
+
+	_chart.width = function (w) {
+		if (!arguments.length) return _width;
+		_width = w;
+		return _chart;
+	};
+
+	_chart.height = function (h) {
+		if (!arguments.length) return _height;
+		_height = h;
+		return _chart;
+	};
+
+	_chart.colors = function (c) {
+		if (!arguments.length) return _colors;
+		_colors = c;
+		return _chart;
+	};
+
+	_chart.radius = function (r) {
+		if (!arguments.length) return _radius;
+		_radius = r;
+		return _chart;
+	};
+
+	_chart.innerRadius = function (r) {
+		if (!arguments.length) return _innerRadius;
+		_innerRadius = r;
+		return _chart;
+	};
+
+	_chart.data = function (d) {
+		if (!arguments.length) return _data;
+		_data = d;
+		return _chart;
+	};
+
+	return _chart;
+}
+
+
+
+
+function randomData() {
+	return Math.random() * 9 + 1;
+}
+
+function update() {
+	for (var j = 0; j < data.length; ++j)
+		data[j].value = randomData();
+
+	chart.render();
+}
+
+//var numberOfDataPoint = 6,
+//	data = [];
+
+//data = d3.range(numberOfDataPoint).map(function (i) {
+//	return {id: i, value: randomData()};
+//});
+
+//data = [
+//	{id:1,value:0.9746},
+//	{id:2,value:0.0254},
+//	{id:3,value:0.0000}
+//];
+
+
+//    console.log(data);
+
+
 
 
 

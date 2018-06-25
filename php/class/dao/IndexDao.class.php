@@ -8,6 +8,9 @@ class IndexDao extends MySQLPDO{
         parent::__construct();
     }
 
+
+
+
     //查询默认选项类型
     public function QueryType(){
         return parent::fetchAll("SELECT `id`,`type`,`default`,`column` FROM query_type");
@@ -140,6 +143,28 @@ class IndexDao extends MySQLPDO{
        // echo "<br/>";
 
         return $data;
+    }
+
+    //根据航班查询指定时间区间内的延误时长
+    function getdelay($flight_number,$start_time,$end_time){
+        $flight_number = strtolower($flight_number);
+        $table_name = "t_".$flight_number;
+        $sql = "SELECT `leave_delay`,`arrive_delay` FROM  $table_name  WHERE 1=1 ";
+        if( $start_time != ''){
+            $sql .= " AND `date_standard` >= :start_time ";
+        }
+        if( $end_time != ''){
+            $sql .= " AND `date_standard` <= :end_time ";
+        }
+
+//      echo $sql;
+
+        $result = parent::fetchAll($sql,["start_time"=>$start_time,"end_time"=>$end_time]);
+
+        //show($result);
+
+        return $result;
+
     }
 
 

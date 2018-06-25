@@ -716,13 +716,13 @@ function load(){
 			t:30,
 			step:10,
 			mul:{
-				x:410,
-				y:80,
+				x:420,
+				y:110,
 				h:300,
 				o:100,
 				w:550
 			}
-		}).css("top","80px");
+		}).css("top","110px");
 	});
 
 	//过滤-截止时间文本框获得焦点后，日历div平移后显示
@@ -733,11 +733,12 @@ function load(){
 				step:10,
 				mul:{
 					x:600,
+					y:110,
 					h:300,
 					o:100,
 					w:550
 				}
-			});
+			}).css("top","110px");
 		}
 
 	});
@@ -1048,14 +1049,18 @@ function load(){
 
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
+		//console.log(serializeSearch());
 		getFlight_data(e);
 		leftBox_anim(left_box.search,10,30,-380,100);
+		$('#left_bar').attr("type","search");
 	});
 
 	//确认过滤
 	$('#left_flat .filter .filter_button .submit').click(function(e){
+		//console.log(serializeFilter());
 		predef(e);
 		filter_data();
+		$('#left_bar').attr("type","filter");
 	});
 
 	//选择只显示筛选的数据
@@ -1115,8 +1120,14 @@ function load(){
 	//});
 
 
-
-
+	d3.select('#flight_info_plus img').on('click',function(){
+		d3.select('#flight_info_plus')
+			.style("display","block")
+			.transition()
+			.duration(500)
+			.style("bottom","-45rem")
+			.style("opacity","0");
+	});
 
 }
 

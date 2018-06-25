@@ -20,7 +20,114 @@ class Index {
 
     }
 
+    public function getdelayInfoAction(){
+        $flight_number = I('flight_number','get','string','');
+        $start_time = I('start_time','get','string','');
+        $end_time = I('end_time','get','string','');
+        //echo $flight_number."<br/>";
+        //echo $start_time."<br/>";
+        //echo $end_time."<br/>";
 
+
+        $dao = new IndexDao();
+        $result = $dao->getdelay($flight_number,$start_time,$end_time);
+
+        //show($result);
+        $leave_delay=[
+                'before'=>[],     //提前
+                'on'=>[],         //准时
+                'after'=>[],      //延误
+        ];
+
+        $arrive_delay=[
+                'before'=>[],     //提前
+                'on'=>[],         //准时
+                'after'=>[],      //延误
+        ];
+
+
+        foreach($result as $v){
+            if($v["leave_delay"]<-15){//延误
+                $leave_delay['after'][]=$v["leave_delay"];
+            }else if($v["leave_delay"]>15){//提前
+                $leave_delay['before'][]=$v["leave_delay"];
+            }else if($v["leave_delay"]<=15 && $v["leave_delay"]>=-15 ){//准时
+                $leave_delay['on'][]=$v["leave_delay"];
+            }
+
+            if($v["arrive_delay"]<-15){//延误
+                $arrive_delay['after'][]=$v["arrive_delay"];
+            }else if($v["arrive_delay"]>15){//提前
+                $arrive_delay['before'][]=$v["arrive_delay"];
+            }else if($v["arrive_delay"]<=15 && $v["arrive_delay"]>=-15 ){//准时
+                $arrive_delay['on'][]=$v["arrive_delay"];
+            }
+        }
+
+        $sum_qf = 0;$i=0;
+        foreach($leave_delay['after'] as $v){
+            $sum_qf+=$v;
+            $i++;
+        }
+
+
+        $num_after_qf = sizeof($leave_delay['after']) / sizeof($result);
+        $num_on_qf = sizeof($leave_delay['on']) / sizeof($result);
+        $num_before_qf = sizeof($leave_delay['before']) / sizeof($result);
+
+//      echo "<br/>出发:<br/>";
+//      echo "&nbsp;&nbsp;&nbsp;&nbsp;延误率:".( sprintf("%.4f", $num_after_qf)*100 )."%<br/>";
+//      echo "&nbsp;&nbsp;&nbsp;&nbsp;准点率:".( sprintf("%.4f", $num_on_qf)*100 )."%<br/>";
+//      echo "&nbsp;&nbsp;&nbsp;&nbsp;提前率:".( sprintf("%.4f", $num_before_qf)*100 )."%<br/>";
+//      echo "&nbsp;&nbsp;&nbsp;&nbsp;平均延误时间:".( sprintf("%.2f", ($sum_qf/$i)*-1 ) )."min<br/>";
+
+
+
+
+        $num_after_dd = sizeof($arrive_delay['after']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
+        $num_on_dd = sizeof($arrive_delay['on']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
+        $num_before_dd = sizeof($arrive_delay['before']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
+
+
+        $sum_dd = 0;$i=0;
+        foreach($arrive_delay['after'] as $v){
+            $sum_dd += $v;
+            $i++;
+        }
+//      echo "<br/>到达:<br/>";
+//      echo "&nbsp;&nbsp;&nbsp;&nbsp;延误率:".( sprintf("%.4f", $num_after_dd)*100 )."%<br/>";
+//      echo "&nbsp;&nbsp;&nbsp;&nbsp;准点率:".( sprintf("%.4f", $num_on_dd)*100 )."%<br/>";
+//      echo "&nbsp;&nbsp;&nbsp;&nbsp;提前率:".( sprintf("%.4f", $num_before_dd)*100 )."%<br/>";
+//      echo "&nbsp;&nbsp;&nbsp;&nbsp;平均延误时间:".( sprintf("%.2f", ($sum_dd/$i)*-1 ) )."min<br/>";
+
+        $data = [
+            "leave_delay"=>[
+                "delay"=>[
+                	["id"=>"1","value"=>sprintf("%.4f", $num_after_qf ),"label"=>"延误率"],
+                	["id"=>"2","value"=>sprintf("%.4f", $num_on_qf ),"label"=>"准时率"],
+                	["id"=>"3","value"=>sprintf("%.4f", $num_before_qf ),"label"=>"提前率"]
+                ],
+                "len"=>sprintf("%.2f", ($sum_qf/$i)*-1 )
+            ],
+            "arrive_delay"=>[
+                "delay"=>[
+                	["id"=>"1","value" => sprintf("%.4f", $num_after_dd ),"label"=>"延误率"],
+                	["id"=>"2","value" => sprintf("%.4f", $num_on_dd ),"label"=>"准时率"],
+                	["id"=>"3","value" => sprintf("%.4f", $num_before_dd ),"label"=>"提前率"]
+                ],
+                "len"=>sprintf("%.2f", ($sum_dd/$i)*-1 )
+            ]
+        ];
+
+
+        echo json_encode($data);
+
+//      show($leave_delay);
+
+
+    }
+
+    //搜索航班信息
     public function searchAction(){
         $qf_type = I('qf_type','get','string','');
         $qf_text = I('qf_text','get','string','');
@@ -55,6 +162,7 @@ class Index {
         //exit("完成");
     }
 
+    //查询机场/城市/国家
     public function searchInfoAction(){
             $type = I('type','get','string','');
             $text = I('text','get','string','');
