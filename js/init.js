@@ -962,15 +962,62 @@ function load(){
 			'#left_flat .search_qf_text_td .search_qf_info .loading','qf');
 	})
 		.bind('blur',search_qf_text_blur)
-		.bind('keyup',function(){
+		.bind('keyup',function(e){
 		//console.log("keyup:get_qf_opt2()");
 		//p_text,p_input,p_ul,p_context,p_loading
-		get_qf_opt2('#left_flat .search_qf_text_td .qf_text',
-			'#left_flat .qf_option .qf_input',
-			'#left_flat .search_qf_text_td .search_qf_info',
-			'#left_flat .search_qf_text_td .search_qf_info .context',
-			'#left_flat .search_qf_text_td .search_qf_info .loading','qf');
-	}).bind('mousedown',function(e){
+
+			if( e.keyCode!=40 && e.keyCode!=38 && e.keyCode!=13){
+				get_qf_opt2('#left_flat .search_qf_text_td .qf_text',
+					'#left_flat .qf_option .qf_input',
+					'#left_flat .search_qf_text_td .search_qf_info',
+					'#left_flat .search_qf_text_td .search_qf_info .context',
+					'#left_flat .search_qf_text_td .search_qf_info .loading','qf');
+			}
+
+
+
+			var li_list = $('#left_flat .search_qf_text_td .search_qf_info .context li');
+			//下一个
+			if(e.keyCode==40){
+				if(this.index==undefined || this.index >= li_list.length()-1){
+					this.index=0;
+				}else{
+					this.index++;
+				}
+
+				li_list.eq(this.index+1).css('background','#efefef');
+				li_list.eq(this.index).css('background','#efefef');
+				li_list.eq(this.index+1).css('background','#efefef');
+				//li_list.eq(this.index).css('color','#369');
+				//console.log("keyCode:"+e.keyCode+",index:"+this.index);
+			}
+
+			//上一个
+			if(e.keyCode==38){
+				if(this.index==undefined || this.index <= 0){
+					this.index=li_list.length()-1;
+				}else{
+					this.index--;
+				}
+
+
+				li_list.eq(this.index).css('background','#efefef');
+				//li_list.eq(this.index).css('color','#369');
+				console.log("keyCode:"+e.keyCode+",index:"+this.index);
+			}
+
+			//回车
+			if(e.keyCode==13){
+				$(this).value(li_list.eq(this.index).text());
+
+				$('#reg .all_email').hide();
+
+
+				this.index = undefined;
+			}
+
+
+		}).bind('mousedown',function(e){
 		if($('#left_flat .search_qf_text_td .search_ariport_popover').css('display')=='block' ){
 			removeEvent($('#left_flat .search_dd_text_td .dd_jc').ge(0),"blur",search_dd_text_blur);
 			console.log("到达输入框失去焦点函数被删除");

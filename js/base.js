@@ -345,6 +345,11 @@ Base.prototype.eq = function(num){
 	return this;
 };
 
+//获取某组结点的数量
+Base.prototype.length = function(){
+	return this.elements.length;
+};
+
 //遮罩锁屏功能
 Base.prototype.lock = function(){
 	for(var i=0;i<this.elements.length;i++){
