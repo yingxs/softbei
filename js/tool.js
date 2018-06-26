@@ -198,6 +198,11 @@ function fixedScroll(){
 
 }
 
+//跨浏览器获取innerText
+function getInnerText(element){
+	return (typeof element.textContent=='string') ? element.textContent : element.innerText;
+}
+
 //跨浏览器获取视口大小
 function getInner(){
 

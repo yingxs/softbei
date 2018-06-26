@@ -865,14 +865,26 @@ function load(){
 			}
 		});
 		//hide_select_info(false,0);
-	}).bind('keyup',function(){
+	}).bind('keyup',function(e){
 		//console.log("keyup:get_qf_opt2()");
 		//p_text,p_input,p_ul,p_context,p_loading
-		get_qf_opt2('#left_flat .filter .filter_qf_text_td .filter_qf_text',
-			'#left_flat .filter .filter_qf_td .filter_qf_input',
-			'#left_flat .filter .filter_qf_text_td .filter_qf_info',
-			'#left_flat .filter .filter_qf_text_td .filter_qf_info .context',
-			'#left_flat .filter .filter_qf_text_td .filter_qf_info .loading','qf');
+
+		if( e.keyCode!=40 && e.keyCode!=38 && e.keyCode!=13){
+			get_qf_opt2('#left_flat .filter .filter_qf_text_td .filter_qf_text',
+				'#left_flat .filter .filter_qf_td .filter_qf_input',
+				'#left_flat .filter .filter_qf_text_td .filter_qf_info',
+				'#left_flat .filter .filter_qf_text_td .filter_qf_info .context',
+				'#left_flat .filter .filter_qf_text_td .filter_qf_info .loading','qf');
+		}
+
+		if( trim($('#left_flat .filter .filter_qf_text_td .filter_qf_text').value())!='' ){
+			keyup_value(e,this,'a',
+				$('#left_flat .filter .filter_qf_text_td .filter_qf_info .context li'),
+				$('#left_flat .filter .filter_qf_td .filter_qf_input'),
+				$('#left_flat .filter .filter_qf_text_td .filter_qf_text'),
+				$('#left_flat .filter .filter_qf_text_td .filter_qf_info'));
+		}
+
 
 	});
 
@@ -901,14 +913,26 @@ function load(){
 			}
 		});
 		//hide_select_info(false,0);
-	}).bind('keyup',function(){
+	}).bind('keyup',function(e){
 		//console.log("keyup:get_qf_opt2()");
 		//p_text,p_input,p_ul,p_context,p_loading
-		get_qf_opt2('#left_flat .filter .filter_dd_text_td .filter_dd_text',
-			'#left_flat .filter .filter_dd_td .filter_dd_input',
-			'#left_flat .filter .filter_dd_text_td .filter_dd_info',
-			'#left_flat .filter .filter_dd_text_td .filter_dd_info .context',
-			'#left_flat .filter .filter_dd_text_td .filter_dd_info .loading','dd');
+
+		if( e.keyCode!=40 && e.keyCode!=38 && e.keyCode!=13 ){
+			get_qf_opt2('#left_flat .filter .filter_dd_text_td .filter_dd_text',
+				'#left_flat .filter .filter_dd_td .filter_dd_input',
+				'#left_flat .filter .filter_dd_text_td .filter_dd_info',
+				'#left_flat .filter .filter_dd_text_td .filter_dd_info .context',
+				'#left_flat .filter .filter_dd_text_td .filter_dd_info .loading','dd');
+		}
+
+		if( trim($('#left_flat .filter .filter_dd_text_td .filter_dd_text').value())!='' ){
+			keyup_value(e,this,'a',
+				$('#left_flat .filter .filter_dd_text_td .filter_dd_info .context li'),
+				$('#left_flat .filter .filter_dd_td .filter_dd_input'),
+				$('#left_flat .filter .filter_dd_text_td .filter_dd_text'),
+				$('#left_flat .filter .filter_dd_text_td .filter_dd_info'));
+		}
+
 
 	});
 
@@ -937,12 +961,24 @@ function load(){
 			}
 		});
 		//hide_select_info(false,0);
-	}).bind('keyup',function(){
+	}).bind('keyup',function(e){
 
-		filter_get_company('#left_flat .filter .filter_company_td .filter_company_text',
-			"#left_flat .filter .filter_company_td .filter_company_info",
-			"#left_flat .filter .filter_company_td .filter_company_info .context",
-			"#left_flat .filter .filter_company_td .filter_company_info .loading");
+
+		if( e.keyCode!=40 && e.keyCode!=38 && e.keyCode!=13){
+			filter_get_company('#left_flat .filter .filter_company_td .filter_company_text',
+				"#left_flat .filter .filter_company_td .filter_company_info",
+				"#left_flat .filter .filter_company_td .filter_company_info .context",
+				"#left_flat .filter .filter_company_td .filter_company_info .loading");
+		}
+
+		if( trim($('#left_flat .filter .filter_company_td .filter_company_text').value())!='' ){
+			keyup_value(e,this,'a',
+				$('#left_flat .filter .filter_company_td .filter_company_info .context li'),
+				null,
+				$('#left_flat .filter .filter_company_td .filter_company_text'),
+				$('#left_flat .filter .filter_company_td .filter_company_info'));
+		}
+
 	});
 
 
@@ -974,48 +1010,13 @@ function load(){
 					'#left_flat .search_qf_text_td .search_qf_info .loading','qf');
 			}
 
-
-
-			var li_list = $('#left_flat .search_qf_text_td .search_qf_info .context li');
-			//下一个
-			if(e.keyCode==40){
-				if(this.index==undefined || this.index >= li_list.length()-1){
-					this.index=0;
-				}else{
-					this.index++;
-				}
-
-				li_list.eq(this.index+1).css('background','#efefef');
-				li_list.eq(this.index).css('background','#efefef');
-				li_list.eq(this.index+1).css('background','#efefef');
-				//li_list.eq(this.index).css('color','#369');
-				//console.log("keyCode:"+e.keyCode+",index:"+this.index);
+			if( trim($('#left_flat .search_qf_text_td .qf_text').value())!='' ){
+				keyup_value(e,this,'a',
+					$('#left_flat .search_qf_text_td .search_qf_info .context li'),
+					$('#left_flat .qf_option .qf_input'),
+					$('#left_flat .search_qf_text_td .qf_text'),
+					$('#left_flat .search_qf_text_td .search_qf_info'));
 			}
-
-			//上一个
-			if(e.keyCode==38){
-				if(this.index==undefined || this.index <= 0){
-					this.index=li_list.length()-1;
-				}else{
-					this.index--;
-				}
-
-
-				li_list.eq(this.index).css('background','#efefef');
-				//li_list.eq(this.index).css('color','#369');
-				console.log("keyCode:"+e.keyCode+",index:"+this.index);
-			}
-
-			//回车
-			if(e.keyCode==13){
-				$(this).value(li_list.eq(this.index).text());
-
-				$('#reg .all_email').hide();
-
-
-				this.index = undefined;
-			}
-
 
 		}).bind('mousedown',function(e){
 		if($('#left_flat .search_qf_text_td .search_ariport_popover').css('display')=='block' ){
@@ -1040,13 +1041,24 @@ function load(){
 
 	})
 		.bind('blur',search_dd_text_blur)
-		.bind('keyup',function(){
-		get_qf_opt2('#left_flat .search_dd_text_td .dd_jc',
-			'#left_flat .qf_option .dd_input',
-			'#left_flat .search_dd_text_td .search_dd_info',
-			'#left_flat .search_dd_text_td .search_dd_info .context',
-			'#left_flat .search_dd_text_td .search_dd_info .loading','dd');
-	}).bind('mousedown',function(e){
+		.bind('keyup',function(e){
+
+			if( e.keyCode!=40 && e.keyCode!=38 && e.keyCode!=13){
+				//显示提示信息
+				get_qf_opt2('#left_flat .search_dd_text_td .dd_jc',
+					'#left_flat .qf_option .dd_input',
+					'#left_flat .search_dd_text_td .search_dd_info',
+					'#left_flat .search_dd_text_td .search_dd_info .context',
+					'#left_flat .search_dd_text_td .search_dd_info .loading','dd');
+			}
+			if( trim($('#left_flat .search_dd_text_td .dd_jc').value())!='' ){
+				keyup_value(e,this,'a',
+					$('#left_flat .search_dd_text_td .search_dd_info .context li'),
+					$('#left_flat .qf_option .dd_input'),
+					$('#left_flat .search_dd_text_td .dd_jc'),
+					$('#left_flat .search_dd_text_td .search_dd_info'));
+			}
+		}).bind('mousedown',function(e){
 		if($('#left_flat .search_qf_text_td .search_ariport_popover').css('display')=='block' ){
 			$('#left_flat .search_qf_text_td .qf_text').css("border-bottom","1px solid #ddd");
 			removeEvent($('#left_flat .search_qf_text_td .qf_text').ge(0),"blur",search_qf_text_blur);
@@ -1086,12 +1098,20 @@ function load(){
 			}
 		});
 		//hide_select_info(false,0);
-	}).bind('keyup',function(){
-
-		filter_get_company('#left_flat .airline_company .company_text',
-			"#left_flat .airline_company .search_company_info",
-			"#left_flat .airline_company .search_company_info .context",
-			"#left_flat .airline_company .search_company_info .loading");
+	}).bind('keyup',function(e){
+		if( e.keyCode!=40 && e.keyCode!=38 && e.keyCode!=13){
+			filter_get_company('#left_flat .airline_company .company_text',
+				"#left_flat .airline_company .search_company_info",
+				"#left_flat .airline_company .search_company_info .context",
+				"#left_flat .airline_company .search_company_info .loading");
+		}
+		if( trim($('#left_flat .airline_company .company_text').value())!='' ){
+			keyup_value(e,this,'c',
+				$("#left_flat .airline_company .search_company_info .context li"),
+				null,
+				$('#left_flat .airline_company .company_text'),
+				$("#left_flat .airline_company .search_company_info"));
+		}
 	});
 
 	//查询
@@ -1185,6 +1205,19 @@ function load(){
 	//
 	//});
 
+	//d3.selectAll('#left_flat .search_qf_text_td .search_qf_info .context li').on("mouseover",function(){
+	//	console.log(this);
+	//})
+
+
+
+
+
+	//d3.selectAll('body').on('click',function(){
+	//	var li = d3.selectAll('#left_flat .search_qf_text_td .search_qf_info .context li');
+	//	console.log(li);
+    //
+	//});
 }
 
 

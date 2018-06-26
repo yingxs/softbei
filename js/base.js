@@ -464,6 +464,19 @@ Base.prototype.html = function (str){
 	return this;
 };
 
+//设置innerText
+Base.prototype.text = function (str){
+
+	for(var i=0;i<this.elements.length;i++){
+		if(arguments.length==0){
+			return getInnerText(this.elements[i]);
+		}
+		setInnerText(this.elements[i],str);
+	}
+	return this;
+};
+
+
 //获取某一结点的属性
 Base.prototype.attr = function(attr,value){
 	for(var i=0;i<this.elements.length;i++){
@@ -475,6 +488,16 @@ Base.prototype.attr = function(attr,value){
 	}
 	return this;
 };
+//删除某一结点的属性
+Base.prototype.removeattr = function(attr){
+	for(var i=0;i<this.elements.length;i++){
+			this.elements[i].removeAttribute(attr);
+	}
+	return this;
+};
+
+
+
 //获取某一个节点对象，并返回这个节点对象
 Base.prototype.ge = function(num){
 	return  this.elements[num];
@@ -2225,6 +2248,15 @@ function get_qf_opt2(p_text,p_input,p_ul,p_context,p_loading,state){
 
 	}
 
+	//$(p_context +' li').hover(function(){
+	//	$(p_context +' li').css("background","#f6f6f6");
+	//	$(this).css("background","#efefef");
+	//	//console.log(1);
+	//},function(){
+	//	//console.log(2);
+	//	$(this).css("background","f6f6f6");
+	//});
+
 	//console.log(serializeFilter());
 }
 
@@ -2598,7 +2630,8 @@ function validate_search(){
 function validate_col(clazz){
 	var obj = $(clazz);
 	if(trim( obj.value() )!=''){
-		var reg = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>?~！@#￥……&*（）——|{}【】‘；：”“'。，、0-9？+-]");
+		//console.log("数据验证");
+		var reg = new RegExp("[`~!@#$^&*()=|{}:;,\\[\\].<>?~！@#￥……&*（）——|{}【】‘；：”“。，、0-9？+-]");
 		var str = trim(obj.value() );
 		var flag = reg.test(str);
 		//console.log(str.length);
@@ -2658,6 +2691,89 @@ function validate_time(clazz){
 	//	obj.css("border-bottom","1px solid #ddd");
 	//}
 }
+
+
+
+function keyup_value(e,that,type,li,input,textt,ul){
+
+	var li_list = li;
+	li_list.css("background","#f6f6f6");
+	li_list.removeattr("style");
+	//下一个
+	if(e.keyCode==40){
+		if(that.index==undefined || that.index >= li_list.length()-1){
+			that.index=0;
+		}else{
+			that.index++;
+		}
+
+		li_list.eq(that.index).css('background','#efefef');
+	}
+	//上一个
+	if(e.keyCode==38){
+		if(that.index==undefined || that.index <= 0){
+			that.index=li_list.length()-1;
+		}else{
+			that.index--;
+		}
+		li_list.eq(that.index).css('background','#efefef');
+	}
+
+	if(type=='a'){
+		//回车
+		if(e.keyCode==13){
+			var text = li_list.eq(that.index).text();
+			var key = input.value();
+			if(key.indexOf("机场") > -1){
+				var result = /\([A-Z\/]+\)/i.exec(text);
+				if(result!=null){
+					result = result[0];
+					result = result.replace("(","");
+					result = result.replace(")","");
+					textt.value( result );
+				}else{
+					textt.value( text );
+				}
+			}else{
+				textt.value( text );
+			}
+			ul.animate({
+				attr:'o',
+				target:0,
+				step:10,
+				t:20,
+				fn:function(){
+					ul.hide();
+				}
+			});
+			that.index = undefined;
+			return false;
+		}
+	}else{
+		//回车
+		if(e.keyCode==13){
+			text = li_list.eq(that.index).text();
+			textt.value( text );
+			ul.animate({
+				attr:'o',
+				target:0,
+				step:10,
+				t:20,
+				fn:function(){
+					ul.hide();
+				}
+			});
+			that.index = undefined;
+			return false;
+		}
+
+	}
+
+
+
+
+}
+
 
 
 

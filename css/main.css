@@ -745,7 +745,7 @@ svg {
 }
 
 
-#left_flat .from1_button button.submit{
+#left_flat .from1_button div.submit{
     background: #bbe1ff;
     width: 70%;
     margin-left: 15%;
@@ -757,6 +757,7 @@ svg {
     border: none;
     outline: none;
     cursor: pointer;
+    text-align: center;
 }
 
 
@@ -1480,16 +1481,6 @@ svg {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 #left_flat  .loading{
     display: none;
     opacity: 0;
@@ -1513,6 +1504,7 @@ svg {
     border: none;
     outline: none;
     cursor: pointer;
+    text-align: center;
 }
 
 
