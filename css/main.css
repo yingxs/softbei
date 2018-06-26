@@ -1731,27 +1731,17 @@ svg {
 #flight_info_plus  svg{
 
     background: #f2f2f2;
-    /*border: 1px solid red;*/
+    border: 1px solid red;
 }
 #flight_info_plus .qf_delay_chart{
     display: inline-block;
-    margin-left: 10rem;
+    margin-left: 5rem;
 }
 
 #flight_info_plus .dd_delay_chart{
     display: inline-block;
-    margin-left: 20rem;
 }
 
-#flight_info_plus .qf_delay_chart svg.qf_delaylen_chart{
-    margin-left: 100px;
-
-}
-
-#flight_info_plus .dd_delay_chart svg.dd_delaylen_chart{
-    margin-left: 100px;
-
-}
 
 
 #flight_info_plus   g.lines polyline{
@@ -1806,6 +1796,30 @@ svg {
     position: relative;
     left: 35px;
     top: 0;
+}
+
+#flight_info_plus .flight_info{
+    display: inline-block;
+    border: 1px solid red;
+    width: 60.5rem;
+    height: 20rem;
+    margin-left: 1.2rem;
+    position: relative;
+    top: -11.5rem;
+}
+
+#flight_info_plus h6{
+    color: #666;
+    width: 100%;
+    height: 2.5rem;
+    margin-left: 0;
+    border: none;
+    font-weight: 400;
+    font-size: 1.3rem
+
+
+
+
 }
 
 
