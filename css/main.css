@@ -1735,7 +1735,7 @@ svg {
 }
 #flight_info_plus .qf_delay_chart{
     display: inline-block;
-    margin-left: 5rem;
+    margin-left: 15rem;
 }
 
 #flight_info_plus .dd_delay_chart{
@@ -1801,11 +1801,11 @@ svg {
 #flight_info_plus .flight_info{
     display: inline-block;
     border: 1px solid red;
-    width: 60.5rem;
+    width: 75.5rem;
     height: 20rem;
     margin-left: 1.2rem;
     position: relative;
-    top: -11.5rem;
+    top: -6.5rem;
 }
 
 #flight_info_plus h6{
@@ -1822,6 +1822,38 @@ svg {
 
 }
 
+#flight_info_plus div.flight_info_number img{
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+    cursor: auto;
+    margin-top: 15%;
+
+}
+#flight_info_plus div.flight_info_number h6{
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #777;
+    text-align: center;
+    position: relative;
+    top: -2.8rem;
+
+}
+#flight_info_plus .flight_info .flight_info_qf h6{
+    /*padding-left: 1.3rem;*/
+}
+
+#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city{
+    font-weight: 600;
+    font-size: 2.0rem;
+    color: #4682b4;
+}
+#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport{
+    margin-top: 1.5rem;
+    color: #7b9598;
+
+
+}
 
 
 
