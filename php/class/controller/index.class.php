@@ -75,11 +75,12 @@ class Index {
         $num_on_qf = sizeof($leave_delay['on']) / sizeof($result);
         $num_before_qf = sizeof($leave_delay['before']) / sizeof($result);
 
-//      echo "<br/>出发:<br/>";
-//      echo "&nbsp;&nbsp;&nbsp;&nbsp;延误率:".( sprintf("%.4f", $num_after_qf)*100 )."%<br/>";
-//      echo "&nbsp;&nbsp;&nbsp;&nbsp;准点率:".( sprintf("%.4f", $num_on_qf)*100 )."%<br/>";
-//      echo "&nbsp;&nbsp;&nbsp;&nbsp;提前率:".( sprintf("%.4f", $num_before_qf)*100 )."%<br/>";
-//      echo "&nbsp;&nbsp;&nbsp;&nbsp;平均延误时间:".( sprintf("%.2f", ($sum_qf/$i)*-1 ) )."min<br/>";
+      //echo "sum_qf:".$sum_qf."<br/>";
+      //echo "<br/>出发:<br/>";
+      //echo "&nbsp;&nbsp;&nbsp;&nbsp;延误率:".( sprintf("%.4f", $num_after_qf)*100 )."%<br/>";
+      //echo "&nbsp;&nbsp;&nbsp;&nbsp;准点率:".( sprintf("%.4f", $num_on_qf)*100 )."%<br/>";
+      //echo "&nbsp;&nbsp;&nbsp;&nbsp;提前率:".( sprintf("%.4f", $num_before_qf)*100 )."%<br/>";
+      //echo "&nbsp;&nbsp;&nbsp;&nbsp;平均延误时间:".( sprintf("%.2f", ($sum_qf/$i)*-1 ) )."min<br/>";
 
 
 
@@ -89,16 +90,21 @@ class Index {
         $num_before_dd = sizeof($arrive_delay['before']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
 
 
-        $sum_dd = 0;$i=0;
+        $sum_dd = 0;$j=0;
         foreach($arrive_delay['after'] as $v){
             $sum_dd += $v;
-            $i++;
+            $j++;
         }
-//      echo "<br/>到达:<br/>";
-//      echo "&nbsp;&nbsp;&nbsp;&nbsp;延误率:".( sprintf("%.4f", $num_after_dd)*100 )."%<br/>";
-//      echo "&nbsp;&nbsp;&nbsp;&nbsp;准点率:".( sprintf("%.4f", $num_on_dd)*100 )."%<br/>";
-//      echo "&nbsp;&nbsp;&nbsp;&nbsp;提前率:".( sprintf("%.4f", $num_before_dd)*100 )."%<br/>";
-//      echo "&nbsp;&nbsp;&nbsp;&nbsp;平均延误时间:".( sprintf("%.2f", ($sum_dd/$i)*-1 ) )."min<br/>";
+        //echo "i:".$i."<br/>";
+        //echo "j:".$j."<br/>";
+        //echo "result:".sizeof($result)."<br/>";
+
+      //echo "sum_dd:".$sum_dd."<br/>";
+      //echo "<br/>到达:<br/>";
+      //echo "&nbsp;&nbsp;&nbsp;&nbsp;延误率:".( sprintf("%.4f", $num_after_dd)*100 )."%<br/>";
+      //echo "&nbsp;&nbsp;&nbsp;&nbsp;准点率:".( sprintf("%.4f", $num_on_dd)*100 )."%<br/>";
+      //echo "&nbsp;&nbsp;&nbsp;&nbsp;提前率:".( sprintf("%.4f", $num_before_dd)*100 )."%<br/>";
+      //echo "&nbsp;&nbsp;&nbsp;&nbsp;平均延误时间:".( @sprintf("%.2f", ($sum_dd/$i)*-1 ) )."min<br/>";
 
         $data = [
             "leave_delay"=>[
@@ -107,15 +113,15 @@ class Index {
                 	["id"=>"2","value"=>sprintf("%.4f", $num_on_qf ),"label"=>"准时率"],
                 	["id"=>"3","value"=>sprintf("%.4f", $num_before_qf ),"label"=>"提前率"]
                 ],
-                "len"=>sprintf("%.2f", ($sum_qf/$i)*-1 )
+                "len"=>@sprintf("%.2f", ($sum_qf/$i)*-1 )
             ],
             "arrive_delay"=>[
                 "delay"=>[
                 	["id"=>"1","value" => sprintf("%.4f", $num_after_dd ),"label"=>"延误率"],
                 	["id"=>"2","value" => sprintf("%.4f", $num_on_dd ),"label"=>"准时率"],
-                	["id"=>"3","value" => sprintf("%.4f", $num_before_dd ),"label"=>"提前率"]
+                	["id"=>"3","value" => @sprintf("%.4f", $num_before_dd ),"label"=>"提前率"]
                 ],
-                "len"=>sprintf("%.2f", ($sum_dd/$i)*-1 )
+                "len"=>@sprintf("%.2f", ($sum_dd/$j)*-1 )
             ]
         ];
 

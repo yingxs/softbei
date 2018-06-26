@@ -1412,7 +1412,10 @@ function show_line_plus(data){
 			}).on("mouseout",function(){
 				line_id =  d3.select(this).attr("id").replace("line_bg_","line_");
 				hide_flight_info('#svg_map g #'+line_id);
-			}).on("click",function(){
+			}).on("click",function(d){
+
+				console.log("click:d",d);
+
 				$('#flight_info').animate({
 					attr:'o',
 					target:0,
@@ -1438,8 +1441,36 @@ function show_line_plus(data){
 						var data = JSON.parse(text);
 						console.log(data);
 
-						change(400,200,data["leave_delay"]["delay"],"#flight_info_plus .qf_delay_chart","qf_delaylen_chart","起飞状态统计图");
-						change(400,200,data["arrive_delay"]["delay"],"#flight_info_plus .dd_delay_chart","dd_delaylen_chart","到达状态统计图");
+						//起飞城市、时间、机场
+						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city").text(d.qf_city);
+						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_time").text(d.leave_downtime);
+						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport").text(d.qf_airport);
+
+						//航班号
+						d3.select("#flight_info_plus .flight_info .flight_info_number .flight_number_h").text(d.flight_number);
+
+						//到达城市、事件、机场
+						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_city").text(d.mb_city);
+						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_time").text(d.come_downtime);
+						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_airport").text(d.mb_airport);
+
+						//航司
+						d3.select("#flight_info_plus .flight_info .flight_company .context").text(d.airline_company);
+
+						//起飞平均延误时长
+						d3.select("#flight_info_plus .flight_info .delay_lenght .qf_delay_lenght .time_lenght .context").text(data["leave_delay"]["len"]);
+
+						//到达平均延误时长
+						d3.select("#flight_info_plus .flight_info .delay_lenght .dd_delay_lenght .time_lenght .context").text(data["arrive_delay"]["len"]);
+
+
+
+						change(320,200,data["leave_delay"]["delay"],"#flight_info_plus .qf_delay_chart","qf_delaylen_chart","起飞状态统计图");
+						change(320,200,data["arrive_delay"]["delay"],"#flight_info_plus .dd_delay_chart","dd_delaylen_chart","到达状态统计图");
+
+						d3.select("#flight_info_plus .flight_info").style("animation","text_opacitytoone 1.2s ease forwards");
+
+
 
 						//console.log(data);
 					},
@@ -1454,7 +1485,7 @@ function show_line_plus(data){
 					.transition()
 					.duration(500)
 					.style("bottom","0px")
-					.style("opacity","0.8");
+					.style("opacity","0.9");
 			});
 
 	}
@@ -1705,6 +1736,7 @@ function show_flight_info(d,that){
 
 	//鼠标移入，线条颜色高亮
 	d3.select(that).attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
+
 }
 
 //航班信息面板隐藏

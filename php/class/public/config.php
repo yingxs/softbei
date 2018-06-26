@@ -4,9 +4,9 @@
 		'DB_CONFIG'=>[
 			'db'=>'mysql',
 			'host'=>'127.0.0.1',
-			'port'=>'3306',
+			'port'=>'3308',
 			'user'=>'root',
-			'password'=>'',
+			'password'=>'123456',
 			'charset'=>'utf8',
 			'dbname'=>'fliht_data'
 		],
