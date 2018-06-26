@@ -854,19 +854,19 @@ function getFlight_data(e){
 		success : function(text){
 			var temp = JSON.parse(text);
 			//console.log(data);
-			//var data=[];
+			var data=[];
 			
 			//data[0] = temp[0];
 			//data[1] = temp[1];
-			//(function(){
-			//	for(var i = 0;i<40 ;i++){
-			//		data[i]=temp[i];
-			//	}
-			//})();
+			(function(){
+				for(var i = 0;i<20 ;i++){
+					data[i]=temp[i];
+				}
+			})();
 			
 			//console.log(data[0]);
-			console.log(temp[0]);
-			var data = temp;
+			//console.log(temp[0]);
+			//var data = temp;
 	
 			//曲线生成模式1，无附加背景
 			//show_line(data);
@@ -1435,17 +1435,11 @@ function show_line_plus(data){
 						"end_time":search_obj.end_time
 					},
 					success:function(text){
-						data = JSON.parse(text);
+						var data = JSON.parse(text);
 						console.log(data);
 
-						var chart = pieChart('#flight_info_plus .qf_delay_chart')
-							.width(300)
-							.height(300)
-							.radius(100)
-							.innerRadius(20)
-							.data(data["leave_delay"]["delay"]);
-
-						chart.render();
+						change(400,200,data["leave_delay"]["delay"],"#flight_info_plus .qf_delay_chart","qf_delaylen_chart","起飞状态统计图");
+						change(400,200,data["arrive_delay"]["delay"],"#flight_info_plus .dd_delay_chart","dd_delaylen_chart","到达状态统计图");
 
 						//console.log(data);
 					},

@@ -352,17 +352,28 @@ function getPoint(bezier_x,bezier_y){
 
 
 
-function change(width,height,data) {
+function change(width,height,data,clazz,clazz_len,h) {
 	//init
 
-	d3.select("#flight_info_plus .qf_delay_chart svg.qf_delaylen_chart").remove();
+	d3.select(clazz+" ."+clazz_len).remove();
+	d3.select(clazz+" .rect_box").remove();
+	d3.select(clazz+" h6.title").remove();
 
-	var svg = d3.select("#flight_info_plus .qf_delay_chart")
+	var svg = d3.select(clazz)
 		.append("svg")
 		.attr("width",width)
 		.attr("height",height)
-		.classed("qf_delaylen_chart",true)
+		.classed(clazz_len,true)
 		.append("g");
+
+	d3.select(clazz).append("div").classed("rect_box",true);
+	d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("yw",true)
+		.append("span").classed("yw_text text",true).text("延误率");
+	d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("tq",true)
+		.append("span").classed("tq_text text",true).text("提前率");
+	d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("zd",true)
+		.append("span").classed("zd_text text",true).text("准点率");
+	d3.select(clazz).append("h6").classed("title",true).text(h);
 
 	svg.append("g")
 		.attr("class", "slices");
@@ -380,12 +391,12 @@ function change(width,height,data) {
 		});
 
 	var arc = d3.svg.arc()
-		.outerRadius(radius * 0.8)
+		.outerRadius(radius * 0.7)
 		.innerRadius(radius * 0.4);
 
 	var outerArc = d3.svg.arc()
-		.innerRadius(radius * 0.9)
-		.outerRadius(radius * 0.9);
+		.innerRadius(radius * 0.8)
+		.outerRadius(radius * 0.8);
 
 
 	svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
@@ -394,7 +405,7 @@ function change(width,height,data) {
 
 	var color = d3.scale.ordinal()
 		.domain(["延误率", "准时率", "提前率"])
-		.range(["orange", "green", "blue"]);
+		.range(["#f79851", "#419641", "#00AFEF"]);
 
 
 
@@ -449,7 +460,7 @@ function change(width,height,data) {
 		.attr("dy", ".35em")
 		.text(function (d) {
 			if(d.data.value!=0){
-				return d.data.label+":"+(d.data.value*100).toFixed(2)+"%";
+				return (d.data.value*100).toFixed(2)+"%";
 			}
 
 		}).style("animation","text_opacitytoone 1.2s ease forwards");
@@ -470,6 +481,9 @@ function change(width,height,data) {
 				var d2 = interpolate(t);
 				var pos = outerArc.centroid(d2);
 				pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+				if(d.data.id==3){
+					pos[1]=pos[1]-10;
+				}
 				return "translate("+ pos +")";
 			};
 		})
@@ -496,14 +510,36 @@ function change(width,height,data) {
 
 	polyline.transition().duration(1000)
 		.attrTween("points", function(d){
+			if(d.data.value==0){
+				return ;
+			}
 			this._current = this._current || d;
 			var interpolate = d3.interpolate(this._current, d);
 			this._current = interpolate(0);
+
 			return function(t) {
 				var d2 = interpolate(t);
 				var pos = outerArc.centroid(d2);
 				pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-				return [arc.centroid(d2), outerArc.centroid(d2), pos];
+
+				console.log(d.data.value+":",arc.centroid(d2),outerArc.centroid(d2),pos);
+				var p2 = outerArc.centroid(d2);
+
+				//p2[1]=p2[1]-20;
+				//
+				//pos[1]=pos[1]-20;
+
+				//return [arc.centroid(d2), outerArc.centroid(d2), pos];
+				if(d.data.id==3){
+					p2[1]=p2[1]-10;
+					pos[1]=pos[1]-10;
+				}
+
+
+				return [arc.centroid(d2), p2, pos];
+
+
+
 			};
 		});
 

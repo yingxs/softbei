@@ -1129,14 +1129,14 @@ function load(){
 			.style("opacity","0");
 	});
 
-	$(document).click(function(){
-		var  data = [
-			{id: "1", value: "0.1949", label: "延误率"},
-			{id: "2", value: "0.3475", label: "准时率"},
-			{id: "3", value: "0.4576", label: "提前率"}
-		];
-		change(500,250,data);
-	});
+	//$(document).click(function(){
+	//	var  data = [
+	//		{id: "1", value: "0.1949", label: "延误率"},
+	//		{id: "2", value: "0.3475", label: "准时率"},
+	//		{id: "3", value: "0.4576", label: "提前率"}
+	//	];
+	//
+	//});
 
 }
 
