@@ -61,25 +61,39 @@ function getLine_xy(qf,dd){
 
 
 
+	var line_scale = d3.scale.linear()
+		.domain([0,900])
+		.range([5,300]);
+
+	var ranNum = line_scale(l);
+
+	var ranNum_x = ranNum-10;
+	var ranNum_y = ranNum+10;
+
+	var bezier_cl = RandomNum(ranNum_x,ranNum_y)  ;
+
+
+
+
 
 
 	//控制点投影坐标距离控制点距离
-	var bezier_cl = RandomNum(80,200)  ;
-	if(l<80){
-		bezier_cl = RandomNum(10,20)  ;
-	}
-	
-	if(l>80 && l<90){
-		bezier_cl = RandomNum(20,30)  ;
-	}
-
-	if(l>90 && l<150){
-		bezier_cl = RandomNum(30,50)  ;
-	}
-
-	if(l>150 && l<250){
-		bezier_cl = RandomNum(50,80)  ;
-	}
+	//var bezier_cl = RandomNum(80,200)  ;
+	//if(l<80){
+	//	bezier_cl = RandomNum(10,20)  ;
+	//}
+	//
+	//if(l>80 && l<90){
+	//	bezier_cl = RandomNum(20,30)  ;
+	//}
+    //
+	//if(l>90 && l<150){
+	//	bezier_cl = RandomNum(30,50)  ;
+	//}
+    //
+	//if(l>150 && l<250){
+	//	bezier_cl = RandomNum(50,80)  ;
+	//}
 
 
 
@@ -287,7 +301,6 @@ function RandomNum(Min, Max) {
 		var num = Min + (Rand * Range) - 1;
 		return num;
 	}
-
 }
 function getZF(){
 	var zf = Math.random();
@@ -299,18 +312,20 @@ function getZF(){
 }
 
 
+//svg坐标转换成数学中的坐标
 function svgToMatch(y){
 	var height = $('svg').attr("height");
 	return height-y;
-
-
 }
 
-
+//数学中的坐标转换成svg的坐标
 function matchToSvg(y){
 	var height = $('svg').attr("height");
 	return height-y;
 }
+
+
+
 
 function getPoint(bezier_x,bezier_y){
 	// 求直线
@@ -339,19 +354,6 @@ function getPoint(bezier_x,bezier_y){
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 function change(width,height,data,clazz,clazz_len,h) {
 	//init
 
