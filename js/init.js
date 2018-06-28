@@ -608,29 +608,29 @@ function load(){
 
 	//中转选项
 	$('#left_flat .td_zz .zz_select').bind('focus',function(){
-		$('#left_flat .td_zz .zz_opt').show();
-		$('#left_flat .td_zz .zz_opt').animate({
-			t:30,
-			step:10,
-			mul:{
-				h:104,
-				o:100
-			}
-		});
-		$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_up.svg');
+		//$('#left_flat .td_zz .zz_opt').show();
+		//$('#left_flat .td_zz .zz_opt').animate({
+		//	t:30,
+		//	step:10,
+		//	mul:{
+		//		h:104,
+		//		o:100
+		//	}
+		//});
+		//$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_up.svg');
 	}).bind('blur',function(){
-		$('#left_flat .td_zz .zz_opt').animate({
-			t:30,
-			step:10,
-			mul:{
-				h:0,
-				o:0
-			},
-			fn:function(){
-				$('#left_flat .td_zz .zz_opt').hide();
-				$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_down.svg');
-			}
-		});
+		//$('#left_flat .td_zz .zz_opt').animate({
+		//	t:30,
+		//	step:10,
+		//	mul:{
+		//		h:0,
+		//		o:0
+		//	},
+		//	fn:function(){
+		//		$('#left_flat .td_zz .zz_opt').hide();
+		//		$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_down.svg');
+		//	}
+		//});
 	});
 	$('#left_flat .td_zz .zz_opt li').bind('mousedown',function(){
 		var value = $(this).attr('value');
@@ -640,44 +640,9 @@ function load(){
 
 	});
 
-	//查询-起始时间文本框获得焦点后，日历div显示
-	$('#left_flat .qf_time').bind('focus',function(){
-		//显示日历div
-		$('#date_calendar').attr("type","qf").show().animate({
-			t:30,
-			step:10,
-			mul:{
-				x:0,
-				h:300,
-				o:100,
-				w:550,
-				y:35
-
-			}
-		});
-
-		hide_popover("#left_flat .search_time_popover");
-	});
-
-	//查询-截止时间文本框获得焦点后，日历div平移后显示
-	$('#left_flat .dd_time').bind('focus',function(){
-		if($('#date_calendar').attr("type","dd").css("display")=='block'){
-			$('#date_calendar').show().animate({
-				t:30,
-				step:10,
-				mul:{
-					x:190,
-					h:300,
-					o:100,
-					w:550
-				}
-			});
-		}
-
-	});
-
 	//查询-起始时间文本框失去焦点后，日历div隐藏
-	$('#left_flat .qf_time').bind('blur',function(){
+	$('#left_flat .qf_time').bind('blur',search_qf_hide_time);
+	function search_qf_hide_time(){
 		if( ( parseInt($('#date_calendar').css('width')) > 0) ){
 			$('#date_calendar').animate({
 				t:30,
@@ -691,10 +656,68 @@ function load(){
 			});
 		}
 		validate_time('#left_flat .qf_time');
+		addEvent($('#left_flat .qf_time').ge(0),"blur",search_qf_hide_time);
+	}
+
+	//查询-起始时间文本框获得焦点后，日历div显示
+	$('#left_flat .qf_time').bind('focus',search_qf_show_time);
+
+	function search_qf_show_time(){
+
+		//显示日历div
+		$('#date_calendar').attr("type","qf").show().animate({
+			t:30,
+			step:10,
+			mul:{
+				x:0,
+				h:300,
+				o:100,
+				w:550
+			}
+		}).css("top","35px");
+
+		hide_popover("#left_flat .search_time_popover");
+
+		$('#date_calendar').bind('mouseenter',function(){
+			//console.log("1");
+			removeEvent($('#left_flat .qf_time').ge(0),"blur",search_qf_hide_time);
+		});
+		$('#date_calendar').bind('mouseleave',search_qf_hide_time);
+	}
+
+
+
+	//查询-截止时间文本框获得焦点后，日历div平移后显示
+	$('#left_flat .dd_time').bind('focus',function(){
+		if($('#date_calendar').attr("type","dd").css("display")=='block'){
+			$('#date_calendar').show().animate({
+				t:30,
+				step:10,
+				mul:{
+					x:190,
+					h:300,
+					o:100,
+					w:550
+				}
+			}).css("top","35px");
+		}
+
+		$('#date_calendar').bind('mouseenter',function(){
+			//console.log("1");
+			removeEvent($('#left_flat .dd_time').ge(0),"blur",search_dd_hide_time);
+		});
+		$('#date_calendar').bind('mouseleave',search_dd_hide_time);
+
 	});
 
+
+
+
+
 	//查询-截止时间文本框失去焦点后，日历div隐藏
-	$('#left_flat .dd_time').bind('blur',function(){
+	$('#left_flat .dd_time').bind('blur',search_dd_hide_time);
+
+	function search_dd_hide_time(){
 		if(( parseInt($('#date_calendar').css('width')) > 0) ){
 			$('#date_calendar').animate({
 				t:30,
@@ -707,8 +730,12 @@ function load(){
 				}
 			});
 		}
+		addEvent($('#left_flat .dd_time').ge(0),"blur",search_dd_hide_time);
 		validate_time('#left_flat .dd_time');
-	});
+	}
+
+
+
 
 	//过滤-起始时间文本框获得焦点后，日历div显示
 	$('#left_flat .filter .filter_time .filter_qf_time').bind('focus',function(){
@@ -717,34 +744,26 @@ function load(){
 			step:10,
 			mul:{
 				x:420,
-				y:110,
 				h:300,
 				o:100,
 				w:550
 			}
-		}).css("top","110px");
-	});
+		}).css("top","115px");
 
-	//过滤-截止时间文本框获得焦点后，日历div平移后显示
-	$('#left_flat .filter .filter_time .filter_dd_time').bind('focus',function(){
-		if($('#date_calendar').attr("type","f_dd").css("display")=='block'){
-			$('#date_calendar').show().animate({
-				t:30,
-				step:10,
-				mul:{
-					x:600,
-					y:110,
-					h:300,
-					o:100,
-					w:550
-				}
-			}).css("top","110px");
-		}
+		$('#date_calendar').bind('mouseenter',function(){
+			//console.log("1");
+			removeEvent($('#left_flat .filter .filter_time .filter_qf_time').ge(0),"blur",filter_qf_hide_time);
+		});
+		$('#date_calendar').bind('mouseleave',filter_qf_hide_time);
+
 
 	});
+
+
 
 	//过滤-起始时间文本框失去焦点后，日历div隐藏
-	$('#left_flat .filter .filter_time .filter_qf_time').bind('blur',function(){
+	$('#left_flat .filter .filter_time .filter_qf_time').bind('blur',filter_qf_hide_time);
+	function filter_qf_hide_time(){
 		if( ( parseInt($('#date_calendar').css('width')) > 0) ){
 			$('#date_calendar').animate({
 				t:30,
@@ -757,10 +776,43 @@ function load(){
 				}
 			});
 		}
+		addEvent($('#left_flat .filter .filter_time .filter_qf_time').ge(0),"blur",filter_qf_hide_time);
+
+	}
+
+
+
+	//过滤-截止时间文本框获得焦点后，日历div平移后显示
+	$('#left_flat .filter .filter_time .filter_dd_time').bind('focus',function(){
+		if($('#date_calendar').attr("type","f_dd").css("display")=='block'){
+			$('#date_calendar').show().animate({
+				t:30,
+				step:10,
+				mul:{
+					x:600,
+					h:300,
+					o:100,
+					w:550
+				}
+			}).css("top","115px");
+		}
+
+
+		$('#date_calendar').bind('mouseenter',function(){
+			//console.log("1");
+			removeEvent($('#left_flat .filter .filter_time .filter_dd_time').ge(0),"blur",filter_qf_hide_time);
+		});
+		$('#date_calendar').bind('mouseleave',filter_qf_hide_time);
+
+
 	});
 
+
+
+
 	//过滤-截止时间文本框失去焦点后，日历div隐藏
-	$('#left_flat .filter .filter_time .filter_dd_time').bind('blur',function(){
+	$('#left_flat .filter .filter_time .filter_dd_time').bind('blur',filter_dd_hide_time);
+	function filter_dd_hide_time(){
 		if(( parseInt($('#date_calendar').css('width')) > 0) ){
 			$('#date_calendar').animate({
 				t:30,
@@ -773,7 +825,10 @@ function load(){
 				}
 			});
 		}
-	});
+
+		addEvent($('#left_flat .filter .filter_time .filter_dd_time').ge(0),"blur",filter_qf_hide_time);
+
+	}
 
 	//鼠标移动到日历div上后，删除失去焦点事件函数，添加鼠标移出事件
 	//$('#left_flat #date_calendar').bind('mouseenter',function(e){
@@ -1218,6 +1273,52 @@ function load(){
 	//	console.log(li);
     //
 	//});
+
+
+	$('#left_flat .center').click(function(){
+
+		var qf_type = $('#left_flat .qf_option .qf_input').attr("key"),
+			qf_type_t = $('#left_flat .qf_option .qf_input').value(),
+			qf_text = $('#left_flat .qf_text').value(),
+
+			dd_type = $('#left_flat .qf_option .dd_input').attr("key"),
+			dd_type_t = $('#left_flat .qf_option .dd_input').value(),
+			dd_text = $('#left_flat .dd_jc').value(),
+			qf_info = $('#left_flat .qf_text').attr("placeholder"),
+			dd_info = $('#left_flat .dd_jc').attr("placeholder");
+
+
+
+		qf_info = qf_info.replace("起飞","到达");
+		dd_info = dd_info.replace("到达","起飞");
+
+
+		qf_type_t = qf_type_t.replace("起飞","到达");
+		dd_type_t = dd_type_t.replace("到达","起飞");
+
+
+
+		$('#left_flat .qf_option .qf_input').attr("key",dd_type);
+		$('#left_flat .qf_option .qf_input').value(dd_type_t);
+		$('#left_flat .qf_text').value(dd_text);
+		$('#left_flat .qf_text').attr("placeholder",dd_info);
+
+
+		$('#left_flat .qf_option .dd_input').attr("key",qf_type);
+		$('#left_flat .qf_option .dd_input').value(qf_type_t);
+		$('#left_flat .dd_jc').value(qf_text);
+		$('#left_flat .dd_jc').attr("placeholder",qf_info);
+
+
+
+
+	});
+
+
+	$('.other').click(function(e){
+		alert("抱歉，该功能尚未完成.");
+	});
+
 }
 
 

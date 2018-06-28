@@ -1845,11 +1845,10 @@ function show_filter_qf_opt(){
 function hide_filter_qf_opt(){
 
 	$('#left_flat .filter .filter_qf_td .filter_qf_opt').animate({
-		t:30,
+		t:10,
 		step:10,
 		mul:{
-			h:0,
-			o:0
+			h:0
 		},
 		fn:function(){
 			$('#left_flat .filter .filter_qf_td .filter_qf_opt').hide();
@@ -1862,11 +1861,10 @@ function hide_filter_qf_opt(){
 function hide_filter_dd_opt(){
 
 	$('#left_flat .filter .filter_dd_td .filter_dd_opt').animate({
-		t:30,
+		t:10,
 		step:10,
 		mul:{
-			h:0,
-			o:0
+			h:0
 		},
 		fn:function(){
 			$('#left_flat .filter .filter_dd_td .filter_dd_opt').hide();
@@ -1893,11 +1891,10 @@ function show_filter_dd_opt(){
 //隐藏查询-起飞选项
 function hide_qf_opt(){
 	$('#left_flat .qf_option .qf_opt').animate({
-		t:30,
+		t:10,
 		step:10,
 		mul:{
-			h:0,
-			o:0
+			h:0
 		},
 		fn:function(){
 			$('#left_flat .qf_option .qf_opt').hide();
@@ -1925,11 +1922,10 @@ function show_dd_opt(){
 //隐藏到达选项
 function hide_dd_opt(){
 	$('#left_flat qf_option .dd_opt').animate({
-		t:30,
+		t:10,
 		step:10,
 		mul:{
-			h:0,
-			o:0
+			h:0
 		},
 		fn:function(){
 			$('#left_flat qf_option .dd_opt').hide();

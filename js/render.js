@@ -325,8 +325,6 @@ function matchToSvg(y){
 }
 
 
-
-
 function getPoint(bezier_x,bezier_y){
 	// 求直线
 	//var k = (560 - 556) / (439 - 1238);
