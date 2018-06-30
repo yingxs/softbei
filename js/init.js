@@ -83,8 +83,12 @@ function init2(){
 	var g = svg.append('g').attr("id","g1").style("border","1px solid red");
 
 
+	var screenscale = d3.scale.linear().domain([1360,1920]).range([212,300]);
+
+	var sacle = screenscale(screen.width);
+
 	//定义地图投影
-	var projection = d3.geo.equirectangular().scale(300).translate(translate);
+	var projection = d3.geo.equirectangular().scale(sacle).translate(translate);
 	//定义地理路径生成器
 	var path = d3.geo.path().projection(projection);
 
@@ -1173,7 +1177,7 @@ function load(){
 	$('#left_flat .from1_button .submit').click(function(e){
 		//console.log(serializeSearch());
 		getFlight_data(e);
-		leftBox_anim(left_box.search,10,30,-380,100);
+		//leftBox_anim(left_box.search,10,30,-380,100);
 		$('#left_bar').attr("type","search");
 	});
 

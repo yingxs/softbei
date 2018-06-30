@@ -234,6 +234,7 @@ function show_month(time,table,h,now){
 					if(k<=day_all){
 						if(k==day && show_now){
 							$(table.tBodies[0].rows[i].cells[j]).html(k++).addClass('now');
+							$(table.tBodies[0].rows[i].cells[j]).html(k++).attr('lang','wh');
 						}else{
 							$(table.tBodies[0].rows[i].cells[j]).html(k++).attr('lang','wh');
 						}

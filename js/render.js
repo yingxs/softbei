@@ -45,7 +45,7 @@ function getLine_xy(qf,dd){
 	//console.log("x2,y2:",projection(dd)[0],projection(dd)[1]);
 	//console.log("k1,b1:",k1,b1);
 
-	var bezier_x = RandomNum(xp,xq),
+	var bezier_x = RandomNum(xp,xq+1),
 		bezier_y = (k1*bezier_x)+b1;
 	//console.log("bezier_x,bezier_y:",bezier_x,matchToSvg(bezier_y) );
 
@@ -275,8 +275,8 @@ function RandomNum(Min, Max) {
 		Min = Max;
 		Max = temp;
 	}else if(Min == Max){
-		console.log("Min==Max");
-		return ;
+		Max+=2;
+		console.log(Min,Max);
 	}
 
 	if(Max-Min<1){

@@ -731,8 +731,14 @@ function filter_data(){
 					//console.log(this);
 
 				}else{
+
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					var line_id = d3.select(this).attr("id");
+					line_id = line_id.replace("line_","");
+					d3.select("#line_"+line_id).style("display","block");
+					d3.select("#line_bg_"+line_id).style("display","block");
 				}
+
 			}else if(filter_type=="hide"){
 				if( flag ){
 					d3.select(this).attr("type","filter_hide").attr("filter",null);
@@ -740,13 +746,17 @@ function filter_data(){
 					//console.log(this);
 				}else{
 					d3.select(this).style("display","none");
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					d3.select(this).style("stroke","#75baff").style("pointer-events","none").attr("type",null).attr("filter",null);
+					line_id = d3.select(this).attr("id");
+					line_id = line_id.replace("line_","");
+					d3.select("#line_bg_"+line_id).style("display","none");
+
 				}
 
 			}
 
 
-			console.log(array_text,":",flag);
+			//console.log(array_text,":",flag);
 
 
 
@@ -895,7 +905,7 @@ function getFlight_data(e){
 			//console.log(data[0]);
 			//console.log(temp[0]);
 			var data = temp;
-			console.log(data);
+			//console.log(data);
 	
 			//曲线生成模式1，无附加背景
 			//show_line(data);
@@ -1318,12 +1328,8 @@ function show_line_plus(data){
 			//	.attr("r",5)
 			//	.style("fill","green");
 
-
-
-
-
-
 			return array[0];
+
 
 			/*
 			 //断开式
@@ -1393,9 +1399,7 @@ function show_line_plus(data){
 			//	.style("fill","green");
             //
 
-
-
-
+			//console.log(d.flight_number);
 			return array[0];
 			/*
 			 //断开式
@@ -1433,14 +1437,14 @@ function show_line_plus(data){
 				return path;
 			}).on("mouseenter",function(d){
 				line_id =  d3.select(this).attr("id").replace("line_bg_","line_");
-
-				//d3.select(line_id).
-				show_flight_info(d,'#svg_map g #'+line_id);
-				//console.log(typeof line_id);
-				//alert(d3.select(this).attr("id")+","+line_id);
+				if(d3.select("#"+line_id).style("display")!='none'){
+					show_flight_info(d,'#svg_map g #'+line_id);
+				}
 			}).on("mouseout",function(){
 				line_id =  d3.select(this).attr("id").replace("line_bg_","line_");
-				hide_flight_info('#svg_map g #'+line_id);
+				if(d3.select("#"+line_id).style("display")!='none'){
+					hide_flight_info('#svg_map g #'+line_id);
+				}
 			}).on("click",function(d){
 
 				console.log("click:d",d);
@@ -1456,15 +1460,28 @@ function show_line_plus(data){
 				});
 				//alert(d3.select(this).attr("id").replace("line_bg_",""));
 				//alert(d3.select('#svg_map g #'+line_id).attr('type'));
-				var search_obj = serializeSearch();
+				var start_time,end_time;
+
+				if($('#left_bar').attr("type")=='search'){
+					var search_obj = serializeSearch();
+					start_time = search_obj.start_time;
+					end_time = search_obj.end_time;
+				}else{
+					var filter_obj = serializeFilter();
+					start_time = filter_obj.start_time;
+					end_time = filter_obj.end_time;
+				}
+
+
+
 
 				ajax({
 					method:'get',
 					url:"/index.php?c=index&a=getdelayInfo",
 					data:{
 						"flight_number":d3.select(this).attr("id").replace("line_bg_",""),
-						"start_time":search_obj.start_time,
-						"end_time":search_obj.end_time
+						"start_time":start_time,
+						"end_time":end_time
 					},
 					success:function(text){
 						var data = JSON.parse(text);
@@ -1818,7 +1835,7 @@ function show_qf_opt(){
 		t:30,
 		step:10,
 		mul:{
-			h:104,
+			h:80,
 			o:100
 		}
 	}).show();
@@ -1833,7 +1850,7 @@ function show_filter_qf_opt(){
 		t:30,
 		step:10,
 		mul:{
-			h:104,
+			h:80,
 			o:100
 		}
 	}).show();
@@ -1880,7 +1897,7 @@ function show_filter_dd_opt(){
 		t:30,
 		step:10,
 		mul:{
-			h:104,
+			h:80,
 			o:100
 		}
 	}).show();
@@ -1907,29 +1924,29 @@ function hide_qf_opt(){
 function show_dd_opt(){
 
 
-	$('#left_flat qf_option .dd_opt').show();
-	$('#left_flat qf_option .dd_opt').animate({
+	$('#left_flat .qf_option .dd_opt').show();
+	$('#left_flat .qf_option .dd_opt').animate({
 		t:30,
 		step:10,
 		mul:{
-			h:104,
+			h:80,
 			o:100
 		}
 	});
-	$('#left_flat qf_option .dd_img_down').attr('src','svg/select_up.svg');
+	$('#left_flat .qf_option .dd_img_down').attr('src','svg/select_up.svg');
 }
 
 //隐藏到达选项
 function hide_dd_opt(){
-	$('#left_flat qf_option .dd_opt').animate({
+	$('#left_flat .qf_option .dd_opt').animate({
 		t:10,
 		step:10,
 		mul:{
 			h:0
 		},
 		fn:function(){
-			$('#left_flat qf_option .dd_opt').hide();
-			$('#left_flat qf_option .dd_img_down').attr('src','svg/select_down.svg');
+			$('#left_flat .qf_option .dd_opt').hide();
+			$('#left_flat .qf_option .dd_img_down').attr('src','svg/select_down.svg');
 		}
 	});
 }
