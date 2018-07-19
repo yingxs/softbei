@@ -534,21 +534,6 @@ function removeWhiteNode(node){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //查询面板起飞文本框失去焦点
 function search_qf_text_blur(){
 
@@ -892,19 +877,19 @@ function getFlight_data(e){
 		success : function(text){
 			var temp = JSON.parse(text);
 			//console.log(data);
-			//var data=[];
+			var data=[];
 
 			//data[0] = temp[0];
 			//data[1] = temp[1];
-			//(function(){
-			//	for(var i = 0;i<20 ;i++){
-			//		data[i]=temp[i];
-			//	}
-			//})();
+			(function(){
+				for(var i = 0;i<5 ;i++){
+					data[i]=temp[i];
+				}
+			})();
 
 			//console.log(data[0]);
 			//console.log(temp[0]);
-			var data = temp;
+			//var data = temp;
 			//console.log(data);
 	
 			//曲线生成模式1，无附加背景

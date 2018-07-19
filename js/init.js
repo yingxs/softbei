@@ -689,8 +689,6 @@ function load(){
 		$('#date_calendar').bind('mouseleave',search_qf_hide_time);
 	}
 
-
-
 	//查询-截止时间文本框获得焦点后，日历div平移后显示
 	$('#left_flat .dd_time').bind('focus',function(){
 		if($('#date_calendar').attr("type","dd").css("display")=='block'){
@@ -713,8 +711,6 @@ function load(){
 		$('#date_calendar').bind('mouseleave',search_dd_hide_time);
 
 	});
-
-
 
 
 
