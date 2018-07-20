@@ -104,16 +104,47 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" class="td_zz other" >
-                        <input class="zz_select" type="text"  placeholder="中转：按机场" >
+                    <td colspan="3" class="td_zz " >
+                        <input class="zz_select" type="text"  placeholder="" >
+
+                        <div class="popover search_zz_popover  fade right in "  >
+                            <div class="arrow" style="top: 50%;"></div>
+                            <h3 class="popover-title">注意</h3>
+                            <div class="popover-content">
+                                <p>1.机场、城市、国家名称不能含有特殊字符和数字</p>
+                                <p>2.选填项</p>
+                            </div>
+                        </div>
+
+
                         <img class="zz_img_down" src="/svg/select_down.svg"/>
                         <strong style="font-weight: normal;color: #999 ;">|</strong>
-                        <input class="zz_jc" type="text" key="1" name="zz_jc" placeholder="中转机场"  >
+                        <input class="zz_jc" type="text" name="zz_jc" placeholder=""  >
+                        <ul class="search_zz_info" type="zz">
+                            <div class="loading" >
+                                <div class="ing">
+                                    <div class="canvas" >
+                                        <div class="spinner"></div>
+                                    </div>
+                                    <span style="/*border: 1px solid red;*/display: inline-block;width: 4.5rem;line-height: 3.5rem;margin-left: 2.5rem;background: none;left:0px;font-size:10px;margin-left:5.2rem;">加载中...</span>
+
+                                </div>
+                                <span class="trim" style=" width:100%;height:25px;color: #999;line-height: 25px; left:0px;text-align: center;display:none;left:0px;font-size:10px;">抱歉，未检索到相关结果..</span>
+                            </div>
+                            <div class="context">
+
+                            </div>
+                        </ul>
                         <ul class="zz_opt">
-                            <li value="0">按机场</li>
-                            <li value="1">按省/市</li>
-                            <li value="2">按区域</li>
-                            <li value="3">按国家</li>
+                            <?php foreach($this->_data['query_type'] as $v) :?>
+                            <?php if($v['default']=='yes'):?>
+                            <li value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
+                            <?php  endif;?>
+
+                            <?php if($v['default']=='no'):?>
+                            <li value="<?=$v['id']?>" ><?=$v['type']?></li>
+                            <?php  endif;?>
+                            <?php endforeach;?>
                         </ul>
                     </td>
                 </tr>
@@ -558,11 +589,23 @@
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="filter_zz_td other">
-                        <input class="filter_zz_opt" type="text"  placeholder="中转：按机场" >
+                    <td colspan="3" class="filter_zz_td " style="position: relative;">
+                        <input class="filter_zz_opt" type="text"  placeholder="" >
                         <img class="filter_zz_img_down" src="/svg/select_down.svg"/>
+                        <ul class="zz_opt">
+                            <?php foreach($this->_data['query_type'] as $v) :?>
+                            <?php if($v['default']=='yes'):?>
+                            <li column="<?=$v['column']?>" value="<?=$v['id']?>" select="select"><?=$v['type']?></li>
+                            <?php  endif;?>
+
+                            <?php if($v['default']=='no'):?>
+                            <li column="<?=$v['column']?>" value="<?=$v['id']?>" ><?=$v['type']?></li>
+                            <?php  endif;?>
+                            <?php endforeach;?>
+                        </ul>
+
                         <strong style="font-weight: normal;color: #999 ;">|</strong>
-                        <input class="filter_zz_text" type="text" key="1"  placeholder="中转机场"  >
+                        <input class="filter_zz_text" type="text"   placeholder=""  >
                     </td>
 
                 </tr>

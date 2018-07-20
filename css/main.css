@@ -215,8 +215,8 @@ html, body {
  #left_flat span:nth-child(1){
      width: 380px;
      height: 100%;
-    left:-380px;
-    /*left:36px;*/
+    /*left:-380px;*/
+    left:36px;
     background: #f3f3f3;
      border-right: 1px solid #eeeeee;
      box-shadow: 0 0 4px #dbdada;
@@ -380,6 +380,7 @@ html, body {
      padding: 5px 0;
      box-shadow:4px 10px 20px  #ddd;
      z-index: 1;
+     overflow: hidden;
  }
 #left_flat .td_zz .zz_opt li {
     padding: 3px 0px;
@@ -1372,12 +1373,49 @@ svg {
 }
 
 
+#left_flat .filter .filter_zz_td .zz_opt{
+    position: absolute;
+    display: none;
+    /*opacity: 0;*/
+    /*filter: alpha(opacity=0);*/
+    width: 44%;
+    height: 0;
+    background: #f6f6f6;
+    border: 1px solid #ddd;
+    padding: 5px 0;
+    box-shadow: 4px 10px 20px #ddd;
+    z-index: 2;
+    overflow: hidden;
+    top: 35px;
+
+
+}
+
+#left_flat .filter .filter_zz_td{
+
+    position: relative;
+    top: 0;
+    left: 0;
+
+}
+
+#left_flat .filter .filter_zz_td .zz_opt li {
+    padding: 3px 0px;
+    text-indent: 18px;
+    font-size: 1.5rem;
+}
+#left_flat .filter .filter_zz_td .zz_opt li:hover {
+    background: #f2f2f2;
+    cursor: pointer;
+
+}
 
 
 
 
 
-/*查询-起飞*/
+
+    /*查询-起飞*/
 #left_flat .search_qf_text_td {
     position: relative;
     top: 0;
@@ -1445,6 +1483,50 @@ svg {
 #left_flat .search_dd_text_td .search_dd_info  li:hover {
     background: #f2f2f2;
 }
+
+
+
+
+
+/*查询-经停*/
+#left_flat .td_zz {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#left_flat .td_zz .search_zz_info {
+    position: absolute;
+    width: 15rem;
+    left: 55%;
+    top: 36px;
+    background: #f6f6f6;
+    box-shadow: 4px 10px 20px #ddd;
+    z-index: 2;
+    border:1px solid #ddd;
+    display: none;
+    overflow: hidden;
+    /*height: 35px;*/
+
+
+}
+
+#left_flat .td_zz .search_zz_info li {
+    text-indent: 1.5rem;
+    color: #666;
+    font-size: 1.2rem;
+    padding-top:0.2rem ;
+    padding-bottom:0.2rem ;
+    cursor: pointer;
+
+}
+#left_flat .td_zz .search_zz_info li:hover {
+    background: #efefef;
+}
+
+
+
+
 
 /*查询-航司面板*/
 #left_flat .airline_company{

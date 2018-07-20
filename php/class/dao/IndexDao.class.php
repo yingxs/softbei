@@ -16,7 +16,7 @@ class IndexDao extends MySQLPDO{
         return parent::fetchAll("SELECT `id`,`type`,`default`,`column` FROM query_type");
     }
 
-    //查询航班信息
+    //查询直飞航班信息
     public function queryFlight_data($array){
         $qf_column = parent::fetchColumn("select `column` from `query_type` where `id`=:qf_type",["qf_type"=>$array["qf_type"]]);
         $mb_column = parent::fetchColumn("select `column` from `query_type` where `id`=:mb_type",["mb_type"=>$array["mb_type"]]);
@@ -55,12 +55,60 @@ class IndexDao extends MySQLPDO{
         //}
 
 
-        //show($result);
+
+        for($j=0;$j<3;$j++){
+            $a[$j]=$result[$j];
+        }
+
+        return $a;
+    }
+
+
+
+     //查询经停航班信息
+    public function queryFlight_data_plus($array){
+        $qf_column = parent::fetchColumn("select `column` from `query_type` where `id`=:qf_type",["qf_type"=>$array["qf_type"]]);
+        $mb_column = parent::fetchColumn("select `column` from `query_type` where `id`=:mb_type",["mb_type"=>$array["mb_type"]]);
+        $qf_column = "qf_".$qf_column;
+        $mb_column = "mb_".$mb_column;
         //show($array);
-        //echo count($array);
-        echo json_encode($result);
+        //echo $qf_column."<br/>";
+        //echo $mb_column."<br/>";
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight` WHERE 1=1 ";
+        $param = [];
+        if($array["qf_text"]!='' && $array["qf_text"]!=null ){
+            $sql.= " AND $qf_column LIKE :qf_text ";
+            $param["qf_text"] = '%'.$array["qf_text"].'%';
+        }
+
+        if($array["mb_text"]!='' && $array["mb_text"]!=null ){
+            $sql.= " AND $mb_column LIKE :mb_text ";
+            $param["mb_text"] = '%'.$array["mb_text"].'%';
+        }
+
+        if($array["company"]!='' && $array["company"]!=null ){
+            $sql.= " AND airline_company LIKE :company ";
+            $param["company"] = '%'.$array["company"].'%';
+        }
+        //show($param);
+
+
+        //echo "我的：".$sql."<br/>";
+        //echo "正确： SELECT `flight_number` FROM `m_flight` WHERE $qf_column LIKE %".$array["qf_text"]."%  AND $mb_column LIKE %".$array["mb_text"]."%  AND airline_company LIKE %".$array["company"]."% ";
+        $result = parent::fetchAll($sql,$param);
+        //$array=[];
+        //foreach($result as $v){
+        //   foreach($v as $vv){
+        //       $array[] = $vv;
+        //   }
+        //}
+
+
+        //echo json_encode($result);
 
     }
+
+
 
     //根据选项类型查询机场/国家/省份
     public function queryName($array){

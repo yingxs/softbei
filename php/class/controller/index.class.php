@@ -20,6 +20,7 @@ class Index {
 
     }
 
+    //查询计算延误率，准点率，提前率
     public function getdelayInfoAction(){
         $flight_number = I('flight_number','get','string','');
         $start_time = I('start_time','get','string','');
@@ -144,7 +145,15 @@ class Index {
         $end_time = I('end_time','get','string','');
 
         $dao = new IndexDao();
-        $flight_code = $dao->queryFlight_data([
+
+        $data = [
+            "state" => 0,
+            "message" => "数据查询成功！",
+            "data" => []
+        ];
+
+        //查询直飞航班信息
+        $return1 = $dao->queryFlight_data([
             "qf_type"=>$qf_type,
             "qf_text"=>$qf_text,
             "mb_type"=>$mb_type,
@@ -154,18 +163,24 @@ class Index {
             "end_time"=>$end_time
         ]);
 
-        //show($flight_code);
+        //查询经停航班信息
+        $return2 = $dao->queryFlight_data_plus([
+            "qf_type"=>$qf_type,
+            "qf_text"=>$qf_text,
+            "mb_type"=>$mb_type,
+            "mb_text"=>$mb_text,
+            "company"=>$company,
+            "start_time"=>$start_time,
+            "end_time"=>$end_time
+        ]);
+
+        $data['data']['line']=$return1;
+        $data['data']['line_plus']=$return2;
+
+        show($data);
 
 
 
-        //echo $qf_type."<br/>";
-        //echo $qf_text."<br/>";
-        //echo $dd_type."<br/>";
-        //echo $dd_text."<br/>";
-        //echo $start_time."<br/>";
-        //echo $end_time."<br/>";
-
-        //exit("完成");
     }
 
     //查询机场/城市/国家

@@ -40,6 +40,15 @@ function init2(){
 				$('#left_flat .qf_text').attr("placeholder","起飞"+$(li_list[i]).html().replace('按',''));
 				$('#left_flat .dd_jc').attr("placeholder","到达"+$(li_list[i]).html().replace('按',''));
 
+
+				$('#left_flat .td_zz .zz_select').value("经停："+$(li_list[i]).html());
+				$('#left_flat .td_zz .zz_select').attr("key",$(li_list[i]).attr("value"));
+
+
+				$('#left_flat .td_zz .zz_jc').attr("placeholder","经停"+$(li_list[i]).html().replace('按',''));
+
+
+
 				//alert("起飞"+$(li_list[i]).html().replace('按',''));
 
 
@@ -55,6 +64,13 @@ function init2(){
 				$('#left_flat .filter .filter_qf_text_td .filter_qf_text').attr("placeholder","起飞"+$(li_list[i]).html().replace('按',''));
 				$('#left_flat .filter .filter_dd_text_td .filter_dd_text').attr("placeholder","到达"+$(li_list[i]).html().replace('按',''));
 
+
+
+				$('#left_flat .filter .filter_zz_td  .filter_zz_opt').value("经停："+$(li_list[i]).html());
+				$('#left_flat .filter .filter_zz_td  .filter_zz_opt').attr("key",$(li_list[i]).attr("value"));
+
+
+				$('#left_flat .filter .filter_zz_td .filter_zz_text').attr("placeholder","经停"+$(li_list[i]).html().replace('按',''));
 
 
 			}
@@ -548,6 +564,19 @@ function load(){
 
 	});
 
+
+	//查询-经停选项显示与隐藏
+	$('#left_flat .td_zz  .zz_select').bind('focus',show_zz_opt).bind('blur',hide_zz_opt);
+	//$('#left_flat .td_zz  .zz_img_down').click(function(){
+	//	if($('#left_flat .td_zz .zz_opt').css("display")=="block"){
+	//		$('#left_flat .td_zz  .zz_select').ge(0).blur();
+	//	}else{
+	//		$('#left_flat .td_zz  .zz_select').ge(0).focus();
+	//	}
+    //
+	//});
+
+
 	//查询-选择起飞选项
 	$('#left_flat .qf_option .qf_opt li').bind('mousedown',function(){
 		var str = $(this).html();
@@ -566,6 +595,20 @@ function load(){
 		$('#left_flat  .dd_jc').attr('placeholder',"到达"+$(this).html().replace("按",""));
 
 	});
+
+
+	//查询-选择经停选项
+	$('#left_flat .td_zz .zz_opt li').bind('mousedown',function(){
+		var str = $(this).html();
+		var key = $(this).attr('value');
+		$('#left_flat .td_zz .zz_select').value("经停："+str);
+		$('#left_flat .td_zz .zz_select').attr("key",key);
+		$('#left_flat .td_zz .zz_jc').attr('placeholder',"经停"+$(this).html().replace("按",""));
+
+	});
+
+
+
 
 	//过滤-起飞选项的显示与隐藏
 	$('#left_flat .filter .filter_qf_td .filter_qf_input').bind('focus',show_filter_qf_opt).bind('blur',hide_filter_qf_opt);
@@ -586,6 +629,19 @@ function load(){
 			$('#left_flat .filter .filter_dd_td .filter_dd_input').ge(0).focus();
 		}
 	});
+
+
+
+	//过滤-经停选项的显示与隐藏
+	$('#left_flat .filter .filter_zz_td .filter_zz_opt').bind('focus',show_filter_zz_opt).bind('blur',hide_filter_zz_opt);
+	$('#left_flat .filter .filter_zz_td .filter_zz_img_down').click(function(){
+		if($('#left_flat .filter .filter_zz_td .zz_opt').css("display")=="block"){
+			$('#left_flat .filter .filter_zz_td .filter_zz_opt').ge(0).blur();
+		}else{
+			$('#left_flat .filter .filter_zz_td .filter_zz_opt').ge(0).focus();
+		}
+	});
+
 
 	//过滤-选择起飞选项
 	$('#left_flat .filter .filter_qf_td .filter_qf_opt li').bind('mousedown',function(){
@@ -610,39 +666,19 @@ function load(){
 
 	});
 
-	//中转选项
-	$('#left_flat .td_zz .zz_select').bind('focus',function(){
-		//$('#left_flat .td_zz .zz_opt').show();
-		//$('#left_flat .td_zz .zz_opt').animate({
-		//	t:30,
-		//	step:10,
-		//	mul:{
-		//		h:104,
-		//		o:100
-		//	}
-		//});
-		//$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_up.svg');
-	}).bind('blur',function(){
-		//$('#left_flat .td_zz .zz_opt').animate({
-		//	t:30,
-		//	step:10,
-		//	mul:{
-		//		h:0,
-		//		o:0
-		//	},
-		//	fn:function(){
-		//		$('#left_flat .td_zz .zz_opt').hide();
-		//		$('#left_flat .td_zz .zz_img_down').attr('src','svg/select_down.svg');
-		//	}
-		//});
-	});
-	$('#left_flat .td_zz .zz_opt li').bind('mousedown',function(){
-		var value = $(this).attr('value');
-		//alert(value);
-		var array=["机场","省/市","区域","国家"];
-		$('#left_flat .td_zz .zz_jc').attr('key',value).attr('placeholder',"中转"+array[value]);
+	//过滤-选择经停选项
+	$('#left_flat .filter .filter_zz_td .zz_opt li').bind('mousedown',function(){
+		var str = $(this).html();
+		var key = $(this).attr('value');
+		var column = $(this).attr('column');
+		$('#left_flat .filter .filter_zz_td  .filter_zz_opt').value("经停："+str);
+		$('#left_flat .filter .filter_zz_td  .filter_zz_opt').attr("key",key);
+		$('#left_flat .filter .filter_zz_td  .filter_zz_opt').attr("column",column);
+		$('#left_flat .filter .filter_zz_td  .filter_zz_text').attr('placeholder',"经停"+$(this).html().replace("按",""));
 
 	});
+
+
 
 	//查询-起始时间文本框失去焦点后，日历div隐藏
 	$('#left_flat .qf_time').bind('blur',search_qf_hide_time);
@@ -1083,10 +1119,8 @@ function load(){
 
 	//查询-目标输入框获得焦点，查询-目标输入框失去焦点，查询-目标输入框键入事件,异步查询
 	$('#left_flat .search_dd_text_td .dd_jc').bind('focus',function(){
-
 		//显示侧边注意事项
 		show_popover("#left_flat .search_qf_text_td .search_ariport_popover",this);
-
 		//显示提示信息
 		get_qf_opt2('#left_flat .search_dd_text_td .dd_jc',
 			'#left_flat .qf_option .dd_input',
@@ -1120,6 +1154,43 @@ function load(){
 			console.log("起飞输入框失去焦点函数被删除");
 		}
 	});
+
+
+	//查询-经停文本框获得焦点，查询-经停文本框失去焦点，查询-经停文本框键入事件,异步查询
+	$('#left_flat .td_zz  .zz_jc').bind('focus',function(){
+		//显示侧边注意事项
+		show_popover("#left_flat .td_zz .search_zz_popover",this);
+		//显示提示信息
+		get_qf_opt2('#left_flat .td_zz .zz_jc',
+			'#left_flat .td_zz .zz_select',
+			'#left_flat .td_zz .search_zz_info',
+			'#left_flat .td_zz .search_zz_info .context',
+			'#left_flat .td_zz .search_zz_info .loading','dd');
+
+	})
+		.bind('blur',search_zz_text_blur)
+		.bind('keyup',function(e){
+
+			if( e.keyCode!=40 && e.keyCode!=38 && e.keyCode!=13){
+				//显示提示信息
+				get_qf_opt2('#left_flat .td_zz .zz_jc',
+					'#left_flat .td_zz .zz_select',
+					'#left_flat .td_zz .search_zz_info',
+					'#left_flat .td_zz .search_zz_info .context',
+					'#left_flat .td_zz .search_zz_info .loading','dd');
+
+			}
+			if( trim($('#left_flat .td_zz .zz_jc').value())!='' ){
+				keyup_value(e,this,'a',
+					$('#left_flat .td_zz .search_zz_info .context li'),
+					$('#left_flat .td_zz .zz_select'),
+					$('#left_flat .td_zz .zz_jc'),
+					$('#left_flat .td_zz .search_zz_info'));
+			}
+		});
+
+
+
 
 
 

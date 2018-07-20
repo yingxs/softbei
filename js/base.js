@@ -578,6 +578,49 @@ function search_dd_text_blur(){
 	//hide_select_info(false,0);
 }
 
+
+//查询面板经停文本框失去焦点
+function search_zz_text_blur(){
+
+	//数据验证
+	validate_col('#left_flat .td_zz .zz_jc');
+
+	//隐藏侧边注意事项
+	hide_popover("#left_flat .td_zz .search_zz_popover");
+
+	//隐藏提示面板
+	$("#left_flat .td_zz .search_zz_info").animate({
+		attr:'h',
+		target:0,
+		step:10,
+		t:20,
+		fn:function(){
+			$("#left_flat .td_zz .search_zz_info").hide();
+		}
+	});
+	//hide_select_info(false,0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //显示侧面注意事项面板
 function show_popover(clazz,that){
 
@@ -1890,6 +1933,38 @@ function show_filter_dd_opt(){
 
 }
 
+//显示过滤-经停选项
+function show_filter_zz_opt(){
+
+	$('#left_flat .filter .filter_zz_td .zz_opt').animate({
+		t:30,
+		step:10,
+		mul:{
+			h:80,
+			o:100
+		}
+	}).show();
+	$('#left_flat .filter .filter_zz_td .filter_zz_img_down').attr('src','svg/select_up.svg');
+
+}
+
+
+//隐藏过滤-经停选项
+function hide_filter_zz_opt(){
+
+	$('#left_flat .filter .filter_zz_td .zz_opt').animate({
+		t:10,
+		step:10,
+		mul:{
+			h:0
+		},
+		fn:function(){
+			$('#left_flat .filter .filter_zz_td .zz_opt').hide();
+			$('#left_flat .filter .filter_zz_td .filter_zz_img_down').attr('src','svg/select_down.svg');
+		}
+	});
+}
+
 //隐藏查询-起飞选项
 function hide_qf_opt(){
 	$('#left_flat .qf_option .qf_opt').animate({
@@ -1921,6 +1996,12 @@ function show_dd_opt(){
 	$('#left_flat .qf_option .dd_img_down').attr('src','svg/select_up.svg');
 }
 
+
+
+
+
+
+
 //隐藏到达选项
 function hide_dd_opt(){
 	$('#left_flat .qf_option .dd_opt').animate({
@@ -1934,6 +2015,42 @@ function hide_dd_opt(){
 			$('#left_flat .qf_option .dd_img_down').attr('src','svg/select_down.svg');
 		}
 	});
+}
+
+
+
+//显示查询-经停选项
+function show_zz_opt(){
+
+	console.log("显示");
+
+	$('#left_flat .td_zz .zz_opt').show().animate({
+		t:30,
+		step:10,
+		mul:{
+			h:80,
+			o:100
+		}
+	});
+	$('#left_flat .td_zz  .zz_img_down').attr('src','svg/select_up.svg');
+
+}
+
+
+//隐藏查询-经停选项
+function hide_zz_opt(){
+	console.log("隐藏");
+	$('#left_flat .td_zz .zz_opt').animate({
+		attr:'h',
+		t:10,
+		step:10,
+		target:0,
+		fn:function(){
+			$('#left_flat .td_zz .zz_opt').hide();
+			$('#left_flat .td_zz  .zz_img_down').attr('src','svg/select_down.svg');
+		}
+	});
+
 }
 
 //根据起飞选项类型查询机场/国家
