@@ -919,14 +919,18 @@ function getFlight_data(e){
 		data:serializeSearch(),
 		success : function(text){
 			var temp = JSON.parse(text);
-			//console.log(data);
-			var data=[];
+			var line_temp = temp.data.line;
+			console.log(temp);
+			//console.log(line_temp);
+			var line_data=[];
+			var line_plus_data=temp.data.line_plus;
+			console.log(line_plus_data);
 
 			//data[0] = temp[0];
 			//data[1] = temp[1];
 			(function(){
-				for(var i = 0;i<5 ;i++){
-					data[i]=temp[i];
+				for(var i = 0;i<3 ;i++){
+					line_data[i]=line_temp[i];
 				}
 			})();
 
@@ -938,9 +942,11 @@ function getFlight_data(e){
 			//曲线生成模式1，无附加背景
 			//show_line(data);
 	
-			//曲线生成模式2，附加背景
-			show_line_plus(data);
-	
+			//曲线生成模式2，附加背景,生成直飞航线
+			show_line_plus(line_data);
+			//曲线生成模式2，附加背景,生成经停航线
+			//show_line_plus(line_plus_data);
+
 			/*
 			 var index = 0;
 	
@@ -2179,6 +2185,7 @@ function get_qf_opt2(p_text,p_input,p_ul,p_context,p_loading,state){
 		//查询开始前，显示加载中动画，隐藏内容区,隐藏注意事项面板
 		if($(p_text).css("border-bottom-width")!='1.5px'){
 			hide_popover("#left_flat .search_qf_text_td .search_ariport_popover");
+			hide_popover("#left_flat .td_zz  .search_zz_popover");
 		}
 
 		$(p_ul).css("width","15rem").show().opacity(100).css("height","auto");
@@ -2556,13 +2563,15 @@ function hide_select_info(bool,left,that){
 	}
 }
 
-//搜索表单系列化
+//搜索表单序列化
 function serializeSearch(){
 	var search = {};
 	search["qf_type"]=$('#left_flat .qf_option .qf_input').attr("key");
 	search["qf_text"]=$('#left_flat .qf_text').value();
 	search["dd_type"]=$('#left_flat .qf_option .dd_input').attr("key");
 	search["dd_text"]=$('#left_flat .dd_jc').value();
+	search["zz_type"]=$('#left_flat .td_zz .zz_select').attr("key");
+	search["zz_text"]=$('#left_flat .td_zz .zz_jc').value();
 	search["company"]=$('#left_flat .airline_company .company_text').value();
 
 	var temp = trim($('#left_flat .qf_time').value());

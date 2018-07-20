@@ -140,6 +140,8 @@ class Index {
         $qf_text = I('qf_text','get','string','');
         $mb_type = I('dd_type','get','string','');
         $mb_text = I('dd_text','get','string','');
+        $zz_type = I('zz_type','get','string','');
+        $zz_text = I('zz_text','get','string','');
         $company = I('company','get','string','');
         $start_time = I('start_time','get','string','');
         $end_time = I('end_time','get','string','');
@@ -169,6 +171,8 @@ class Index {
             "qf_text"=>$qf_text,
             "mb_type"=>$mb_type,
             "mb_text"=>$mb_text,
+            "zz_type"=>$zz_type,
+            "zz_text"=>$zz_text,
             "company"=>$company,
             "start_time"=>$start_time,
             "end_time"=>$end_time
@@ -177,7 +181,7 @@ class Index {
         $data['data']['line']=$return1;
         $data['data']['line_plus']=$return2;
 
-        show($data);
+        echo json_encode($data);
 
 
 

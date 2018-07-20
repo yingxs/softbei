@@ -69,12 +69,13 @@ class IndexDao extends MySQLPDO{
     public function queryFlight_data_plus($array){
         $qf_column = parent::fetchColumn("select `column` from `query_type` where `id`=:qf_type",["qf_type"=>$array["qf_type"]]);
         $mb_column = parent::fetchColumn("select `column` from `query_type` where `id`=:mb_type",["mb_type"=>$array["mb_type"]]);
+        $zz_column = parent::fetchColumn("select `column` from `query_type` where `id`=:zz_type",["zz_type"=>$array["zz_type"]]);
         $qf_column = "qf_".$qf_column;
         $mb_column = "mb_".$mb_column;
-        //show($array);
-        //echo $qf_column."<br/>";
-        //echo $mb_column."<br/>";
-        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight` WHERE 1=1 ";
+        $zz_column = "zz_".$zz_column;
+
+
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`zz_airport`,`zz_city`,`zz_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`,`zz_longitude`, `zz_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight_stop_over` WHERE 1=1 ";
         $param = [];
         if($array["qf_text"]!='' && $array["qf_text"]!=null ){
             $sql.= " AND $qf_column LIKE :qf_text ";
@@ -86,10 +87,16 @@ class IndexDao extends MySQLPDO{
             $param["mb_text"] = '%'.$array["mb_text"].'%';
         }
 
+        if($array["zz_text"]!='' && $array["zz_text"]!=null ){
+            $sql.= " AND $zz_column LIKE :zz_text ";
+            $param["zz_text"] = '%'.$array["zz_text"].'%';
+        }
+
         if($array["company"]!='' && $array["company"]!=null ){
             $sql.= " AND airline_company LIKE :company ";
             $param["company"] = '%'.$array["company"].'%';
         }
+
         //show($param);
 
 
@@ -104,24 +111,42 @@ class IndexDao extends MySQLPDO{
         //}
 
 
-        //echo json_encode($result);
+        for($j=0;$j<2;$j++){
+            $a[$j]=$result[$j];
+        }
 
+        return $a;
+
+        //return $result;
+        //echo json_encode($result);
+        //show($result);
     }
 
 
 
     //根据选项类型查询机场/国家/省份
     public function queryName($array){
-
+         //show($array);
          $column = parent::fetchColumn("select `column` from `query_type` where `id`=:type",["type"=>$array[0]]);
          if($array[2]=='qf'){
             $column = "qf_".$column;
+         }else if($array[2]=='zz'){
+            $column = "zz_".$column;
          }else{
             $column = "mb_".$column;
          }
+
+        //echo $column."<br/>";
+
          //show($array);
          //echo $column;
-         $result = parent::fetchAll("SELECT distinct  $column FROM `m_flight` WHERE $column LIKE :text limit 0 ,7"  ,["text"=>'%'.$array[1].'%']);
+         if($array[2]=='zz'){
+             $result = parent::fetchAll("SELECT distinct  $column FROM `m_flight_stop_over` WHERE $column LIKE :text limit 0 ,7"  ,["text"=>'%'.$array[1].'%']);
+
+         }else{
+             $result = parent::fetchAll("SELECT distinct  $column FROM `m_flight` WHERE $column LIKE :text limit 0 ,7"  ,["text"=>'%'.$array[1].'%']);
+
+         }
          $array=[];
          foreach($result as $v){
             foreach($v as $vv){

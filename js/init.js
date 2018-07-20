@@ -1027,6 +1027,59 @@ function load(){
 
 	});
 
+	//过滤-经停选项输入框获得焦点，过滤-经停选项输入框失去焦点，过滤-经停选项输入框键入事件,异步查询
+	$('#left_flat .filter .filter_zz_td .filter_zz_text').bind('focus',function(){
+		//console.log("keyup:get_qf_opt2()");
+		//p_text,p_input,p_ul,p_context,p_loading
+		get_qf_opt2('#left_flat .filter .filter_zz_td .filter_zz_text',
+			'#left_flat .filter .filter_zz_td .filter_zz_opt',
+			'#left_flat .filter .filter_zz_td .filter_zz_info',
+			'#left_flat .filter .filter_zz_td .filter_zz_info .context',
+			'#left_flat .filter .filter_zz_td .filter_zz_info .loading','zz');
+
+	}).bind('blur',function(){
+
+		//console.log("blur");
+		//隐藏提示面板
+		$("#left_flat .filter .filter_zz_td .filter_zz_info").animate({
+			attr:'h',
+			target:0,
+			step:10,
+			t:20,
+			fn:function(){
+				$("#left_flat .filter .filter_zz_td .filter_zz_info").hide();
+			}
+		});
+		//hide_select_info(false,0);
+	}).bind('keyup',function(e){
+		//console.log("keyup:get_qf_opt2()");
+		//p_text,p_input,p_ul,p_context,p_loading
+
+		if( e.keyCode!=40 && e.keyCode!=38 && e.keyCode!=13 ){
+			get_qf_opt2('#left_flat .filter .filter_zz_td .filter_zz_text',
+				'#left_flat .filter .filter_zz_td .filter_zz_opt',
+				'#left_flat .filter .filter_zz_td .filter_zz_info',
+				'#left_flat .filter .filter_zz_td .filter_zz_info .context',
+				'#left_flat .filter .filter_zz_td .filter_zz_info .loading','zz');
+		}
+
+		if( trim($('#left_flat .filter .filter_zz_td .filter_zz_text').value())!='' ){
+			keyup_value(e,this,'a',
+				$('#left_flat .filter .filter_dd_text_td .filter_dd_info .context li'),
+				$('#left_flat .filter .filter_dd_td .filter_dd_input'),
+				$('#left_flat .filter .filter_dd_text_td .filter_dd_text'),
+				$('#left_flat .filter .filter_dd_text_td .filter_dd_info'));
+		}
+
+
+	});
+
+
+
+
+
+
+
 
 	//过滤-航司输入框获得焦点，过滤-航司输入框失去焦点，过滤-航司输入框键入事件,异步查询
 	$('#left_flat .filter .filter_company_td .filter_company_text').bind('focus',function(){
@@ -1165,7 +1218,7 @@ function load(){
 			'#left_flat .td_zz .zz_select',
 			'#left_flat .td_zz .search_zz_info',
 			'#left_flat .td_zz .search_zz_info .context',
-			'#left_flat .td_zz .search_zz_info .loading','dd');
+			'#left_flat .td_zz .search_zz_info .loading','zz');
 
 	})
 		.bind('blur',search_zz_text_blur)
@@ -1177,7 +1230,7 @@ function load(){
 					'#left_flat .td_zz .zz_select',
 					'#left_flat .td_zz .search_zz_info',
 					'#left_flat .td_zz .search_zz_info .context',
-					'#left_flat .td_zz .search_zz_info .loading','dd');
+					'#left_flat .td_zz .search_zz_info .loading','zz');
 
 			}
 			if( trim($('#left_flat .td_zz .zz_jc').value())!='' ){
