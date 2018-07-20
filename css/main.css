@@ -215,8 +215,8 @@ html, body {
  #left_flat span:nth-child(1){
      width: 380px;
      height: 100%;
-    left:-380px;
-    /*left:36px;*/
+    /*left:-380px;*/
+    left:36px;
     background: #f3f3f3;
      border-right: 1px solid #eeeeee;
      box-shadow: 0 0 4px #dbdada;
@@ -341,8 +341,8 @@ html, body {
      height: 100%;
     /*left:-100px;*/
     /*left:-300px;*/
-     left:36px;
-     /*left:-385px;*/
+     /*left:36px;*/
+     left:-385px;
      color: #666;
 
     background: #f3f3f3;
@@ -611,10 +611,15 @@ svg {
     stroke-width: .5px;
 }
 .line{
-    fill: none;
-    stroke: #75baff;
-    stroke-width: 1px;
-}
+     fill: none;
+     stroke: #75baff;
+     stroke-width: 1px;
+ }
+.line_plus{
+     fill: none;
+     stroke: #75baff;
+     stroke-width: 1px;
+ }
 .line_filter{
     fill: none;
     stroke: #14ffae;
