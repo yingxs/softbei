@@ -1597,10 +1597,10 @@ function show_line_plus2(data){
 				x10_y = array1[1][1]+ 5,
 				path_bg;
 
-			//path_bg = "M "+
-			//			x1_x+" "+x1_y+
+			path_bg = "M "+
+						x1_x+" "+x1_y+" Q "+x2_x+" "+x2_y+" "+x3_x+" "+x3_y+" Q "+x4_x+" "+x4_y+" "+x5_x+" "+x5_y+"L "+x6_x+" "+x6_y+
+						" Q "+x7_x+" "+x7_y+" "+x8_x+" "+x8_y+" Q "+x9_x+" "+x9_y+" "+x10_x+" "+x10_y+" Z";
 
-			;
 
 
 
@@ -1665,14 +1665,42 @@ function show_line_plus2(data){
 			return "line_plus_"+d.flight_number;
 		})
 		.attr("d",function(d){
-
-			//计算两地之间的相关数据
+//计算两地之间的相关数据
 			array1 = getLine_xy([d.qf_latitude,d.qf_longitude],[d.zz_latitude,d.zz_longitude]);
 			array2 = getLine_xy([d.zz_latitude,d.zz_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将两点之间的直线坐标距离存储在要绑定的数组里
 			//data[index++].len = array[9][0];
 
-			//show_line_bg(d,array[11],d.flight_number);
+			var x1_x = array1[1][0]-5,
+				x1_y = array1[1][1]+5,
+				x2_x = array1[6][0],
+				x2_y = array1[6][1]-5,
+				x3_x = array1[2][0],
+				x3_y = array1[2][1]-5,
+				x4_x = array2[6][0],
+				x4_y = array2[6][1]-5,
+				x5_x = array2[2][0]+5,
+				x5_y = array2[2][1]+5,
+				x6_x = array2[2][0]-5,
+				x6_y = array2[2][1]+5,
+				x7_x = array2[6][0],
+				x7_y = array2[6][1]+5,
+				x8_x = array1[2][0],
+				x8_y = array1[2][1]+5,
+				x9_x = array1[6][0],
+				x9_y = array1[6][1]+5,
+				x10_x = array1[1][0]+5,
+				x10_y = array1[1][1]+ 5,
+				path_bg;
+
+			path_bg = "M "+
+				x1_x+" "+x1_y+" Q "+x2_x+" "+x2_y+" "+x3_x+" "+x3_y+" Q "+x4_x+" "+x4_y+" "+x5_x+" "+x5_y+"L "+x6_x+" "+x6_y+
+				" Q "+x7_x+" "+x7_y+" "+x8_x+" "+x8_y+" Q "+x9_x+" "+x9_y+" "+x10_x+" "+x10_y+" Z";
+
+
+
+
+			show_line_bg(d,path_bg,d.flight_number);
 
 			////x1
 			//d3.select("svg g").append("circle")
@@ -1686,42 +1714,40 @@ function show_line_plus2(data){
 			//	.attr("cy",array[2][1])
 			//	.attr("r",5)
 			//	.style("fill","#000");
-            //
+			//
 			////三等分点1 距离x1近
 			//d3.select("svg g").append("circle")
 			//	.attr("cx",array[3][0])
 			//	.attr("cy",array[3][1])
 			//	.attr("r",5)
 			//	.style("fill","red");
-            //
+			//
 			////三等分点2 距离x2近
 			//d3.select("svg g").append("circle")
 			//	.attr("cx",array[4][0])
 			//	.attr("cy",array[4][1])
 			//	.attr("r",5)
 			//	.style("fill","orange");
-            //
+			//
 			////控制点的映射点
 			//d3.select("svg g").append("circle")
 			//	.attr("cx",array[5][0])
 			//	.attr("cy",array[5][1])
 			//	.attr("r",5)
 			//	.style("fill","green");
-            //
+			//
 
 			//console.log(d.flight_number);
 
-			var path = "M "+
-						array1[1][0]+" "+array1[1][1]+
-					   " Q "+
-					    array1[6][0]+" "+array1[6][1]+" "+
-						array1[2][0]+" "+array1[2][1]+
-						" Q "+
-						array2[6][0]+" "+array2[6][1]+" "+
-						array2[2][0]+" "+array2[2][1];
-			return path;
-
-
+			var path_line = "M "+
+				array1[1][0]+" "+array1[1][1]+
+				" Q "+
+				array1[6][0]+" "+array1[6][1]+" "+
+				array1[2][0]+" "+array1[2][1]+
+				" Q "+
+				array2[6][0]+" "+array2[6][1]+" "+
+				array2[2][0]+" "+array2[2][1];
+			return path_line;
 		}).attr("type",null).attr("filter",null);
 
 	//曲线exit
@@ -2081,6 +2107,13 @@ function show_flight_info(d,that){
 	$('#flight_info .flight_mb_jc span').html(d.mb_airport);
 	$('#flight_info .flight_qf_time span').html(d.leave_downtime);
 	$('#flight_info .flight_dd_time span').html(d.come_downtime);
+	console.log(d.zz_airport);
+
+	if(d.zz_airport != undefined){
+		$('#flight_info .flight_zz_jc').show().html("<span>经停机场："+d.zz_airport+"</span>");
+	}else{
+		$('#flight_info .flight_zz_jc').hide();
+	}
 	//$('#flight_info .flight_len span').html(d.len);
 
 	//鼠标移入，信息面板出现

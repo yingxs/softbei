@@ -632,6 +632,13 @@ svg {
     stroke: none;
     stroke-width: 1px;
 }
+.line_plus_bg{
+    fill: red;
+    fill-opacity: 0;
+    /*fill-opacity: 0.5;*/
+    stroke: none;
+    stroke-width: 1px;
+}
 
 #line1{
     fill: none;
@@ -889,6 +896,8 @@ svg {
     font-size: 1.6rem;
     font-weight: 600;
     color: #666;
+    min-width: 340px;
+
     box-shadow: 4px 4px 20px #e5e5e5;
     opacity: 0;
     filter: alpha(opacity=0);
