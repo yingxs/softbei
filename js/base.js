@@ -650,11 +650,20 @@ function hide_popover(clazz){
 //数据过滤
 function filter_data(){
 
+	var filter_data;
+	if(arguments.length==1){
+		filter_data = arguments[0];
+		//console.log("filter_data1:",filter_data);
+	}else{
+		filter_data = serializeFilter();
+		//console.log("filter_data2:",filter_data);
+	}
+
 	var element = d3.select('#svg_map g');
 	var line_list = element.selectAll("path.line");
 	var line_plus_list = element.selectAll("path.line_plus");
-	var filter_data = serializeFilter();
-	console.log(filter_data);
+
+	//console.log(filter_data);
 	var filter_type = filter_data['filter_type'];
 	if( trim(filter_data['qf_text'])=='' && trim(filter_data['mb_text'])=='' && trim(filter_data['airline_company'])=='' && trim(filter_data['start_time'])=='' && trim(filter_data['end_time'])==''  && trim(filter_data['zz_text'])==''  ){
 		alert("过滤条件不可全部为空");
@@ -827,6 +836,154 @@ function filter_data(){
 		});
 
 
+	}
+
+}
+
+
+
+
+//数据过滤2，单选按钮调用
+function filter_data2(){
+
+	var filter_data;
+	if(arguments.length > 0){
+		filter_data = arguments[0];
+		var check_fn = arguments[1];
+	}else{
+		filter_data = serializeFilter();
+	}
+
+	var element = d3.select('#svg_map g');
+	var line_list = element.selectAll("path.line");
+	var line_plus_list = element.selectAll("path.line_plus");
+
+	var filter_type = filter_data['filter_type'];
+	//字段数组
+	var array_column = [];
+	d3.selectAll('#left_flat .filter_qf_td .filter_qf_opt li').each(function(){
+		array_column[ parseInt(d3.select(this).attr("value"))]=d3.select(this).attr("column");
+	});
+
+	//筛选当前查询出来的直飞航班
+	if(line_list[0].length>0){
+		var qf_type,mb_type;
+		qf_type = "qf_"+array_column[filter_data['qf_type']];
+		mb_type = "mb_"+array_column[filter_data['mb_type']];
+
+		var flag = true,array_text=[];
+
+
+
+		line_list.each(function(d,i){
+
+			if(check_fn=='check_fn1'){
+				check_fn1();
+			}
+			function check_fn1(){
+				//国际航班.起飞机场或目标机场都不在国内(含港澳台)
+				flag = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  ) == -1 ||  (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
+			}
+			console.log(d.flight_number,flag);
+
+			if(filter_type=="show"){
+				if( flag ){
+					d3.select(this).style("display","bloke");
+					d3.select(this).attr("type","filter");
+					d3.select(this).style("stroke","#14ffae").attr("filter","url(#f2)");
+					//console.log(this);
+
+					//console.log("经停：",d.flight_number);
+
+				}else{
+
+					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					var line_id = d3.select(this).attr("id");
+					line_id = line_id.replace("line_","");
+					d3.select("#line_"+line_id).style("display","block");
+					d3.select("#line_bg_"+line_id).style("display","block");
+				}
+
+			}else if(filter_type=="hide"){
+				if( flag ){
+					d3.select(this).attr("type","filter_hide").attr("filter",null);
+					d3.select(this).style("display","bloke").style("stroke","#75baff");
+					console.log(this);
+					//console.log("经停：",d.flight_number);
+				}else{
+					d3.select(this).style("display","none");
+					d3.select(this).style("stroke","#75baff").style("pointer-events","none").attr("type",null).attr("filter",null);
+					line_id = d3.select(this).attr("id");
+					line_id = line_id.replace("line_","");
+					d3.select("#line_bg_"+line_id).style("display","none");
+				}
+			}
+		});
+
+	}
+
+	//筛选当前查询出来的经停航班
+	if(line_plus_list[0].length>0){
+		var qf_type,mb_type,zz_type;
+		qf_type = "qf_"+array_column[filter_data['qf_type']];
+		mb_type = "mb_"+array_column[filter_data['mb_type']];
+		zz_type = "zz_"+array_column[filter_data['zz_type']];
+
+		var flag = true,array_text=[];
+
+		line_plus_list.each(function(d,i){
+
+			//var check_text1 = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1,
+			//	check_text2 = (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  )>-1,
+			//	check_text3 = (  (d[zz_type]).toLowerCase()  ).indexOf( filter_data['zz_text'].toLowerCase()  )>-1;
+			//if(trim(filter_data['qf_text'])!=''){
+			//	array_text.push(check_text1);
+			//}
+			//if(trim(filter_data['mb_text'])!=''){
+			//	array_text.push(check_text2);
+			//}
+			//if(trim(filter_data['zz_text'])!=''){
+			//	array_text.push(check_text3);
+			//}
+
+			if(check_fn=='check_fn1'){
+				 check_fn1();
+			}
+			function check_fn1(){
+				//国际航班.起飞机场或目标机场都不在国内(含港澳台)
+				flag = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  ) == -1 ||  (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
+			}
+			console.log(d.flight_number,flag);
+			if(filter_type=="show"){
+				if( flag ){
+					d3.select(this).style("display","bloke");
+					d3.select(this).attr("type","filter");
+					d3.select(this).style("stroke","#14ffae").attr("filter","url(#f2)");
+
+				}else{
+
+					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					var line_id = d3.select(this).attr("id");
+					line_id = line_id.replace("line_","");
+					d3.select("#line_"+line_id).style("display","block");
+					d3.select("#line_bg_"+line_id).style("display","block");
+				}
+
+			}else if(filter_type=="hide"){
+				if( flag ){
+					d3.select(this).attr("type","filter_hide").attr("filter",null);
+					d3.select(this).style("display","bloke").style("stroke","#75baff");
+					console.log(this);
+				}else{
+					d3.select(this).style("display","none");
+					d3.select(this).style("stroke","#75baff").style("pointer-events","none").attr("type",null).attr("filter",null);
+					line_id = d3.select(this).attr("id");
+					line_id = line_id.replace("line_","");
+					d3.select("#line_bg_"+line_id).style("display","none");
+				}
+			}
+
+		});
 	}
 
 }

@@ -1426,6 +1426,45 @@ function load(){
 		alert("抱歉，该功能尚未完成.");
 	});
 
+	var input_list=d3.selectAll('#left_flat .filter_checkbox table input');
+	input_list.on("click",function(e){
+			input_list.each(function(d,i){
+				if(this.checked && this.value=='on_ch' ){
+					filter_data({
+						airline_company:"",
+						end_time:"",
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+						mb_text:"China",
+						mb_type:"3",
+						qf_text:"China",
+						qf_type:"3",
+						start_time:"",
+						zz_text:"",
+						zz_type:"3"
+					});
+				}
+				if(this.checked && this.value=='on_world' ){
+					filter_data2({
+						airline_company:"",
+						end_time:"",
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+						mb_text:"China",
+						mb_type:"3",
+						qf_text:"China",
+						qf_type:"3",
+						start_time:"",
+						zz_text:"",
+						zz_type:"3"
+					},'check_fn1');
+				}
+
+
+
+			});
+
+	});
+
+
 }
 
 

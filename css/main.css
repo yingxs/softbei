@@ -215,8 +215,8 @@ html, body {
  #left_flat span:nth-child(1){
      width: 380px;
      height: 100%;
-    /*left:-380px;*/
-    left:36px;
+    left:-380px;
+    /*left:36px;*/
     background: #f3f3f3;
      border-right: 1px solid #eeeeee;
      box-shadow: 0 0 4px #dbdada;
@@ -339,10 +339,8 @@ html, body {
  #left_flat span:nth-child(2){
      width: 380px;
      height: 100%;
-    /*left:-100px;*/
-    /*left:-300px;*/
-     /*left:36px;*/
-     left:-385px;
+     left:36px;
+     /*left:-385px;*/
      color: #666;
 
     background: #f3f3f3;
@@ -1461,6 +1459,27 @@ svg {
     background: #f2f2f2;
     cursor: pointer;
 
+}
+#left_flat .filter .filter_checkbox{
+    padding-top: 5.5rem;
+}
+#left_flat .filter .filter_checkbox table {
+    /*padding:5px 5px 5px 25px;*/
+    /*border:1px solid #ccc;*/
+    padding-left: 20px;
+}
+
+#left_flat .filter .filter_checkbox table input {
+    position: relative;
+    top: 1px;
+}
+#left_flat .filter .filter_checkbox table label {
+    /*border: 1px solid red;*/
+    font-size: 1.5rem;
+}
+
+#left_flat .filter .filter_checkbox table tr .td2  {
+   padding-left:40px;
 }
 
 
