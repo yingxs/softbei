@@ -656,7 +656,6 @@ function filter_data(){
 	var filter_data = serializeFilter();
 	console.log(filter_data);
 	var filter_type = filter_data['filter_type'];
-
 	if( trim(filter_data['qf_text'])=='' && trim(filter_data['mb_text'])=='' && trim(filter_data['airline_company'])=='' && trim(filter_data['start_time'])=='' && trim(filter_data['end_time'])==''  && trim(filter_data['zz_text'])==''  ){
 		alert("过滤条件不可全部为空");
 		return ;
@@ -682,7 +681,9 @@ function filter_data(){
 
 
 		line_list.each(function(d,i){
-			
+			console.log(d);
+			console.log(filter_data);
+
 			var check_text1 = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1,
 				check_text2 = (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  )>-1,
 				check_text3 = d.airline_company.toLowerCase().indexOf( filter_data['airline_company'].toLowerCase()  )>-1;
@@ -738,37 +739,95 @@ function filter_data(){
 
 		});
 
-	}else{
-		alert("抱歉，未知错误.");
 	}
-	
-	
-	
-	
-	
-//company:""
-//dd_text:""
-//dd_type:"3"
-//end_time:""
-//filter_type:"show"
-//qf_text:""
-//qf_type:"3"
-//start_time:""
-	
-	
-	
-//	for(var i = 0 ;i<line_list[0].length;i++){
-//		d3.select(line_list[0][i]).style(function(d){
-//			console.log(d);
-//			//只显示筛选后的数据
-//			if(filter.filter_type=='hide'){
-//
-//			}else if(filter.filter_type=='show'){
-//
-//			}
-//		});
-//	}
-	//console.log(line_list);
+
+	if(line_plus_list[0].length>0){
+		var qf_type,mb_type,zz_type;
+		qf_type = "qf_"+array_column[filter_data['qf_type']];
+		mb_type = "mb_"+array_column[filter_data['mb_type']];
+		zz_type = "zz_"+array_column[filter_data['zz_type']];
+
+		var flag = true,array_text=[];
+		console.log(array_column);
+
+
+		line_plus_list.each(function(d,i){
+
+			var check_text1 = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1,
+				check_text2 = (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  )>-1,
+				check_text3 = (  (d[zz_type]).toLowerCase()  ).indexOf( filter_data['zz_text'].toLowerCase()  )>-1,
+				check_text4 = d.airline_company.toLowerCase().indexOf( filter_data['airline_company'].toLowerCase()  )>-1;
+
+
+			array_text=[];
+			if(trim(filter_data['qf_text'])!=''){
+				array_text.push(check_text1);
+			}
+			if(trim(filter_data['mb_text'])!=''){
+				array_text.push(check_text2);
+			}
+			if(trim(filter_data['airline_company'])!=''){
+				array_text.push(check_text4);
+			}
+			if(trim(filter_data['zz_text'])!=''){
+				array_text.push(check_text3);
+			}
+
+
+
+			if(array_text.length==1){
+				flag = array_text[0];
+			}else if(array_text.length==2){
+				flag = array_text[0] && array_text[1];
+			}else if(array_text.length==3){
+				flag = array_text[0] && array_text[1] && array_text[2];
+			}else if(array_text.length==4){
+				flag = array_text[0] && array_text[1] && array_text[2] && array_text[3];
+			}
+
+
+
+			if(filter_type=="show"){
+				if( flag ){
+					d3.select(this).style("display","bloke");
+					d3.select(this).attr("type","filter");
+					d3.select(this).style("stroke","#14ffae").attr("filter","url(#f2)");
+					//console.log(this);
+
+					//console.log("经停：",d.flight_number);
+
+				}else{
+
+					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					var line_id = d3.select(this).attr("id");
+					line_id = line_id.replace("line_","");
+					d3.select("#line_"+line_id).style("display","block");
+					d3.select("#line_bg_"+line_id).style("display","block");
+				}
+
+			}else if(filter_type=="hide"){
+				if( flag ){
+					d3.select(this).attr("type","filter_hide").attr("filter",null);
+					d3.select(this).style("display","bloke").style("stroke","#75baff");
+					console.log(this);
+					//console.log("经停：",d.flight_number);
+				}else{
+					d3.select(this).style("display","none");
+					d3.select(this).style("stroke","#75baff").style("pointer-events","none").attr("type",null).attr("filter",null);
+					line_id = d3.select(this).attr("id");
+					line_id = line_id.replace("line_","");
+					d3.select("#line_bg_"+line_id).style("display","none");
+				}
+			}
+
+
+
+
+
+		});
+
+
+	}
 
 }
 
