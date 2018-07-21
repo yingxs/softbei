@@ -111,11 +111,11 @@ class IndexDao extends MySQLPDO{
         //}
 
 
-        for($j=0;$j<1;$j++){
-            $a[$j]=$result[$j];
-        }
+        //for($j=0;$j<1;$j++){
+          //  $a[$j]=$result[$j];
+        //}
 
-        return $a;
+        return $result;
 
         //return $result;
         //echo json_encode($result);

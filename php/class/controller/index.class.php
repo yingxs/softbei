@@ -154,16 +154,21 @@ class Index {
             "data" => []
         ];
 
-        //查询直飞航班信息
-        $return1 = $dao->queryFlight_data([
-            "qf_type"=>$qf_type,
-            "qf_text"=>$qf_text,
-            "mb_type"=>$mb_type,
-            "mb_text"=>$mb_text,
-            "company"=>$company,
-            "start_time"=>$start_time,
-            "end_time"=>$end_time
-        ]);
+        if(trim($zz_text) == '' ||  $zz_text == null ){
+            //查询直飞航班信息
+            $return1 = $dao->queryFlight_data([
+                "qf_type"=>$qf_type,
+                "qf_text"=>$qf_text,
+                "mb_type"=>$mb_type,
+                "mb_text"=>$mb_text,
+                "company"=>$company,
+                "start_time"=>$start_time,
+                "end_time"=>$end_time
+            ]);
+            $data['data']['line']=$return1;
+        }
+
+
 
         //查询经停航班信息
         $return2 = $dao->queryFlight_data_plus([
@@ -178,7 +183,7 @@ class Index {
             "end_time"=>$end_time
         ]);
 
-        $data['data']['line']=$return1;
+
         $data['data']['line_plus']=$return2;
 
         echo json_encode($data);

@@ -5,9 +5,16 @@ function getLine_xy(qf,dd){
 	var width =$('svg').attr("width") ;
 	var height = $('svg').attr("height") ;
 	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
+
+
 	var translate = [(width/2)-(svg_left/2)+(35/2),height/2];
+
+	var screenscale = d3.scale.linear().domain([1360,1920]).range([212,300]);
+
+	var sacle = screenscale(screen.width);
+
 	//定义地图投影
-	var projection = d3.geo.equirectangular().scale(300).translate(translate);
+	var projection = d3.geo.equirectangular().scale(sacle).translate(translate);
 	//定义地理路径生成器
 	var path = d3.geo.path().projection(projection);
 

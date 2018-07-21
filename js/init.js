@@ -14,11 +14,8 @@ $(function(){
 
 	//初始化
 	init2();
-
 	//加载
 	load();
-
-
 
 });
 
@@ -50,10 +47,6 @@ function init2(){
 
 
 				//alert("起飞"+$(li_list[i]).html().replace('按',''));
-
-
-
-
 				//过滤面板
 				$('#left_flat .filter .filter_qf_td .filter_qf_input').value("出发："+$(li_list[i]).html());
 				$('#left_flat .filter .filter_qf_td .filter_qf_input').attr("key",$(li_list[i]).attr("value"));
@@ -64,14 +57,10 @@ function init2(){
 				$('#left_flat .filter .filter_qf_text_td .filter_qf_text').attr("placeholder","起飞"+$(li_list[i]).html().replace('按',''));
 				$('#left_flat .filter .filter_dd_text_td .filter_dd_text').attr("placeholder","到达"+$(li_list[i]).html().replace('按',''));
 
-
-
 				$('#left_flat .filter .filter_zz_td  .filter_zz_opt').value("经停："+$(li_list[i]).html());
 				$('#left_flat .filter .filter_zz_td  .filter_zz_opt').attr("key",$(li_list[i]).attr("value"));
 
-
 				$('#left_flat .filter .filter_zz_td .filter_zz_text').attr("placeholder","经停"+$(li_list[i]).html().replace('按',''));
-
 
 			}
 		}
@@ -83,22 +72,16 @@ function init2(){
 	var height = parseInt(parseInt(getStyle($('#left_bar').ge(0),"height"))) ;
 	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
 	var translate = [width/2,height/2];
-
-
 	//滚动条隐藏
 	document.body.style.overflow = 'hidden';
 	//alert(width+","+height+","+svg_left);
 	//alert(svg_left);
-
-
 	var div = d3.select("#map");
 	//定义拖拽
 	var zoomer = d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", zoom);
 	var svg = div.append("svg").attr('width',width).attr('id',"svg_map").attr('height',height).call(zoomer).style("margin-left",svg_left);
 	window.svg = svg;
 	var g = svg.append('g').attr("id","g1").style("border","1px solid red");
-
-
 	var screenscale = d3.scale.linear().domain([1360,1920]).range([212,300]);
 
 	var sacle = screenscale(screen.width);
