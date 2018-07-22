@@ -659,6 +659,8 @@ function filter_data(){
 		//console.log("filter_data2:",filter_data);
 	}
 
+	var note = true;
+
 	var element = d3.select('#svg_map g');
 	var line_list = element.selectAll("path.line");
 	var line_plus_list = element.selectAll("path.line_plus");
@@ -684,18 +686,16 @@ function filter_data(){
 		qf_type = "qf_"+array_column[filter_data['qf_type']];
 		mb_type = "mb_"+array_column[filter_data['mb_type']];
 
-		var flag = true,array_text=[];
+		var flag,array_text;
 
 
 
 		line_list.each(function(d,i){
-			console.log(d);
-			console.log(filter_data);
-
+			flag = true,array_text=[];
+			console.log(line_list);
 			var check_text1 = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1,
 				check_text2 = (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  )>-1,
-				check_text3 = d.airline_company.toLowerCase().indexOf( filter_data['airline_company'].toLowerCase()  )>-1;
-
+				check_text3 = (  d.airline_company.toLowerCase()  ).indexOf( filter_data['airline_company'].toLowerCase()  )>-1;
 			if(trim(filter_data['qf_text'])!=''){
 				array_text.push(check_text1);
 			}
@@ -709,64 +709,56 @@ function filter_data(){
 
 			if(array_text.length==1){
 				flag = array_text[0];
+				console.log("一个条件,line：", d.flight_number,array_text[0],flag);
 			}else if(array_text.length==2){
 				flag = array_text[0] && array_text[1];
+				console.log("两个条件,line：", d.flight_number,array_text[0],array_text[1],flag);
 			}else if(array_text.length==3){
 				flag = array_text[0] && array_text[1] && array_text[2];
+				console.log("三个条件,line：", d.flight_number,array_text[0],array_text[1],array_text[2],flag);
 			}
 
-
-			console.log("line:", d.flight_number,array_text[0],array_text[1],array_text[2],flag);
+			if(filter_data['zz_text'] != ''){
+				flag=false;
+			}
+			//console.log("line:", d.flight_number,array_text[0],array_text[1],array_text[2],flag);
 			//获取直飞曲线ID
 			var line_id = d3.select(this).attr("id");
 			line_id = line_id.replace("line_","");
 			//直飞-高亮显示
 			if(filter_type=="show"){
+				if(!note){
+					d3.selectAll("#svg_map g .line").style("display","block");
+					d3.selectAll("#svg_map g .line_bg").style("display","block");
+					d3.selectAll("#svg_map g .line_plus").style("display","block");
+					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
+					note=true;
+				}
 				if( flag ){
-					//d3.select(this).style("display","bloke");
-					d3.selectAll("#svg_map g .line").style("display","block");
-					d3.selectAll("#svg_map g .line_bg").style("display","block");
-					d3.selectAll("#svg_map g .line_plus").style("display","block");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
-
 					d3.select(this).attr("type","filter").style("stroke","#14ffae").attr("filter","url(#f2)");
-
 				}else{
-					d3.selectAll("#svg_map g .line").style("display","block");
-					d3.selectAll("#svg_map g .line_bg").style("display","block");
-					d3.selectAll("#svg_map g .line_plus").style("display","block");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
-
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
-
 				}
 			//直飞-隐藏其他
 			}else if(filter_type=="hide"){
-				if( flag ){
-
+				if(note){
 					d3.selectAll("#svg_map g .line").style("display","none");
 					d3.selectAll("#svg_map g .line_bg").style("display","none");
 					d3.selectAll("#svg_map g .line_plus").style("display","none");
 					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
-
+					note=false;
+				}
+				if( flag ){
 					d3.select(this).attr("type","filter_hide").attr("filter",null);
-					d3.select(this).style("display","bloce").style("stroke","#75baff");
+					d3.select(this).style("display","block").style("stroke","#75baff");
 					d3.select("#line_bg_"+line_id).style("display","block");
 
 				}else{
-
-					d3.selectAll("#svg_map g .line").style("display","none");
-					d3.selectAll("#svg_map g .line_bg").style("display","none");
-					d3.selectAll("#svg_map g .line_plus").style("display","none");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
-
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null).style("display","none");
 					d3.select("#line_bg_"+line_id).style("display","none");
 				}
 			}
-
 		});
-
 	}
 
 	if(line_plus_list[0].length>0){
@@ -774,15 +766,13 @@ function filter_data(){
 		qf_type = "qf_"+array_column[filter_data['qf_type']];
 		mb_type = "mb_"+array_column[filter_data['mb_type']];
 		zz_type = "zz_"+array_column[filter_data['zz_type']];
-		console.log(array_column);
-
+		//console.log(array_column);
 		line_plus_list.each(function(d,i){
+			flag = true,array_text=[];
 			var check_text1 = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1,
 				check_text2 = (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  )>-1,
 				check_text3 = (  (d[zz_type]).toLowerCase()  ).indexOf( filter_data['zz_text'].toLowerCase()  )>-1,
-				check_text4 = d.airline_company.toLowerCase().indexOf( filter_data['airline_company'].toLowerCase()  )>-1;
-
-			array_text=[];
+				check_text4 = ( d.airline_company.toLowerCase() ).indexOf( filter_data['airline_company'].toLowerCase()  )>-1;
 			if(trim(filter_data['qf_text'])!=''){
 				array_text.push(check_text1);
 			}
@@ -795,77 +785,60 @@ function filter_data(){
 			if(trim(filter_data['airline_company'])!=''){
 				array_text.push(check_text4);
 			}
-
-
-
-
 			if(array_text.length==1){
 				flag = array_text[0];
+				console.log("一个条件,line_plus：", d.flight_number,array_text[0],flag);
 			}else if(array_text.length==2){
 				flag = array_text[0] && array_text[1];
+				console.log("两个条件,line_plus：", d.flight_number,array_text[0],array_text[1],flag);
 			}else if(array_text.length==3){
 				flag = array_text[0] && array_text[1] && array_text[2];
+				console.log("三个条件,line_plus：", d.flight_number,array_text[0],array_text[1],array_text[2],flag);
 			}else if(array_text.length==4){
 				flag = array_text[0] && array_text[1] && array_text[2] && array_text[3];
+				console.log("四个条件,line_plus：", d.flight_number,array_text[0],array_text[1],array_text[2],array_text[3],flag);
 			}
-
 			console.log("line_plus:", d.flight_number,flag);
-
-
 			//获取经停曲线ID
 			var line_plus_id = d3.select(this).attr("id");
 			line_plus_id = line_plus_id.replace("line_plus_","");
 			//经停-高亮显示
 			if(filter_type=="show"){
-				if( flag ){
+				if(!note){
 					d3.selectAll("#svg_map g .line").style("display","block");
 					d3.selectAll("#svg_map g .line_bg").style("display","block");
 					d3.selectAll("#svg_map g .line_plus").style("display","block");
 					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
-
+					note=true;
+				}
+				if( flag ){
 					d3.select(this).attr("type","filter").style("stroke","#14ffae").attr("filter","url(#f2)");
 				}else{
-					d3.selectAll("#svg_map g .line").style("display","block");
-					d3.selectAll("#svg_map g .line_bg").style("display","block");
-					d3.selectAll("#svg_map g .line_plus").style("display","block");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
-
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
 				}
 			//经停-隐藏其他
 			}else if(filter_type=="hide"){
-				if( flag ){
-
+				if(note){
 					d3.selectAll("#svg_map g .line").style("display","none");
 					d3.selectAll("#svg_map g .line_bg").style("display","none");
 					d3.selectAll("#svg_map g .line_plus").style("display","none");
 					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
+					note=false;
+				}
+				if( flag ){
 
 					d3.select(this).attr("type","filter_hide").attr("filter",null);
-					d3.select(this).style("display","bloce").style("stroke","#75baff");
-					d3.select("#line_bg_"+line_plus_id).style("display","block");
+					d3.select(this).style("display","block").style("stroke","#75baff");
+					d3.select("#line_plus_bg_"+line_plus_id).style("display","block");
 
 				}else{
 
-					d3.selectAll("#svg_map g .line").style("display","none");
-					d3.selectAll("#svg_map g .line_bg").style("display","none");
-					d3.selectAll("#svg_map g .line_plus").style("display","none");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
-
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null).style("display","none");
-					d3.select("#line_bg_"+line_plus_id).style("display","none");
+					d3.select("#line_plus_bg_"+line_plus_id).style("display","none");
 				}
 			}
-
-
-
-
-
 		});
-
-
 	}
-
 }
 
 
