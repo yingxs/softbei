@@ -20,7 +20,7 @@
 <div id="left_flat">
     <span>
         <h4>SXPI航班数据可视化</h4>
-        <h5>简要查询</h5>
+        <h5>条件查询</h5>
         <table border="0" width="90%" align="center" cellpadding="0" cellspacing="0"  >
             <form>
                 <tr class="qf_option">
@@ -492,9 +492,60 @@
                         <div class="submit">查询</div>
                     </td>
                 </tr >
+
             </form>
 
         </table>
+
+        <div class="ks_search" >
+            <h6 class="ks_search_title">快速查询</h6>
+            <div style="margin-top: 25px;margin-left: 35px;">
+
+                <strong>
+                    <input type="radio" name="flight_type" id="on_ch" value="on_ch">
+                    <label for="on_ch">国内航班</label>
+                </strong>
+
+                <strong>
+                    <input type="radio" name="flight_type" id="on_world" value="on_world">
+                    <label for="on_world">国际航班</label>
+                </strong>
+
+                <strong>
+                    <input type="radio" name="flight_type" id="out_ch" value="on_world">
+                    <label for="out_ch">出境航班</label>
+                </strong>
+
+                <strong>
+                    <input type="radio" name="flight_type" id="in_ch" value="on_world">
+                    <label for="in_ch">入境航班</label>
+                </strong>
+
+                <strong>
+                    <input type="radio" name="flight_type" id="no_over" value="on_world">
+                    <label for="no_over">直飞航班</label>
+                </strong>
+
+                <strong>
+                    <input type="radio" name="flight_type" id="over" value="on_world">
+                    <label for="over">经停航班</label>
+                </strong>
+
+                <strong>
+                    <input type="radio" name="flight_type" id="on_gat" value="on_world">
+                    <label for="on_gat">港澳台航班</label>
+                </strong>
+
+
+
+            </div>
+        </div>
+        <h6 class="h6_other" >更多...</h6>
+        <div class="jq_search"  >
+            <h6 class="jq_search_title">精确查询</h6>
+            <textarea ></textarea>
+            <button class="search_button">确认</button>
+        </div>
 
     </span>
     <span class="filter">
@@ -671,31 +722,31 @@
                             <table border="0" cellpadding="0" width="70%" valign="center" >
                                 <tr>
                                     <td >
-                                        <input type="radio" name="on"  value="on_ch" > <label >国内航班</label>
+                                        <input type="radio" name="on" id="on_ch2"  value="on_ch" > <label for="on_ch2" >国内航班</label>
                                     </td>
                                     <td class="td2">
-                                        <input type="radio"  name="on" value="on_world" > <label >国际航班</label>
+                                        <input type="radio"  name="on" id="on_world2" value="on_world" > <label for="on_world2" >国际航班</label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="radio" name="on"  value="out_ch" > <label >出境航班</label>
+                                        <input type="radio" name="on"  id="out_ch2"  value="out_ch" > <label  for="out_ch2"  >出境航班</label>
                                     </td>
                                     <td class="td2">
-                                        <input type="radio" name="on"  value="in_ch" > <label >入境航班</label>
+                                        <input type="radio" name="on" id="in_ch2"    value="in_ch" > <label for="in_ch2"  >入境航班</label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="radio" name="on"  value="on_gat" > <label >港澳台航班</label>
+                                        <input type="radio" name="on" id="on_gat2"  value="on_gat" > <label  for="on_gat2" >港澳台航班</label>
                                     </td>
                                     <td class="td2">
-                                        <input type="radio" name="on"  value="over" > <label >经停航班</label>
+                                        <input type="radio" name="on"  id="over2"  value="over" > <label for="over2" >经停航班</label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="radio" name="on"  value="no_over" > <label >直飞航班</label>
+                                        <input type="radio" name="on" id="no_over2"  value="no_over" > <label for="no_over2" >直飞航班</label>
                                     </td>
                                     <td class="td2">
 

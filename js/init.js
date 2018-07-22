@@ -1290,6 +1290,11 @@ function load(){
 		predef(e);
 		filter_data();
 		$('#left_bar').attr("type","filter");
+
+		var radio_list = d3.selectAll("#left_flat .filter .filter_checkbox table input");
+		radio_list.each(function(){
+			this.checked=false;
+		});
 	});
 
 	//选择只显示筛选的数据
