@@ -1298,7 +1298,7 @@ function load(){
 		$('#left_flat .filter .filter_type .hide').css("border","1px solid #739296");
 		//筛选结果类型为隐藏不符合要求的数据
 		$('#left_flat .filter .filter_type').attr("type","hide");
-
+		switch_filter();
 	});
 
 	//选择高亮显示筛选的数据
@@ -1307,7 +1307,97 @@ function load(){
 		$('#left_flat .filter .filter_type .show').css("border","1px solid #739296");
 		//筛选结果类型为高亮显示符合要求的数据
 		$('#left_flat .filter .filter_type').attr("type","show");
+		switch_filter();
 	});
+
+
+	function switch_filter(){
+		var radio_list = d3.selectAll("#left_flat .filter .filter_checkbox table input");
+		var note = false;
+		radio_list.each(function(){
+			if(this.checked){
+				note=true;
+			}
+		});
+		if(note){
+			radio_list.each(function(){
+				//国内航班
+				if(this.checked && this.value=='on_ch' ){
+					filter_data({
+						airline_company:"",
+						end_time:"",
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+						mb_text:"China",
+						mb_type:"3",
+						qf_text:"China",
+						qf_type:"3",
+						start_time:"",
+						zz_text:"",
+						zz_type:"3"
+					});
+				}
+
+				//国际航班
+				if(this.checked && this.value=='on_world' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+						qf_type:"3",
+						qf_text:"China",
+						mb_type:"3",
+						mb_text:"China",
+						zz_type:"3",
+						zz_text:""
+					},'check_fn1');
+				}
+
+				//出境航班
+				if(this.checked && this.value=='out_ch' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+						qf_type:"3",
+						qf_text:"China",
+						mb_type:"3",
+						mb_text:"China",
+						zz_type:"3",
+						zz_text:""
+					},'check_fn2');
+				}
+				//入境航班
+				if(this.checked && this.value=='in_ch' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+						qf_type:"3",
+						qf_text:"China",
+						mb_type:"3",
+						mb_text:"China",
+						zz_type:"3",
+						zz_text:""
+					},'check_fn3');
+				}
+				//港澳台航班
+				if(this.checked && this.value=='on_gat' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+					},'check_fn4');
+				}
+				//经停航班
+				if(this.checked && this.value=='over' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+					},'check_fn5');
+				}
+				//直飞航班
+				if(this.checked && this.value=='no_over' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+					},'check_fn6');
+				}
+			});
+		}else{
+			filter_data();
+			$('#left_bar').attr("type","filter");
+		}
+	}
 
 	$(document).click(function(){
 		//统一清理事件
@@ -1443,19 +1533,61 @@ function load(){
 						zz_type:"3"
 					});
 				}
+
+				//国际航班
 				if(this.checked && this.value=='on_world' ){
 					filter_data2({
-						airline_company:"",
-						end_time:"",
 						filter_type:$('#left_flat .filter .filter_type').attr("type"),
-						mb_text:"China",
-						mb_type:"3",
-						qf_text:"China",
 						qf_type:"3",
-						start_time:"",
-						zz_text:"",
-						zz_type:"3"
+						qf_text:"China",
+						mb_type:"3",
+						mb_text:"China",
+						zz_type:"3",
+						zz_text:""
 					},'check_fn1');
+				}
+
+				//出境航班
+				if(this.checked && this.value=='out_ch' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+						qf_type:"3",
+						qf_text:"China",
+						mb_type:"3",
+						mb_text:"China",
+						zz_type:"3",
+						zz_text:""
+					},'check_fn2');
+				}
+				//入境航班
+				if(this.checked && this.value=='in_ch' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+						qf_type:"3",
+						qf_text:"China",
+						mb_type:"3",
+						mb_text:"China",
+						zz_type:"3",
+						zz_text:""
+					},'check_fn3');
+				}
+				//港澳台航班
+				if(this.checked && this.value=='on_gat' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+					},'check_fn4');
+				}
+				//经停航班
+				if(this.checked && this.value=='over' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+					},'check_fn5');
+				}
+				//直飞航班
+				if(this.checked && this.value=='no_over' ){
+					filter_data2({
+						filter_type:$('#left_flat .filter .filter_type').attr("type"),
+					},'check_fn6');
 				}
 
 
