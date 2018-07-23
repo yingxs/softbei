@@ -1590,20 +1590,52 @@ function load(){
 					str:str
 				},
 				success : function(text){
-					var temp = JSON.parse(text);
-					var line_data=temp.data.line;
-					var line_plus_data=temp.data.line_plus;
+					var temp = JSON.parse(text),
+						line_data=temp.data.line,
+						line_plus_data=temp.data.line_plus,
+						num_line = line_data.length,
+						num_line_plus = line_plus_data.length,
+						num = num_line+num_line_plus;
 
 					//曲线生成模式2，附加背景,生成直飞航线
 					show_line_plus(line_data);
 					//曲线生成模式2，附加背景,生成经停航线
 					show_line_plus2(line_plus_data);
+
+					if(num > 0){
+						$('#search_info h6').html("查询成功，共查询到"+num+"个航班；其中直飞航班"+num_line+"个，经停航班"+num_line_plus+"个。");
+					}else if(num == 0){
+						$('#search_info h6').html("抱歉，未查询到相关数据！");
+					}
+
+					$('#search_info').animate({
+						t:10,
+						step:30,
+						mul:{
+							y:0,
+							o:100
+						}
+					});
+
+					setTimeout(function(){
+						$('#search_info').animate({
+							t:30,
+							step:10,
+							mul:{
+								y:-120,
+								o:0
+							}
+						});
+					},1500);
+
 				},
 				error : function(text){
 					alert("error"+text);
 				},
 				async:true
 			});
+
+
 
 
 		}

@@ -2193,6 +2193,25 @@ svg {
     width: 10%;
 }
 
+#search_info{
+    position: fixed;
+    width: 35%;
+    height: 5.8rem;
+    left: 40.5%;
+    top: -10rem;
+    background: #f5f5f5;
+    box-shadow:  2px 2px 10px #ddd;
+    border-radius: 3px;
+    opacity: 0;
+}
+#search_info h6{
+    line-height: 5.8rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #777;
+}
+
 
 /*透明度渐变动画*/
 @keyframes opacitytozero {

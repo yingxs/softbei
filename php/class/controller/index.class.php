@@ -258,6 +258,7 @@ class Index {
     }
 
 
+
     //查询机场/城市/国家
     public function searchInfoAction(){
             $type = I('type','get','string','');
