@@ -257,6 +257,13 @@ class Index {
         echo json_encode($data);
     }
 
+    //查询城市
+    public function search_cityAction(){
+         $dao = new IndexDao();
+        $result = $dao->query_city();
+
+        echo json_encode($result);
+    }
 
 
     //查询机场/城市/国家

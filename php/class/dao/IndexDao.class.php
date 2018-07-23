@@ -66,6 +66,28 @@ class IndexDao extends MySQLPDO{
 
     }
 
+    //查询直飞航班表中的城市及其经纬坐标
+    public function query_city(){
+        $sql = "SELECT `qf_city`  FROM `m_flight`  UNION SELECT `mb_city` FROM `m_flight`  UNION SELECT  `qf_city`  FROM `m_flight_stop_over`   UNION  SELECT `mb_city` FROM `m_flight_stop_over` ";
+        $result = parent::fetchAll($sql);
+        //show($result);
+        $array = [];
+        foreach($result as $v){
+            foreach($v as $vv){
+                $array[]=$vv;
+            }
+        }
+
+        $city_array = [];
+        foreach($array as $v){
+            $sql = "SELECT `qf_city` ,`qf_longitude` ,`qf_latitude` FROM `m_flight` WHERE qf_city=\"$v\"  UNION SELECT `mb_city` ,`mb_longitude` ,`mb_latitude` FROM `m_flight`  WHERE mb_city=\"$v\"   UNION SELECT  `qf_city` ,`qf_longitude` ,`qf_latitude` FROM `m_flight_stop_over`  WHERE qf_city=\"$v\"    UNION  SELECT `mb_city`,`mb_longitude` ,`mb_latitude` FROM `m_flight_stop_over`  WHERE mb_city=\"$v\" ";
+            $result = parent::fetchRow($sql);
+            $city_array[] = $result;
+        }
+        return $city_array;
+
+    }
+
 
 
      //查询经停航班信息
