@@ -5,14 +5,9 @@ function getLine_xy(qf,dd){
 	var width =$('svg').attr("width") ;
 	var height = $('svg').attr("height") ;
 	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
-
-
 	var translate = [(width/2)-(svg_left/2)+(35/2),height/2];
-
 	var screenscale = d3.scale.linear().domain([1360,1920]).range([212,300]);
-
 	var sacle = screenscale(screen.width);
-
 	//定义地图投影
 	var projection = d3.geo.equirectangular().scale(sacle).translate(translate);
 	//定义地理路径生成器
@@ -556,6 +551,40 @@ function change(width,height,data,clazz,clazz_len,h) {
 		.remove();
 }
 
+function render_city(){
 
+	var width =$('svg').attr("width") ;
+	var height = $('svg').attr("height") ;
+	var svg_left =parseInt(getStyle($('#left_bar').ge(0),"width")) ;
+	var translate = [(width/2)-(svg_left/2)+(35/2),height/2];
+	var screenscale = d3.scale.linear().domain([1360,1920]).range([212,300]);
+	var sacle = screenscale(screen.width);
+	//定义地图投影
+	var projection = d3.geo.equirectangular().scale(sacle).translate(translate);
+
+	ajax({
+		method:'get',
+		url:"/index.php?c=index&a=search_city",
+		success : function(text){
+			var temp = JSON.parse(text);
+			//console.log(typeof temp);
+			temp.forEach(function(obj){
+				//console.log(obj.qf_city,obj.qf_longitude,obj.qf_latitude);
+				var point = projection([obj.qf_latitude,obj.qf_longitude]);
+				d3.select("#map svg g").append("circle")
+					.attr("cx",point[0])
+					.attr("cy",point[1])
+					.attr("r",2)
+					.style("fill","red");
+
+			});
+		},
+		error : function(text){
+			alert("error"+text);
+		},
+		async:true
+	});
+
+}
 
 
