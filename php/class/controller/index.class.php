@@ -215,6 +215,49 @@ class Index {
     }
 
 
+    //精确查询
+    public function jq_searchAction(){
+        $str = I('str','get','string','');
+        $dao = new IndexDao();
+
+        $data = [
+            "state" => 0,
+            "message" => "数据查询成功！",
+            "data" => []
+        ];
+        //cca985,cca981,cca107,,CBJ5595,
+        $str = strtoupper($str);
+        $array = explode(",",$str);
+        $str = '';
+        $flag = false;
+        foreach($array as $v){
+            if( strlen($v) > 0 ){
+                if(!$flag){
+                    $str .= ' flight_number='."'$v'";
+                    $flag=true;
+                }else{
+                    $str .= ' OR flight_number='."'$v'";
+                }
+            }
+        }
+
+
+        //show($array);
+        //show($str);
+
+        //精确查询直飞航班数据
+        $result1 = $dao->jq_queryFlight_data($str);
+        //精确查询经停航班数据
+        $result2 = $dao->jq_queryFlight_data_plus($str);
+
+        $data['data']['line']=$result1;
+        $data['data']['line_plus']=$result2;
+
+        //show( $data['data'] );
+        echo json_encode($data);
+    }
+
+
     //查询机场/城市/国家
     public function searchInfoAction(){
             $type = I('type','get','string','');
