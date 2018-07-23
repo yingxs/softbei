@@ -3,8 +3,9 @@ $(function(){
 	//alert('DOM加载完成');
 	//初始化显示地图
 	//遮罩画布
-	var screen = $('#screen');
+
 	window.map = null;
+	var screen = $('#screen');
 	screen.lock().resize(function(){
 		if(screen.css("display")=='block'){
 			screen.lock();
@@ -21,6 +22,7 @@ $(function(){
 
 //初始化页面以及加载地图
 function init2(){
+
 	var li_list = $('#left_flat .qf_option .qf_opt li').elements;
 	//console.log(li_list);
 	(function(){
@@ -1279,7 +1281,7 @@ function load(){
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
 		//console.log(serializeSearch());
-		getFlight_data(e);
+		getFlight_data(e,"form");
 		//leftBox_anim(left_box.search,10,30,-380,100);
 		$('#left_bar').attr("type","search");
 	});
@@ -1520,6 +1522,106 @@ function load(){
 	$('.other').click(function(e){
 		alert("抱歉，该功能尚未完成.");
 	});
+
+	//$('.other').click(function(e){
+	//	alert("抱歉，该功能尚未完成.");
+	//});
+
+	$('#left_flat .h6_other').click(function(){
+		$(this).animate({
+			attr:'o',
+			t:10,
+			step:30,
+			target:0,
+			fn:function(){
+				$('#left_flat .h6_other').hide();
+				$('#left_flat .jq_search').show().animate({
+					t:30,
+					step:10,
+					mul:{
+						o:100,
+						y:0
+					}
+				}).css("top","20px");
+
+			}
+
+		})
+	});
+
+
+	//精确查询
+	$('#left_flat .jq_search textarea').bind("focus",function(){
+		if($('#left_flat .jq_search_popover').css('display')=='none'){
+			$('#left_flat .jq_search_popover').show().animate({
+				t:30,
+				step:10,
+				mul:{
+					o:100,
+					x:358
+				}
+			}).css("left","385px");
+		}
+	}).bind("blur",function(){
+		//alert(validate_col2('#left_flat .jq_search textarea'));
+		if(validate_col2('#left_flat .jq_search textarea')!=1){
+			$('#left_flat .jq_search_popover').animate({
+				t:30,
+				step:10,
+				mul:{
+					o:0,
+					x:385
+				},
+				fn:function(){
+					$('#left_flat .jq_search_popover').hide();
+				}
+			});
+		}
+	});
+
+	$('#left_flat .jq_search .search_button').click(function(){
+		if(validate_col2('#left_flat .jq_search textarea')!=1){
+			var str = $('#left_flat .jq_search textarea').value();
+
+			ajax({
+				method:'get',
+				url:"/index.php?c=index&a=jq_search",
+				data:{
+					str:str
+				},
+				success : function(text){
+					var temp = JSON.parse(text);
+					var line_data=temp.data.line;
+					var line_plus_data=temp.data.line_plus;
+
+					//曲线生成模式2，附加背景,生成直飞航线
+					show_line_plus(line_data);
+					//曲线生成模式2，附加背景,生成经停航线
+					show_line_plus2(line_plus_data);
+				},
+				error : function(text){
+					alert("error"+text);
+				},
+				async:true
+			});
+
+
+		}
+
+	});
+
+
+
+
+
+
+	var search_radio_input=$('#left_flat .ks_search strong input');
+
+	search_radio_input.click(function(e){
+
+		getFlight_data2(e,this.value);
+	});
+
 
 	var input_list=d3.selectAll('#left_flat .filter_checkbox table input');
 	input_list.on("click",function(e){

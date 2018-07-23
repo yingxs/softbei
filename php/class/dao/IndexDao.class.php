@@ -240,6 +240,54 @@ class IndexDao extends MySQLPDO{
 
     }
 
+    //快速查询直飞航班信息
+    function ks_queryFlight_data($type){
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight` WHERE  ";
+        switch ($type){
+            //国内直飞航班
+            case "on_ch" : $sql .= " qf_country= 'China' AND mb_country= 'China' ";break;
+            //国际航班
+            case "on_world" : $sql .= " qf_country <> 'China' OR mb_country <> 'China' ";break;
+            //出境航班
+            case "out_ch" : $sql .= " qf_country = 'China' AND mb_country <> 'China' ";break;
+            //入境航班
+            case "in_ch" : $sql .= " qf_country <> 'China' AND mb_country = 'China' ";break;
+            //直飞航班
+            case "no_over" : $sql .= " 1=1 ";break;
+            //经停航班
+            case "over" : $sql .= " 1=2 ";break;
+            //港澳台航班
+            case "on_gat" : $sql .= " qf_city = 'Hong Kong' OR qf_city = 'Taiwan' OR qf_city = 'Macao' OR  mb_city = 'Hong Kong' OR mb_city = 'Taiwan' OR mb_city = 'Macao'  ";break;
+        }
+        $result = parent::fetchAll($sql);
+        return $result;
+
+    }
+    //快速查询经停航班信息
+    function ks_queryFlight_data_plus($type){
+         $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`zz_airport`,`zz_city`,`zz_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`,`zz_longitude`, `zz_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight_stop_over` WHERE  ";
+        switch ($type){
+            //国内航班
+            case "on_ch" : $sql .= " qf_country= 'China'       AND      mb_country= 'China' ";break;
+             //国际航班
+            case "on_world" : $sql .= " qf_country <> 'China'   OR      mb_country <> 'China' ";break;
+            //出境航班
+            case "out_ch" : $sql .= " qf_country = 'China'      AND     mb_country <> 'China' ";break;
+            //入境航班
+            case "in_ch" : $sql .= " qf_country <> 'China'      AND     mb_country = 'China' ";break;
+             //直飞航班
+            case "no_over" : $sql .= " 1=2 ";break;
+             //经停航班
+            case "over" : $sql .= " 1=1 ";break;
+            //港澳台航班
+            case "on_gat" : $sql .= " qf_city = 'Hong Kong' OR qf_city = 'Taiwan' OR qf_city = 'Macao' OR  mb_city = 'Hong Kong' OR mb_city = 'Taiwan' OR mb_city = 'Macao' OR  zz_city = 'Hong Kong' OR zz_city = 'Taiwan' OR zz_city = 'Macao'  ";break;
+        }
+        $result = parent::fetchAll($sql);
+        return $result;
+
+    }
+
+
 
     function show($data){
     	echo "<pre>";

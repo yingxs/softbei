@@ -192,6 +192,29 @@ class Index {
 
     }
 
+    //快速查询
+    public function ks_searchAction(){
+        $type = I('type','get','string','');
+        $dao = new IndexDao();
+
+        $data = [
+            "state" => 0,
+            "message" => "数据查询成功！",
+            "data" => []
+        ];
+
+        //快速查询直飞航班数据
+        $result1 = $dao->ks_queryFlight_data($type);
+        //快速查询经停航班数据
+        $result2 = $dao->ks_queryFlight_data_plus($type);
+
+        $data['data']['line']=$result1;
+        $data['data']['line_plus']=$result2;
+
+        echo json_encode($data);
+    }
+
+
     //查询机场/城市/国家
     public function searchInfoAction(){
             $type = I('type','get','string','');

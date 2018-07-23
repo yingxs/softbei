@@ -1169,6 +1169,7 @@ function filter_data2(obj,check_fn){
 
 //异步查询航班数据
 function getFlight_data(e){
+	$('#left_flat .from1_button .submit').html("正在查询...").css('background','#b5d6f1');
 	predef(e);
 //	console.log("result:") ;
 //	console.log(validate_search()) ;
@@ -1485,6 +1486,8 @@ function getFlight_data(e){
 			 console.log(array);
 	
 			 */
+
+			$('#left_flat .from1_button .submit').html("查询").css('background','#bbe1ff');
 			//alert(data.length);
 		},
 		error : function(text){
@@ -1492,9 +1495,48 @@ function getFlight_data(e){
 		},
 		async:true
 	});
-
+		//if( arguments.length == 2 ){
+		//	if(arguments[1]=="form"){
+		//		//$('#left_flat .from1_button .submit').html("查询").css('background','#bbe1ff');
+		//		alert("表单");
+		//	}else if(arguments[1]=="radio"){
+        //
+		//	}
+		//}
 
 }
+
+
+
+//异步查询航班数据
+function getFlight_data2(e,search_type){
+
+	//predef(e);
+	ajax({
+		method:'get',
+		url:"/index.php?c=index&a=ks_search",
+		data:{
+			type:search_type
+		},
+		success : function(text){
+			var temp = JSON.parse(text);
+			var line_data=temp.data.line;
+			var line_plus_data=temp.data.line_plus;
+
+			//曲线生成模式2，附加背景,生成直飞航线
+			show_line_plus(line_data);
+			//曲线生成模式2，附加背景,生成经停航线
+			show_line_plus2(line_plus_data);
+		},
+		error : function(text){
+			alert("error"+text);
+		},
+		async:true
+	});
+
+}
+
+
 //曲线生成模式1，无附加背景(速度快，数据量大时使用，交互性差)
 function show_line(data){
 
@@ -3365,6 +3407,28 @@ function validate_col(clazz){
 		//console.log("起飞文本框失去焦点数据验证"+flag);
 	}else{
 		obj.css("border-bottom","1px solid #ddd");
+		return 2;       //为空
+	}
+}
+function validate_col2(clazz){
+	var obj = $(clazz);
+	if(trim( obj.value() )!=''){
+		//console.log("数据验证");
+		var reg = new RegExp("[`~!@#$^&*()=|{}:;\\[\\].<>?~！@#￥……&*（）——|{}【】‘；：”“。，、？+-]");
+		var str = trim(obj.value() );
+		var flag = reg.test(str);
+		//console.log(str.length);
+		if(flag || str.length>=50){
+			obj.css("border","1.5px dashed rgb(222, 184, 184)");
+			return 1;   //含非法字符或过长
+			//show_popover("#left_flat .search_qf_text_td .search_ariport_popover",obj.ge(0));
+		}else{
+			obj.css("border","0.2px solid #eee");
+			return 0;   //合法
+		}
+		//console.log("起飞文本框失去焦点数据验证"+flag);
+	}else{
+		obj.css("border","0.2px solid #eee");
 		return 2;       //为空
 	}
 }

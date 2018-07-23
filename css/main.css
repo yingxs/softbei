@@ -2069,7 +2069,16 @@ svg {
 
 #left_flat .ks_search,.jq_search{
     /*border: 1px solid red;*/
+    position: relative;
 }
+#left_flat .jq_search_popover{
+    display: none;
+    opacity: 0;
+    left: 358px;
+    top: 60rem;
+}
+
+
 #left_flat .ks_search  .ks_search_title , .jq_search  .jq_search_title {
     margin: 30px 0 20px 35px;
     font-size: 1.8rem;
@@ -2087,7 +2096,7 @@ svg {
     height: 5.5rem;
     margin-left: 35px;
     border: 0.2px solid #eee;
-    background: #FAFAFA;
+    background: #FCFCFC;
     outline: none;
     padding: 5px;
     color: #666;
@@ -2176,9 +2185,11 @@ svg {
     font-weight: 300;
     color: #666;
     font-size: 1.3rem;
-    padding-left: 11%;
-    padding-top: 2.5rem;
+    margin-left: 11%;
+    margin-top: 2.5rem;
     text-decoration: underline;
+    cursor: pointer;
+    width: 10%;
 }
 
 
