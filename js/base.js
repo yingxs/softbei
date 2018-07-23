@@ -738,7 +738,7 @@ function filter_data(){
 				//}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter").style("stroke","#14ffae").attr("filter","url(#f2)");
+					d3.select(this).attr("type","filter").style("stroke","#14ffae");
 				}else{
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
 				}
@@ -817,7 +817,7 @@ function filter_data(){
 				//}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter").style("stroke","#14ffae").attr("filter","url(#f2)");
+					d3.select(this).attr("type","filter").style("stroke","#14ffae");
 				}else{
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
 				}
@@ -998,7 +998,7 @@ function filter_data2(obj,check_fn){
 				//}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter").style("stroke","#14ffae").attr("filter","url(#f2)");
+					d3.select(this).attr("type","filter").style("stroke","#14ffae");
 				}else{
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
 				}
@@ -1133,7 +1133,7 @@ function filter_data2(obj,check_fn){
 				//}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter").style("stroke","#14ffae").attr("filter","url(#f2)");
+					d3.select(this).attr("type","filter").style("stroke","#14ffae");
 				}else{
 					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
 				}
