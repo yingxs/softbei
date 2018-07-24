@@ -483,7 +483,7 @@ function change(width,height,data,clazz,clazz_len,h) {
 				var d2 = interpolate(t);
 				var pos = outerArc.centroid(d2);
 				pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-				if(d.data.id==3){
+				if(d.data.id==3 || d.data.id==1){
 					pos[1]=pos[1]-10;
 				}
 				return "translate("+ pos +")";
@@ -524,7 +524,7 @@ function change(width,height,data,clazz,clazz_len,h) {
 				var pos = outerArc.centroid(d2);
 				pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
 
-				console.log(d.data.value+":",arc.centroid(d2),outerArc.centroid(d2),pos);
+				//console.log(d.data.value+":",arc.centroid(d2),outerArc.centroid(d2),pos);
 				var p2 = outerArc.centroid(d2);
 
 				//p2[1]=p2[1]-20;
@@ -532,9 +532,11 @@ function change(width,height,data,clazz,clazz_len,h) {
 				//pos[1]=pos[1]-20;
 
 				//return [arc.centroid(d2), outerArc.centroid(d2), pos];
-				if(d.data.id==3){
+				console.log(d.data.id,p2);
+				if(d.data.id==3 || d.data.id==1){
 					p2[1]=p2[1]-10;
 					pos[1]=pos[1]-10;
+
 				}
 
 
@@ -568,14 +570,28 @@ function render_city(){
 		success : function(text){
 			var temp = JSON.parse(text);
 			//console.log(typeof temp);
+			var num= 0, clazz_num,point;
+			d3.select("#map svg g").append("g").classed("g_city",true);
+			d3.select("#map svg g").append("g").classed("g_city_text",true);
 			temp.forEach(function(obj){
 				//console.log(obj.qf_city,obj.qf_longitude,obj.qf_latitude);
-				var point = projection([obj.qf_latitude,obj.qf_longitude]);
-				d3.select("#map svg g").append("circle")
+				point = projection([obj.qf_latitude,obj.qf_longitude]);
+
+				d3.select("#map svg g g.g_city").append("circle").classed("city"+num,true)
 					.attr("cx",point[0])
 					.attr("cy",point[1])
 					.attr("r",2)
-					.style("fill","red");
+					.on("mouseenter",function(){
+						clazz_num = d3.select(this).attr("class").replace("city","");
+						d3.select("#map svg g g.g_city_text .city_text_"+clazz_num).style("display","block");
+
+					}).on("mouseout",function(){
+						clazz_num = d3.select(this).attr("class").replace("city","");
+						d3.select("#map svg g g.g_city_text .city_text_"+clazz_num).style("display","none");
+
+					});
+				d3.select("#map svg g g.g_city_text").append("text").classed("city_text_"+(num++),true).text(obj.qf_city).attr("transform","translate("+(point[0]-20)+","+(point[1]-5)+")").style("display","none").style("fill","#1da04f");
+
 
 			});
 		},

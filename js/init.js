@@ -3,7 +3,6 @@ $(function(){
 	//alert('DOM加载完成');
 	//初始化显示地图
 	//遮罩画布
-
 	window.map = null;
 	var screen = $('#screen');
 	screen.lock().resize(function(){
@@ -125,28 +124,30 @@ function init2(){
 
 		render_city();
 
+		setTimeout(function(){
+
+			//解除锁屏
+			$('#screen').animate({
+				attr:'o',
+				target:0,
+				step:30,
+				t:10,
+				fn:function(){
+					$('#screen').unlock();
+				}
+			});
+
+			//地图出现
+			$('#map').animate({
+				attr:'o',
+				target:100,
+				step:30,
+				t:10
+
+			});
+		},350);
 
 
-
-		//解除锁屏
-		$('#screen').animate({
-			attr:'o',
-			target:0,
-			step:30,
-			t:10,
-			fn:function(){
-				$('#screen').unlock();
-			}
-		});
-
-		//地图出现
-		$('#map').animate({
-			attr:'o',
-			target:100,
-			step:30,
-			t:10
-
-		});
 
 	});
 
