@@ -589,10 +589,48 @@ function render_city(){
 						clazz_num = d3.select(this).attr("class").replace("city","");
 						d3.select("#map svg g g.g_city_text .city_text_"+clazz_num).style("display","none");
 
+					}).on("click",function(){
+
+						var num = d3.select(this).attr("class").replace("city","");
+						//alert(d3.select("#map svg g g.g_city_text .city_text_"+num).text());
+						$('#city_info').animate({
+							t:20,
+							step:10,
+							mul:{
+								r:0,
+								o:90
+							},
+							fu:function(){
+
+							}
+						});
+						ajax({
+							method:'get',
+							url:"/index.php?c=index&a=city_info",
+							data:{
+								city:d3.select("#map svg g g.g_city_text .city_text_"+num).text()
+							},
+							success : function(text){
+								var temp = JSON.parse(text);
+								console.log(temp);
+								$('#city_info .info_panel .city').html(temp.city);
+								$('#city_info .info_panel .country span').html(temp.country);
+
+
+								var str="";
+								temp.airport_list.forEach(function(d){
+									str += "<li>"+d+"</li>";
+								});
+								$('#city_info .info_panel .airport_list').html(str);
+
+							},
+							error : function(text){
+								alert("error"+text);
+							},
+							async:true
+						});
 					});
 				d3.select("#map svg g g.g_city_text").append("text").classed("city_text_"+(num++),true).text(obj.qf_city).attr("transform","translate("+(point[0]-20)+","+(point[1]-5)+")").style("display","none").style("fill","#1da04f");
-
-
 			});
 		},
 		error : function(text){

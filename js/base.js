@@ -252,7 +252,7 @@ Base.prototype.animate = function(obj){
 			var flag = true;//true表示都执行完了
 
 			for(var i in mul) {
-				attr = i == 'x' ? 'left' : i == 'y' ? 'top' : i == 'w' ? 'width' : i == 'h' ? 'height' : i == 'o' ? 'opacity' : i != undefined ? i :'left';
+				attr = i == 'x' ? 'left' : i == 'y' ? 'top' : i == 'w' ? 'width' : i == 'h' ? 'height' : i == 'o' ? 'opacity' : i=='r' ? 'right':  i != undefined ? i :'left';
 				target = mul[i];
 
 				if (type == 'buffer') {
