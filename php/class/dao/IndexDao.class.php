@@ -88,6 +88,160 @@ class IndexDao extends MySQLPDO{
 
     }
 
+    
+    public function  get_num($param,$type,$qf_mb){
+        
+//         $sql = " SELECT flight_number FROM `m_flight` WHERE {$qf_mb}_{$type}=\"$param\" UNION SELECT flight_number  FROM `m_flight_stop_over` WHERE {$qf_mb}_{$type}=\"$param\"  ";
+        $sql = " SELECT flight_number FROM `m_flight` WHERE {$qf_mb}_{$type}=\"$param\"   ";
+        
+        
+        //echo $sql;
+        $result = parent::fetchAll($sql);
+        
+        $code_array=[];
+        foreach($result as $v){
+            foreach($v as $vv){
+                $code_array[] =  $vv;
+            }
+        }
+       
+        $sum_line=0;
+        
+        if(sizeof($code_array)>0){
+            $sql = "SELECT COUNT(*) FROM t_".$code_array[0];
+            
+            for($i=1;$i<sizeof($code_array);$i++){
+                $sql .= " UNION SELECT COUNT(*) FROM t_".$code_array[$i];
+            }
+            
+            $result = parent::fetchAll($sql);
+            
+            foreach($result as $v){
+                foreach($v as $vv){
+                    $sum_line += $vv;
+                }
+            }
+        }
+        
+        $sql = " SELECT flight_number FROM `m_flight_stop_over` WHERE {$qf_mb}_{$type}=\"$param\"  ";
+        
+        $result = parent::fetchAll($sql);
+        
+        $code_array=[];
+        foreach($result as $v){
+            foreach($v as $vv){
+                $code_array[] =  $vv;
+            }
+        }
+        
+        $sum_line_plus=0;
+        
+        if(sizeof($code_array)>0){
+            $sql = "SELECT COUNT(*) FROM t_".$code_array[0];
+            
+            for($i=1;$i<sizeof($code_array);$i++){
+                $sql .= " UNION SELECT COUNT(*) FROM t_".$code_array[$i];
+            }
+            
+            $result = parent::fetchAll($sql);
+            
+            foreach($result as $v){
+                foreach($v as $vv){
+                    $sum_line_plus += ($vv/2);
+                }
+            }
+        }
+        
+        
+        
+        $sql = " SELECT flight_number FROM `m_flight_stop_over` WHERE zz_{$type}=\"$param\"  ";
+        
+        $result = parent::fetchAll($sql);
+        
+        $code_array=[];
+        foreach($result as $v){
+            foreach($v as $vv){
+                $code_array[] =  $vv;
+            }
+        }
+        
+//         $sum_line_plus=0;
+        
+        if(sizeof($code_array)>0){
+            $sql = "SELECT COUNT(*) FROM t_".$code_array[0];
+            
+            for($i=1;$i<sizeof($code_array);$i++){
+                $sql .= " UNION SELECT COUNT(*) FROM t_".$code_array[$i];
+            }
+            
+            $result = parent::fetchAll($sql);
+            
+            foreach($result as $v){
+                foreach($v as $vv){
+                    $sum_line_plus += ($vv/2);
+                    $sum_line += ($vv/2);
+                }
+            }
+        }
+        
+//         echo "sum_line:$sum_line<br/>";        
+//         echo "sum_line_plus:$sum_line_plus<br/>";        
+        
+        return  $sum_line + $sum_line_plus;
+    }
+    
+    //统计某个城市相关信息
+    public function QueryParamInfo($param,$type){
+        $sql = "SELECT qf_city,qf_country,qf_airport FROM `m_flight` WHERE qf_{$type} = \"$param\" ".
+            " UNION SELECT mb_city,mb_country,mb_airport FROM `m_flight` WHERE mb_{$type} = \"$param\" ".
+            " UNION SELECT qf_city,qf_country,qf_airport FROM `m_flight_stop_over` WHERE qf_{$type} = \"$param\" ".
+            " UNION SELECT mb_city,mb_country,mb_airport FROM `m_flight_stop_over` WHERE mb_{$type} = \"$param\"   ";
+        //echo $sql;
+        $result = parent::fetchAll($sql);
+
+        $array = [
+            "city"=>"",
+            "country"=>"",
+            "airport_list"=>[],
+            "enter_num"=>0,
+            "out_num"=>0
+        ];
+
+        foreach($result as $v){
+            $array["city"]=$v["qf_city"];
+            $array["country"]=$v["qf_country"];
+            $array["airport_list"][]=$v["qf_airport"];
+        }
+
+        //show($array);
+//         echo "入港<br/>";
+        $array["enter_num"] = $this->get_num($param,$type,"mb");
+//         echo "出港<br/>";
+        $array["out_num"] = $this->get_num($param,$type,"qf");
+            
+
+//         show($array);
+        return $array;
+    }
+    
+    public function testTable(){
+        $sql = "SELECT flight_number FROM `m_flight` UNION SELECT flight_number FROM `m_flight_stop_over` ";
+        $result = parent::fetchAll($sql);
+        $number_array=[];
+        foreach ($result as $v){
+            foreach ($v as $vv){
+                $number_array[]=$vv;
+            }
+        }
+        
+        foreach ($number_array as $v){
+            $result = parent::fetchAll("select * from t_$v");
+        }
+    }
+
+
+   
+
 
 
      //查询经停航班信息

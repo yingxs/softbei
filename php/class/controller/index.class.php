@@ -265,6 +265,38 @@ class Index {
         echo json_encode($result);
     }
 
+    //统计某个城市相关信息
+    public function city_infoAction(){
+         $city = I('city','get','string','');
+         $country = I('country','get','string','');
+         $airport = I('airport','get','string','');
+        $type="";
+        if($city!=''){
+            $type="city";
+            $param = $city;
+        }else if($country!=''){
+            $type="country";
+            $param = $country;
+        }else if($airport!=''){
+            $type="airport";
+            $param = $airport;
+        }
+
+        $dao = new IndexDao();
+        
+        $result = $dao->QueryParamInfo($param,$type);
+    
+//         show($result);
+        echo json_encode($result);
+    }
+    
+    
+    public function testTableAction(){
+        $dao = new IndexDao();
+        $dao->testTable();
+    }
+    
+
 
     //查询机场/城市/国家
     public function searchInfoAction(){
