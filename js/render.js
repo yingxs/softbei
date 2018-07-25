@@ -354,6 +354,8 @@ function getPoint(bezier_x,bezier_y){
 
 
 }
+
+//绘制统计饼图
 function change(width,height,data,clazz,clazz_len,h) {
 	//init
 
@@ -553,6 +555,7 @@ function change(width,height,data,clazz,clazz_len,h) {
 		.remove();
 }
 
+//绘制城市坐标点
 function render_city(){
 
 	var width =$('svg').attr("width") ;
@@ -591,6 +594,12 @@ function render_city(){
 
 					}).on("click",function(){
 
+
+						$("#city_info .chart_panel .city_chart .svg_content .loading").show();
+						d3.select("#city_info .chart_panel .city_chart .svg_content svg").style("display","none");
+
+
+
 						var num = d3.select(this).attr("class").replace("city","");
 						//alert(d3.select("#map svg g g.g_city_text .city_text_"+num).text());
 						$('#city_info').animate({
@@ -616,12 +625,23 @@ function render_city(){
 								$('#city_info .info_panel .city').html(temp.city);
 								$('#city_info .info_panel .country span').html(temp.country);
 
+								$('#city_info .chart_panel .airport_chart').animate({
+									t:30,
+									step:10,
+									mul:{
+										o:0,
+										y:20
+									}
+								});
+
 
 								var str="";
 								temp.airport_list.forEach(function(d){
 									str += "<li>"+d+"</li>";
 								});
 								$('#city_info .info_panel .airport_list').html(str);
+								render_chart("#city_info .chart_panel .city_chart .svg_content",300,300,55,temp.enter_num,temp.out_num);
+
 
 							},
 							error : function(text){
@@ -641,4 +661,161 @@ function render_city(){
 
 }
 
+//绘制条形统计图
+function render_chart(content,width,height,rectPadding,enter_num,out_num){
+	d3.select(content+" svg").remove();
+	setTimeout(function(){
 
+
+
+
+		//画布大小
+		//var width = 200;
+		//var height = 200;
+
+		//在 body 里添加一个 SVG 画布
+		var svg = d3.select(content)
+			.append("svg")
+			.attr("width", width)
+			.attr("height", height);
+
+		//画布周边的空白
+		var padding = {left:30, right:30, top:20, bottom:20};
+
+		//定义一个数组
+		//    var dataset = [10, 20, 30, 40, 33, 24, 12, 5];
+		var dataset = [out_num, enter_num];
+
+		//x轴的比例尺
+		var xScale = d3.scale.ordinal()
+			.domain(d3.range(dataset.length))
+			.rangeRoundBands([0, width - padding.left - padding.right]);
+
+		console.log(d3.range(dataset.length));
+
+		//x轴的比例尺
+		//    var xScale = d3.scale.linear()
+		//            .domain([0,3])
+		//            .range([0,400]);
+
+		var max = 0;
+		if(enter_num > out_num){
+			max = enter_num;
+		}else{
+			max = out_num;
+		}
+		//y轴的比例尺
+		var yScale = d3.scale.linear()
+			//.domain([0,(d3.max(dataset))+5])
+			.domain([0,max+10])
+			//.range([height - padding.top - padding.bottom, 0]);
+			.range([height - padding.top - padding.bottom, 0]);
+
+		//定义x轴
+		var xAxis = d3.svg.axis()
+			.scale(xScale)
+			.orient("bottom").tickFormat(function(v){
+				if(v==0){
+					return "出港";
+				}else if(v==1){
+					return "入港"
+				}
+			});
+
+
+		//定义y轴
+		var yAxis = d3.svg.axis()
+			.scale(yScale)
+			.orient("left");
+
+		//矩形之间的空白
+		//var rectPadding = 105;
+
+		//添加矩形元素
+		var rects = svg.selectAll(".MyRect")
+			.data(dataset)
+			.enter()
+			.append("rect")
+			.attr("class","MyRect")
+			.attr("transform","translate(" + padding.left + "," + padding.top + ")")
+			.attr("x", function(d,i){
+				return xScale(i) + rectPadding/2;
+			} )
+			.attr("width", xScale.rangeBand() - rectPadding )
+			.attr("y",function(d){
+				var min = yScale.domain()[0];
+				return yScale(min);
+			})
+			.attr("height", function(d){
+				return 0;
+			})
+			.transition()
+			.delay(function(d,i){
+				return i * 200;
+			})
+			.duration(2000)
+			.ease("bounce")
+			.attr("y",function(d){
+				return yScale(d);
+			})
+			.attr("height", function(d){
+				return height - padding.top - padding.bottom - yScale(d);
+			});
+
+
+		//添加文字元素
+		var texts = svg.selectAll(".MyText")
+			.data(dataset)
+			.enter()
+			.append("text")
+			.attr("class","MyText")
+			.attr("transform","translate(" + padding.left + "," + (padding.top-25) + ")")
+			.attr("x", function(d,i){
+				return xScale(i) + rectPadding/2;
+			} )
+			.attr("dx",function(){
+				return (xScale.rangeBand() - rectPadding)/2;
+			})
+			.attr("dy",function(d){
+				return 20;
+			})
+			.text(function(d){
+				return d;
+			})
+			.attr("y",function(d){
+				var min = yScale.domain()[0];
+				return yScale(min);
+			})
+			.transition()
+			.delay(function(d,i){
+				return i * 200;
+			})
+			.duration(2000)
+			.ease("bounce")
+			.attr("y",function(d){
+				return yScale(d);
+			});
+
+		//添加x轴
+		svg.append("g")
+			.attr("class","axis")
+			.attr("transform","translate(" + padding.left + "," + (height - padding.bottom) + ")")
+			.call(xAxis);
+
+		//添加y轴
+		svg.append("g")
+			.attr("class","axis")
+			.attr("transform","translate(" + padding.left + "," + padding.top + ")")
+			.call(yAxis);
+
+
+		$(content+" .loading").hide();
+		$(content+" svg").show().css("animation","text_opacitytoone 1.2s ease forwards");
+	},500);
+
+
+
+
+
+
+}

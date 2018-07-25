@@ -2499,6 +2499,7 @@ function show_flight_info(d,that){
 	//鼠标移入，线条颜色高亮
 	d3.select(that).attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
 
+
 }
 
 //航班信息面板隐藏

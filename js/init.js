@@ -1382,6 +1382,10 @@ function load(){
 						});
 					},1500);
 
+
+
+
+
 				},
 				error : function(text){
 					alert("error"+text);
@@ -1512,6 +1516,101 @@ function load(){
 
 	});
 
+
+	$('#city_info .close').hover(function(){
+		$(this).attr("src","/svg/right_close2.svg")
+	},function(){
+		$(this).attr("src","/svg/right_close1.svg")
+	}).click(function(){
+		$('#city_info').animate({
+			t:20,
+			step:10,
+			mul:{
+				r:-360,
+				o:90
+			}
+		});
+	});
+
+
+	$("#city_info .info_panel .airport_list").click(function(e){
+		$("#city_info .chart_panel .airport_chart .svg_content .loading").show();
+
+
+		var str = $(e.srcElement).html().replace(/.+\(/, "").replace(/\)/, "");
+		$('#city_info .chart_panel .airport_chart .chart_title span').html(str);
+		$('#city_info .chart_panel .airport_chart').show().animate({
+			t:30,
+			step:10,
+			mul:{
+				o:100,
+				y:0
+			}
+		});
+
+
+		ajax({
+			method:'get',
+			url:"/index.php?c=index&a=city_info",
+			data:{
+				airport:$(e.srcElement).html()
+			},
+			success : function(text){
+				var temp = JSON.parse(text);
+				console.log(temp);
+				render_chart("#city_info .chart_panel .airport_chart .svg_content",300,300,55,temp.enter_num,temp.out_num);
+			},
+			error : function(text){
+				alert("error"+text);
+			},
+			async:true
+		});
+
+
+		//ajax({
+		//	method:'get',
+		//	url:"/index.php?c=index&a=city_info",
+		//	data:{
+		//		airport:$(e.srcElement).html()
+		//	},
+		//	success : function(text){
+		//		var temp = JSON.parse(text);
+		//		console.log(temp);
+		//		var str = temp.airport_list[0].replace(/.+\(/, "").replace(/\)/, "");
+		//		console.log(str);
+		//		$('#city_info .info_panel .airport').show().html( str );
+        //
+		//		$('#city_info .info_panel .on_city').show();
+		//		$('#city_info .info_panel .on_city span').html(temp.city);
+		//		$('#city_info .info_panel .country').show();
+		//		$('#city_info .info_panel .country span').html(temp.country);
+		//		$('#city_info .info_panel .airport_name').show();
+		//		var string = temp.airport_list[0].replace(/\(.+\)/, "");
+		//		$('#city_info .info_panel .airport_name span').html(string);
+        //
+		//		$('#city_info .info_panel .city').hide();
+		//		$('#city_info .info_panel .on_airport').hide();
+		//		$('#city_info .info_panel .airport_list').hide();
+		//		$('#city_info .chart_panel .city_chart').hide();
+		//		$('#city_info .chart_panel .airport_chart .chart_title span').html(str);
+		//		$('#city_info .chart_panel .airport_chart').show().animate({
+		//			attr:'o',
+		//			t:30,
+		//			step:10,
+		//			target:100
+		//		});
+        //
+        //
+		//		render_chart("#city_info .chart_panel .airport_chart .svg_content",300,300,55,temp.enter_num,temp.out_num);
+        //
+        //
+		//	},
+		//	error : function(text){
+		//		alert("error"+text);
+		//	},
+		//	async:true
+		//});
+	});
 
 }
 
