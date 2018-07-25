@@ -287,7 +287,7 @@ class Index {
         $result = $dao->QueryParamInfo($param,$type);
     
 //         show($result);
-        echo json_encode($result);
+       echo json_encode($result);
     }
     
     

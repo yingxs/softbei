@@ -1535,6 +1535,7 @@ function load(){
 
 	$("#city_info .info_panel .airport_list").click(function(e){
 		$("#city_info .chart_panel .airport_chart .svg_content .loading").show();
+		$("#city_info .chart_panel .airport_chart .svg_content").opacity(0);
 
 
 		var str = $(e.srcElement).html().replace(/.+\(/, "").replace(/\)/, "");

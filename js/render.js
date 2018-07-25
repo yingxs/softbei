@@ -613,6 +613,16 @@ function render_city(){
 
 							}
 						});
+
+						$('#city_info .chart_panel .airport_chart').animate({
+							t:30,
+							step:10,
+							mul:{
+								o:0,
+								y:20
+							}
+						});
+
 						ajax({
 							method:'get',
 							url:"/index.php?c=index&a=city_info",
@@ -625,14 +635,7 @@ function render_city(){
 								$('#city_info .info_panel .city').html(temp.city);
 								$('#city_info .info_panel .country span').html(temp.country);
 
-								$('#city_info .chart_panel .airport_chart').animate({
-									t:30,
-									step:10,
-									mul:{
-										o:0,
-										y:20
-									}
-								});
+
 
 
 								var str="";
@@ -664,10 +667,9 @@ function render_city(){
 //绘制条形统计图
 function render_chart(content,width,height,rectPadding,enter_num,out_num){
 	d3.select(content+" svg").remove();
+	$(content).opacity(100);
+
 	setTimeout(function(){
-
-
-
 
 		//画布大小
 		//var width = 200;
