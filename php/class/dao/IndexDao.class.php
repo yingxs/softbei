@@ -505,6 +505,41 @@ class IndexDao extends MySQLPDO{
         return $result;
 
     }
+    
+    
+    //查询机型种类以及所占比例
+    function query_type($flight_number){
+        
+        $sql = "SELECT `type` FROM  `t_".$flight_number;
+        $result = parent::fetchAll($sql);
+        $data=[];
+        $sum = 0;
+        foreach ($result as $v){
+            foreach ($v as $vv){
+                $sum++;
+                if(array_key_exists($vv,$data)){
+                    $data[$vv]++;
+                }else{
+                    $data[$vv]=1;
+                }
+            }
+        }
+//         show($data);
+       foreach ($data as $k=>$v){
+           $data[$k] =  round($v/$sum,4);
+       }
+       $s = 0;
+       foreach ($data as $v){
+           $s += $v;
+       }
+       
+//        show($data);
+//        echo "$s<br/>";
+       
+       
+        
+        return $data;
+    }
 
 
 

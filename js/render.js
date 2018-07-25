@@ -514,6 +514,7 @@ function change(width,height,data,clazz,clazz_len,h) {
 
 	polyline.transition().duration(1000)
 		.attrTween("points", function(d){
+			console.log(d);
 			if(d.data.value==0){
 				return ;
 			}
@@ -534,7 +535,7 @@ function change(width,height,data,clazz,clazz_len,h) {
 				//pos[1]=pos[1]-20;
 
 				//return [arc.centroid(d2), outerArc.centroid(d2), pos];
-				console.log(d.data.id,p2);
+				//console.log(d.data.id,p2);
 				if(d.data.id==3 || d.data.id==1){
 					p2[1]=p2[1]-10;
 					pos[1]=pos[1]-10;

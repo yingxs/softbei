@@ -25,15 +25,14 @@ class Index {
         $flight_number = I('flight_number','get','string','');
         $start_time = I('start_time','get','string','');
         $end_time = I('end_time','get','string','');
-        //echo $flight_number."<br/>";
-        //echo $start_time."<br/>";
-        //echo $end_time."<br/>";
 
 
         $dao = new IndexDao();
         $result = $dao->getdelay($flight_number,$start_time,$end_time);
+        
+        //查询该航班的机型种类
+        $dao->query_type($flight_number);
 
-        //show($result);
         $leave_delay=[
                 'before'=>[],     //提前
                 'on'=>[],         //准时
@@ -71,20 +70,9 @@ class Index {
             $i++;
         }
 
-
         $num_after_qf = sizeof($leave_delay['after']) / sizeof($result);
         $num_on_qf = sizeof($leave_delay['on']) / sizeof($result);
         $num_before_qf = sizeof($leave_delay['before']) / sizeof($result);
-
-      //echo "sum_qf:".$sum_qf."<br/>";
-      //echo "<br/>出发:<br/>";
-      //echo "&nbsp;&nbsp;&nbsp;&nbsp;延误率:".( sprintf("%.4f", $num_after_qf)*100 )."%<br/>";
-      //echo "&nbsp;&nbsp;&nbsp;&nbsp;准点率:".( sprintf("%.4f", $num_on_qf)*100 )."%<br/>";
-      //echo "&nbsp;&nbsp;&nbsp;&nbsp;提前率:".( sprintf("%.4f", $num_before_qf)*100 )."%<br/>";
-      //echo "&nbsp;&nbsp;&nbsp;&nbsp;平均延误时间:".( sprintf("%.2f", ($sum_qf/$i)*-1 ) )."min<br/>";
-
-
-
 
         $num_after_dd = sizeof($arrive_delay['after']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
         $num_on_dd = sizeof($arrive_delay['on']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
@@ -96,16 +84,23 @@ class Index {
             $sum_dd += $v;
             $j++;
         }
-        //echo "i:".$i."<br/>";
-        //echo "j:".$j."<br/>";
-        //echo "result:".sizeof($result)."<br/>";
-
-      //echo "sum_dd:".$sum_dd."<br/>";
-      //echo "<br/>到达:<br/>";
-      //echo "&nbsp;&nbsp;&nbsp;&nbsp;延误率:".( sprintf("%.4f", $num_after_dd)*100 )."%<br/>";
-      //echo "&nbsp;&nbsp;&nbsp;&nbsp;准点率:".( sprintf("%.4f", $num_on_dd)*100 )."%<br/>";
-      //echo "&nbsp;&nbsp;&nbsp;&nbsp;提前率:".( sprintf("%.4f", $num_before_dd)*100 )."%<br/>";
-      //echo "&nbsp;&nbsp;&nbsp;&nbsp;平均延误时间:".( @sprintf("%.2f", ($sum_dd/$i)*-1 ) )."min<br/>";
+        
+        
+        $type_array=$dao->query_type($flight_number);
+        
+        $type = [];
+        
+        $i = 1;
+        foreach ($type_array as $k=>$v){
+            $type[]=[
+                "id"=>$i,
+                "value"=>$v,
+                "label"=>$k
+            ];
+        }
+//         show($type);
+        
+        
 
         $data = [
             "leave_delay"=>[
@@ -123,9 +118,11 @@ class Index {
                 	["id"=>"3","value" => @sprintf("%.4f", $num_before_dd ),"label"=>"提前率"]
                 ],
                 "len"=>@sprintf("%.2f", ($sum_dd/$j)*-1 )
-            ]
+            ],
+            "type_info"=>$type
         ];
-
+        
+//         show($data);
 
         echo json_encode($data);
 
