@@ -1756,7 +1756,7 @@ function load(){
 		}
 
 		if( !(count==0 && type.indexOf("z_")>-1) ){
-			$("#history .panel table tbody tr.info").hide();
+			$("#history .panel table tbody .info").hide();
 			$('#search_info h6').html(str);
 			$('#search_info').animate({
 				t:10,
