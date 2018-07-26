@@ -2235,6 +2235,7 @@ svg {
     box-shadow:  2px 2px 10px #ddd;
     border-radius: 3px;
     opacity: 0;
+    z-index: 9999;
 }
 #search_info h6{
     line-height: 5.8rem;
@@ -2428,6 +2429,13 @@ svg {
 }
 #history .panel table tbody tr{
     cursor: pointer;
+}
+
+#history .panel table tbody tr.info{
+    font-size: 1.8rem;
+    color: #999;
+    line-height: 1.2;
+    display: none;
 }
 
 #history .panel table tbody tr.yw td:last-child {

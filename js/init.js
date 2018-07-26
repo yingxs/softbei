@@ -1691,6 +1691,7 @@ function load(){
 						"<td>"+ d.leave_delay+"</td>" +
 						"</tr>";
 				});
+				str += "<tr class='info'><td colspan='8'>抱歉，未筛选到相关数据</td></tr>";
 				$('#history .panel tbody').html(str);
 			},
 			error : function(text){
@@ -1705,7 +1706,83 @@ function load(){
 
 
 	$('#history .table_radio input').bind("change",function(){
-		alert(this.value);
+		var type = this.value,j_tr,count=0;
+		$('#history table tbody tr').elements.forEach(function(d){
+			j_tr = $(d);
+			if(type=="gl_yw" && j_tr.attr("class")=="yw"){
+				//高亮延误
+				j_tr.css("display","table-row").css("background","#fcf8e3");
+				count++;
+			}else if(type=="gl_zd" && j_tr.attr("class")=="zd"){
+				//高亮准点
+				j_tr.css("display","table-row").css("background","#dff0d8");
+				count++;
+			}else if(type=="gl_tq" && j_tr.attr("class")=="tq"){
+				//高亮提前
+				j_tr.css("display","table-row").css("background","#d9edf7");
+				count++;
+			}else{
+				j_tr.css("display","table-row").css("background","none");
+			}
+
+			if( type.indexOf("z_")>-1 ){
+				if(type=="z_yw" && j_tr.attr("class")=="yw"){
+					//只显示延误
+					j_tr.css("display","table-row");
+					count++;
+				}else if(type=="z_zd" && j_tr.attr("class")=="zd"){
+					//只显示准点
+					j_tr.css("display","table-row");
+					count++;
+				}else if(type=="z_tq" && j_tr.attr("class")=="tq"){
+					//只显示提前
+					j_tr.css("display","table-row");
+					count++;
+				}else{
+					j_tr.hide();
+				}
+			}
+
+
+
+		});
+
+		var str;
+
+		if(count==0 ){
+			str = "抱歉，未筛选到相关数据！";
+		}else if(count>0 ){
+			str = "恭喜！共筛选到"+count+"条数据.";
+		}
+
+		if( !(count==0 && type.indexOf("z_")>-1) ){
+			$("#history .panel table tbody tr.info").hide();
+			$('#search_info h6').html(str);
+			$('#search_info').animate({
+				t:10,
+				step:30,
+				mul:{
+					y:0,
+					o:100
+				}
+			});
+			setTimeout(function(){
+				$('#search_info').animate({
+					t:30,
+					step:10,
+					mul:{
+						y:-120,
+						o:0
+					}
+				});
+			},1500);
+		}else{
+			$("#history .panel table tbody .info").css("display","table-row");
+		}
+
+
+
+
 	});
 
 
