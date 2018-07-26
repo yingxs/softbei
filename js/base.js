@@ -532,7 +532,20 @@ function removeWhiteNode(node){
 	}
 	return node;
 }
-
+//设置居中
+Base.prototype.center = function(width,height){
+	var top  = (getInner().height - height)/2+getScroll().top;
+	var left  = (getInner().width - width)/2+getScroll().left;
+	for(var i=0;i<this.elements.length;i++){
+		this.elements[i].style.top = top+'px';
+		this.elements[i].style.left = left+'px';
+	}
+	return this;
+};
+//插件入口
+Base.prototype.extend = function(name,fn){
+	Base.prototype[name] = fn;
+};
 
 //查询面板起飞文本框失去焦点
 function search_qf_text_blur(){

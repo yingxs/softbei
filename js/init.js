@@ -1618,7 +1618,7 @@ function load(){
 			t:10,
 			step:10,
 			mul:{
-				y:100,
+				y:250,
 				o:0
 			},
 			fn:function(){
@@ -1635,6 +1635,8 @@ function load(){
 			}
 		});
 	});
+
+	$('#history').drag($('#history h6').ge(0));
 
 	$("#flight_info_plus .qf_delay_chart").click(function(){
 		show_history();
@@ -1656,15 +1658,58 @@ function load(){
 		$('#loading').hide();
 
 
-		$('#history').show().animate({
+		$('#history').center(1400,540).show().animate({
 			t:30,
 			step:10,
 			mul:{
-				y:0,
+				y:202,
 				o:100
 			}
-		}).css("top","100px");
+		}).css("top","300px");
+
+		ajax({
+			method:'get',
+			url:"/index.php?c=index&a=getHistory",
+			data:{
+				flight_number:$("#flight_info_plus .flight_info .flight_info_number .flight_number_h").html()
+			},
+			success : function(text){
+				var temp = JSON.parse(text);
+				console.log(temp);
+				var str = "",clazz;
+				temp.forEach(function(d){
+					clazz = d.leave_delay=="延误" ? "yw" : d.leave_delay=="提前" ? "tq" : d.leave_delay=="准点" ? "zd" : "other";
+
+					str += "<tr class="+clazz+">" +
+						"<td>"+ d.date+"</td>" +
+						"<td>"+ d.type+"</td>" +
+						"<td>"+ d.qf_ariport+"</td>" +
+						"<td>"+ d.mb_ariport+"</td>" +
+						"<td>"+ d.qf_zonghe+"</td>" +
+						"<td>"+ d.mb_zonghe+"</td>" +
+						"<td>"+ d.filght_time+"</td>" +
+						"<td>"+ d.leave_delay+"</td>" +
+						"</tr>";
+				});
+				$('#history .panel tbody').html(str);
+			},
+			error : function(text){
+				alert("error"+text);
+			},
+			async:true
+		});
+
+
 	}
+
+
+
+	$('#history .table_radio input').bind("change",function(){
+		alert(this.value);
+	});
+
+
+
 
 
 

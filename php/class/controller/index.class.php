@@ -146,6 +146,18 @@ class Index {
         $flight_number = I('flight_number','get','string','');
         $dao = new IndexDao();
         $result = $dao->query_History($flight_number);
+        
+        for($i=0 ; $i<sizeof($result);$i++){
+            if( $result[$i]["leave_delay"]<-15 ){
+                $result[$i]["leave_delay"]="延误";
+            }else if( $result[$i]["leave_delay"]>15 ){
+                $result[$i]["leave_delay"]="提前";
+            }else if( $result[$i]["leave_delay"]<=15 && $result[$i]["leave_delay"]>=-15 ){
+                $result[$i]["leave_delay"]="准点";
+            }
+        }
+        
+        echo json_encode($result);
     }
     
     

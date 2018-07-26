@@ -543,10 +543,10 @@ class IndexDao extends MySQLPDO{
     
     //查询指定航班的历史记录
     function query_History($flight_number){
-        $sql = "SELECT `date`,`type`,`qf_ariport`,`mb_ariport`,`qf_zonghe`,`mb_zonghe`,filght_time    FROM  `t_".$flight_number;
+        $sql = "SELECT `date`,`type`,`qf_ariport`,`mb_ariport`,`qf_zonghe`,`mb_zonghe`,`filght_time`,`leave_delay`    FROM  `t_".$flight_number;
         $result = parent::fetchAll($sql);
         
-        show($result);
+        return $result;
     }
     
 
