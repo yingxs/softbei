@@ -1613,6 +1613,61 @@ function load(){
 		//});
 	});
 
+	$('#history .close').click(function(){
+		$('#history').animate({
+			t:10,
+			step:10,
+			mul:{
+				y:100,
+				o:0
+			},
+			fn:function(){
+				$('#history').hide();
+			}
+		});
+		$('#screen').animate({
+			attr:'o',
+			target:0,
+			step:30,
+			t:10,
+			fn:function(){
+				$('#screen').unlock();
+			}
+		});
+	});
+
+	$("#flight_info_plus .qf_delay_chart").click(function(){
+		show_history();
+	});
+
+	$("#flight_info_plus .dd_delay_chart").click(function(){
+		show_history();
+	});
+
+
+	function show_history(){
+
+		var screen = $('#screen');
+		screen.lock().resize(function(){
+			if(screen.css("display")=='block'){
+				screen.lock();
+			}
+		}).opacity(30);
+		$('#loading').hide();
+
+
+		$('#history').show().animate({
+			t:30,
+			step:10,
+			mul:{
+				y:0,
+				o:100
+			}
+		}).css("top","100px");
+	}
+
+
+
 }
 
 

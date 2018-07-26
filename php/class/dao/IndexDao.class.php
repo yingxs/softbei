@@ -421,7 +421,7 @@ class IndexDao extends MySQLPDO{
     function getdelay($flight_number,$start_time,$end_time){
         $flight_number = strtolower($flight_number);
         $table_name = "t_".$flight_number;
-        $sql = "SELECT `leave_delay`,`arrive_delay` FROM  $table_name  WHERE 1=1 ";
+        $sql = "SELECT `leave_delay`,`arrive_delay`,`filght_time` FROM  $table_name  WHERE 1=1 ";
         if( $start_time != ''){
             $sql .= " AND `date_standard` >= :start_time ";
         }
@@ -540,6 +540,15 @@ class IndexDao extends MySQLPDO{
         
         return $data;
     }
+    
+    //查询指定航班的历史记录
+    function query_History($flight_number){
+        $sql = "SELECT `date`,`type`,`qf_ariport`,`mb_ariport`,`qf_zonghe`,`mb_zonghe`,filght_time    FROM  `t_".$flight_number;
+        $result = parent::fetchAll($sql);
+        
+        show($result);
+    }
+    
 
 
 

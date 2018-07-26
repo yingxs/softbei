@@ -1885,6 +1885,9 @@ function show_line_plus(data){
 						//到达平均延误时长
 						d3.select("#flight_info_plus .flight_info .delay_lenght .dd_delay_lenght .time_lenght .context").text(data["arrive_delay"]["len"]);
 
+						//平均飞行时长
+						d3.select("#flight_info_plus .flight_info .delay_lenght .avg_time_lenght .time_lenght .context").text(data["avg_time"]);
+
 
 
 						change(320,200,data["leave_delay"]["delay"],"#flight_info_plus .qf_delay_chart","qf_delaylen_chart","起飞状态统计图");
@@ -2213,6 +2216,8 @@ function show_line_plus2(data){
 						//到达平均延误时长
 						d3.select("#flight_info_plus .flight_info .delay_lenght .dd_delay_lenght .time_lenght .context").text(data["arrive_delay"]["len"]);
 
+						//平均飞行时长
+						d3.select("#flight_info_plus .flight_info .delay_lenght .avg_time_lenght .time_lenght .context").text(data["avg_time"]);
 
 
 						change(320,200,data["leave_delay"]["delay"],"#flight_info_plus .qf_delay_chart","qf_delaylen_chart","起飞状态统计图");

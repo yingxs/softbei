@@ -2053,26 +2053,30 @@ svg {
     /*top: 0;*/
 }
 
-#flight_info_plus .delay_lenght .qf_delay_lenght,.dd_delay_lenght{
+#flight_info_plus .delay_lenght .qf_delay_lenght,.dd_delay_lenght,.avg_time_lenght{
     display: inline-block;
-    width: 49%;
+    width: 33%;
     /*border: 1px solid green;*/
     text-align: center;
     margin-top: 5rem;
 }
 
-#flight_info_plus .delay_lenght .qf_delay_lenght .time_lenght,.dd_delay_lenght .time_lenght{
+#flight_info_plus .delay_lenght .qf_delay_lenght .time_lenght,.dd_delay_lenght .time_lenght,.avg_time_lenght .time_lenght{
     font-size: 3rem;
     font-weight: 200;
     color: #c57777;
 }
 
-#flight_info_plus .delay_lenght .qf_delay_lenght .time_lenght span,.dd_delay_lenght .time_lenght span{
+#flight_info_plus .delay_lenght .qf_delay_lenght .time_lenght span.context,.dd_delay_lenght .time_lenght span.context,.avg_time_lenght .time_lenght span.context{
     font-size: 2.5rem;
 
 }
+#flight_info_plus .delay_lenght .qf_delay_lenght .time_lenght span.label,.dd_delay_lenght .time_lenght span.label,.avg_time_lenght .time_lenght span.label{
+    font-size: 2.0rem;
 
-#flight_info_plus .delay_lenght .qf_delay_lenght .time_lenght_info,.dd_delay_lenght .time_lenght_info{
+}
+
+#flight_info_plus .delay_lenght .qf_delay_lenght .time_lenght_info,.dd_delay_lenght .time_lenght_info,.avg_time_lenght .time_lenght_info{
     font-size: 1.5rem;
     color: #999;
     font-weight: 400;
@@ -2361,6 +2365,100 @@ svg {
     top:20px;
 }
 
+#history{
+    width: 80%;
+    position: fixed;
+    background: #f5f5f5;
+    z-index: 9999;
+    height: 45rem;
+    margin-left: 10%;
+    margin-top: 15%;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 2px 2px 30px #ddd;
+    padding: 0 0.3rem 1.5rem 2.5%;
+    /*padding-bottom: 2.5rem;*/
+    display: none;
+    opacity: 0;
+
+}
+
+#history img{
+    width: 1.8rem;
+    margin-left: 98%;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+#history h6.title{
+    font-weight: 400;
+    font-size: 2.8rem;
+    color: #666;
+    text-align: center;
+    margin: 0.8rem 0 2.0rem 0;
+}
+#history .panel{
+    overflow: auto;
+    /*border: 1px solid red;*/
+    height: 80%;
+    padding-right: 1.5rem;
+}
+#history .panel table{
+    width:100%;
+    height: 95%;
+    text-align: center;
+    /*line-height: 1.5rem;*/
+}
+#history .panel table th{
+    border-bottom: 2px solid #ddd;
+    padding-top: 0.8rem;
+    padding-bottom: 0.2rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+#history .panel table td{
+    border-bottom: 1px solid #ddd;
+    padding-top: 0.8rem;
+    padding-bottom: 0.2rem;
+}
+#history .panel table thead{
+    width: 100%;
+    /*top: -30px;*/
+}
+#history .panel table tbody tr{
+    cursor: pointer;
+}
+#history .panel table tr:hover{
+    background: #f0f0f0;
+}
+#history .panel table thead tr:hover{
+    background: #f5f5f5;
+}
+
+
+
+
+
+
+
+#history .panel::-webkit-scrollbar
+{
+    width: 5px;  /*滚动条宽度*/
+    height: 5px;  /*滚动条高度*/
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+#history .panel::-webkit-scrollbar-track
+{
+    border-radius:3px;  /*滚动条的背景区域的圆角*/
+    background-color: #f3f3f3;/*滚动条的背景颜色*/
+}
+
+/*定义滑块 内阴影+圆角*/
+#history .panel::-webkit-scrollbar-thumb
+{
+    border-radius: 3px;  /*滚动条的圆角*/
+    background-color: #ddd;  /*滚动条的背景颜色*/
+}
 
 
 

@@ -32,20 +32,24 @@ class Index {
         
         //查询该航班的机型种类
         $dao->query_type($flight_number);
-
+        
+        //起飞时
         $leave_delay=[
                 'before'=>[],     //提前
                 'on'=>[],         //准时
                 'after'=>[],      //延误
         ];
-
+        
+        //到达时
         $arrive_delay=[
                 'before'=>[],     //提前
                 'on'=>[],         //准时
                 'after'=>[],      //延误
         ];
 
-
+        $time_lenth = 0;
+        $time_count = 0;
+        
         foreach($result as $v){
             if($v["leave_delay"]<-15){//延误
                 $leave_delay['after'][]=$v["leave_delay"];
@@ -62,6 +66,13 @@ class Index {
             }else if($v["arrive_delay"]<=15 && $v["arrive_delay"]>=-15 ){//准时
                 $arrive_delay['on'][]=$v["arrive_delay"];
             }
+            
+            $time = explode(":",$v['filght_time']);
+            $hour = $time[0];
+            $min  = $time[1];
+            
+            $time_lenth += (($hour*60)+$min);
+            $time_count++;
         }
 
         $sum_qf = 0;$i=0;
@@ -90,26 +101,24 @@ class Index {
         
         $type = [];
         
-        $i = 1;
+        $m = 1;
         foreach ($type_array as $k=>$v){
             $type[]=[
-                "id"=>$i,
+                "id"=>$m,
                 "value"=>$v,
                 "label"=>$k
             ];
         }
-//         show($type);
-        
         
 
         $data = [
             "leave_delay"=>[
                 "delay"=>[
-                	["id"=>"1","value"=>sprintf("%.4f", $num_after_qf ),"label"=>"延误率"],
-                	["id"=>"2","value"=>sprintf("%.4f", $num_on_qf ),"label"=>"准时率"],
-                	["id"=>"3","value"=>sprintf("%.4f", $num_before_qf ),"label"=>"提前率"]
+                    ["id"=>"1","value"=> round($num_after_qf,4),"label"=>"延误率"],
+                    ["id"=>"2","value"=> round($num_on_qf,4),"label"=>"准时率"],
+                    ["id"=>"3","value"=> round($num_before_qf,4),"label"=>"提前率"]
                 ],
-                "len"=>@sprintf("%.2f", ($sum_qf/$i)*-1 )
+                "len"=>round(($sum_qf/$i)*-1,2)
             ],
             "arrive_delay"=>[
                 "delay"=>[
@@ -117,9 +126,10 @@ class Index {
                 	["id"=>"2","value" => sprintf("%.4f", $num_on_dd ),"label"=>"准时率"],
                 	["id"=>"3","value" => @sprintf("%.4f", $num_before_dd ),"label"=>"提前率"]
                 ],
-                "len"=>@sprintf("%.2f", ($sum_dd/$j)*-1 )
+                "len"=>round(($sum_dd/$j)*-1,2)
             ],
-            "type_info"=>$type
+            "type_info"=>$type,
+            "avg_time"=>round((($time_lenth/$time_count)/60),2) 
         ];
         
 //         show($data);
@@ -131,6 +141,14 @@ class Index {
 
     }
 
+    //获取航班历史记录
+    public function getHistoryAction(){
+        $flight_number = I('flight_number','get','string','');
+        $dao = new IndexDao();
+        $result = $dao->query_History($flight_number);
+    }
+    
+    
     //搜索航班信息
     public function searchAction(){
         $qf_type = I('qf_type','get','string','');
