@@ -370,13 +370,16 @@ function change(width,height,data,clazz,clazz_len,h) {
 		.classed(clazz_len,true)
 		.append("g");
 
-	d3.select(clazz).append("div").classed("rect_box",true);
-	d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("yw",true)
-		.append("span").classed("yw_text text",true).text("延误率");
-	d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("tq",true)
-		.append("span").classed("tq_text text",true).text("提前率");
-	d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("zd",true)
-		.append("span").classed("zd_text text",true).text("准点率");
+	if(h!="机型统计图"){
+		d3.select(clazz).append("div").classed("rect_box",true);
+		d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("yw",true)
+			.append("span").classed("yw_text text",true).text("延误率");
+		d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("tq",true)
+			.append("span").classed("tq_text text",true).text("提前率");
+		d3.select(clazz+" .rect_box").append("span").classed("rect",true).classed("zd",true)
+			.append("span").classed("zd_text text",true).text("准点率");
+	}
+
 	d3.select(clazz).append("h6").classed("title",true).text(h);
 
 	svg.append("g")
@@ -464,7 +467,12 @@ function change(width,height,data,clazz,clazz_len,h) {
 		.attr("dy", ".35em")
 		.text(function (d) {
 			if(d.data.value!=0){
-				return (d.data.value*100).toFixed(2)+"%";
+				if(h=="机型统计图"){
+					return d.data.label+"-"+(d.data.value*100).toFixed(2)+"%";
+				}else{
+					return (d.data.value*100).toFixed(2)+"%";
+				}
+
 			}
 
 		}).style("animation","text_opacitytoone 1.2s ease forwards");

@@ -1889,6 +1889,7 @@ function show_line_plus(data){
 
 						change(320,200,data["leave_delay"]["delay"],"#flight_info_plus .qf_delay_chart","qf_delaylen_chart","起飞状态统计图");
 						change(320,200,data["arrive_delay"]["delay"],"#flight_info_plus .dd_delay_chart","dd_delaylen_chart","到达状态统计图");
+						change(430,200,data["type_info"],"#flight_info_plus .delay_lenght .type_chart","type_len_chart","机型统计图");
 
 						d3.select("#flight_info_plus .flight_info").style("animation","text_opacitytoone 1.2s ease forwards");
 
@@ -2216,7 +2217,7 @@ function show_line_plus2(data){
 
 						change(320,200,data["leave_delay"]["delay"],"#flight_info_plus .qf_delay_chart","qf_delaylen_chart","起飞状态统计图");
 						change(320,200,data["arrive_delay"]["delay"],"#flight_info_plus .dd_delay_chart","dd_delaylen_chart","到达状态统计图");
-						change(320,200,data["type_info"],"#flight_info_plus .delay_lenght .type_chart","type_len_chart","机型统计图");
+						change(430,200,data["type_info"],"#flight_info_plus .delay_lenght .type_chart","type_len_chart","机型统计图");
 
 						d3.select("#flight_info_plus .flight_info").style("animation","text_opacitytoone 1.2s ease forwards");
 
