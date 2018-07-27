@@ -2017,6 +2017,7 @@ svg {
     display: inline-block;
     width: 44%;
     padding-left: 2rem;
+    cursor: pointer;
 }
 #flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport,.flight_info_dd .flight_info_dd_airport{
     margin-top: 1.5rem;
@@ -2024,9 +2025,18 @@ svg {
     font-size: 1.2rem;
     font-weight: 400;
     font-style: oblique;
-
-
+    cursor: pointer;
 }
+#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport:hover,.flight_info_dd .flight_info_dd_airport:hover{
+    color: #2e6369;
+}
+
+
+
+#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city:hover,.flight_info_dd .flight_info_dd_city:hover{
+    color: #376184;
+}
+
 
 #flight_info_plus .flight_info .flight_info_qf .flight_info_qf_time,.flight_info_dd .flight_info_dd_time{
     font-size: 1.3rem;
@@ -2371,7 +2381,7 @@ svg {
     position: fixed;
     background: #f5f5f5;
     z-index: 9999;
-    height: 540px;
+    height: 600px;
     /*margin-left: 10%;*/
     /*margin-top: 15%;*/
     border: 1px solid #eee;
@@ -2402,7 +2412,7 @@ svg {
 #history .panel{
     overflow: auto;
     /*border: 1px solid red;*/
-    height: 80%;
+    height: 75%;
     padding-right: 1.5rem;
 }
 #history .panel table{
@@ -2457,50 +2467,83 @@ svg {
     background: #f5f5f5;
 }
 
-
-
-/*
-
-#history .table_radio  span  label{
-    line-height: 3.5rem;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    /!*left: -30%;*!/
-    /!*border: 1px solid blue;*!/
-    z-index: 1;
-    font-size: 1.5rem;
-
+#history .table_radio {
+   width: 98.3%;
+   margin-top: 1.2rem;
 }
-#history .table_radio  span  input[type="radio"]{
-    position: absolute;
-    clip: rect(0,0,0,0);
+
+#history .table_radio hr{
+    width: 70%;
+    height: 1px;
+    background: #bbb;
+    border: none;
+    margin: 2.2rem 0 1.2rem 15%;
 }
-#history .table_radio  span  input[type="radio"] + label::before {
-    content: "\a0";
+
+
+#history .table_radio span {
     display: inline-block;
-    vertical-align: middle;
-    font-size: 18px;
-    width:100%;
-    height: 100%;
-    margin-right: 0.4rem;
-    border-radius: 5%;
+    width: 7%;
+    font
+}
+
+#set{
+	width: 400px;
+    position: fixed;
+    background: #f5f5f5;
+    z-index: 9999;
+    height: 300px;
+    outline: none;
+    /*margin-left: 10%;*/
+    /*margin-top: 15%;*/
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 2px 2px 30px #ddd;
+    /*padding-bottom: 2.5rem;*/
+    display: none;
+    opacity: 0;
+   
+}
+
+#set .select_panel{
+    text-align: center;
+    margin-top: 8.5rem;
+    margin-bottom: 2.5rem;
+}
+
+
+#set .select_panel select{
+    outline: none;
+    width: 8.5rem;
+    height: 2.5rem;
+    background: #fff;
+    border-radius: 3px;
     border: 1px solid #ddd;
-    position: absolute;
-    text-align: left;
-    /!*display: none;*!/
-    left:0;
-    z-index: -1;
-
+}
+#set .select_panel label{
+    font-size: 1.9rem;
+    color: #666;
 }
 
-
-#history .table_radio  span input[type="radio"]:checked + label::before {
-    background-color: #aacbd230;
-    background-clip: content-box;
-    /!*padding: 0.2rem;*!/
+#set .select_panel select option{
+    outline: none;
+    
 }
-*/
+#set h6{
+	
+	text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    font-weight: 400;
+    
+}
+#set  .close{
+    width: 1.8rem;
+    float: right;
+    margin: 0.5rem;
+    cursor: pointer;
+}
+
 
 
 

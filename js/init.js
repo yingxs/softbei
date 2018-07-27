@@ -124,29 +124,7 @@ function init2(){
 
 		render_city();
 
-		setTimeout(function(){
-
-			//解除锁屏
-			$('#screen').animate({
-				attr:'o',
-				target:0,
-				step:30,
-				t:10,
-				fn:function(){
-					$('#screen').unlock();
-				}
-			});
-
-			//地图出现
-			$('#map').animate({
-				attr:'o',
-				target:100,
-				step:30,
-				t:10
-
-			});
-		},350);
-
+		
 
 
 	});
@@ -1012,6 +990,14 @@ function load(){
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
 		//console.log(serializeSearch());
+		var screen = $('#screen');
+		screen.lock().resize(function(){
+			if(screen.css("display")=='block'){
+				screen.lock();
+			}
+		}).opacity(30);
+		$('#loading').show();
+		
 		getFlight_data(e,"form");
 		//leftBox_anim(left_box.search,10,30,-380,100);
 		$('#left_bar').attr("type","search");
@@ -1534,83 +1520,8 @@ function load(){
 
 
 	$("#city_info .info_panel .airport_list").click(function(e){
-		$("#city_info .chart_panel .airport_chart .svg_content .loading").show();
-		$("#city_info .chart_panel .airport_chart .svg_content").opacity(0);
-
-
-		var str = $(e.srcElement).html().replace(/.+\(/, "").replace(/\)/, "");
-		$('#city_info .chart_panel .airport_chart .chart_title span').html(str);
-		$('#city_info .chart_panel .airport_chart').show().animate({
-			t:30,
-			step:10,
-			mul:{
-				o:100,
-				y:0
-			}
-		});
-
-
-		ajax({
-			method:'get',
-			url:"/index.php?c=index&a=city_info",
-			data:{
-				airport:$(e.srcElement).html()
-			},
-			success : function(text){
-				var temp = JSON.parse(text);
-				console.log(temp);
-				render_chart("#city_info .chart_panel .airport_chart .svg_content",300,300,55,temp.enter_num,temp.out_num);
-			},
-			error : function(text){
-				alert("error"+text);
-			},
-			async:true
-		});
-
-
-		//ajax({
-		//	method:'get',
-		//	url:"/index.php?c=index&a=city_info",
-		//	data:{
-		//		airport:$(e.srcElement).html()
-		//	},
-		//	success : function(text){
-		//		var temp = JSON.parse(text);
-		//		console.log(temp);
-		//		var str = temp.airport_list[0].replace(/.+\(/, "").replace(/\)/, "");
-		//		console.log(str);
-		//		$('#city_info .info_panel .airport').show().html( str );
-        //
-		//		$('#city_info .info_panel .on_city').show();
-		//		$('#city_info .info_panel .on_city span').html(temp.city);
-		//		$('#city_info .info_panel .country').show();
-		//		$('#city_info .info_panel .country span').html(temp.country);
-		//		$('#city_info .info_panel .airport_name').show();
-		//		var string = temp.airport_list[0].replace(/\(.+\)/, "");
-		//		$('#city_info .info_panel .airport_name span').html(string);
-        //
-		//		$('#city_info .info_panel .city').hide();
-		//		$('#city_info .info_panel .on_airport').hide();
-		//		$('#city_info .info_panel .airport_list').hide();
-		//		$('#city_info .chart_panel .city_chart').hide();
-		//		$('#city_info .chart_panel .airport_chart .chart_title span').html(str);
-		//		$('#city_info .chart_panel .airport_chart').show().animate({
-		//			attr:'o',
-		//			t:30,
-		//			step:10,
-		//			target:100
-		//		});
-        //
-        //
-		//		render_chart("#city_info .chart_panel .airport_chart .svg_content",300,300,55,temp.enter_num,temp.out_num);
-        //
-        //
-		//	},
-		//	error : function(text){
-		//		alert("error"+text);
-		//	},
-		//	async:true
-		//});
+		//显示机场出入港统计
+		show_ariport_info(e);
 	});
 
 	$('#history .close').click(function(){
@@ -1786,6 +1697,66 @@ function load(){
 	});
 
 
+	$("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city").click(function(){
+		show_city_info($(this).html());
+	});
+
+	$("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_city").click(function(){
+		show_city_info($(this).html());
+	});
+	
+	
+	$("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport").click(function(e){
+		show_city_info($("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city").html());
+		show_ariport_info(e);
+	});
+
+	$("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_airport").click(function(e){
+		show_city_info($("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_city").html());
+		show_ariport_info(e);
+	});
+	
+	$("#left_bar .menu_ul .set").click(function(){
+		var screen = $('#screen');
+		screen.lock().resize(function(){
+			if(screen.css("display")=='block'){
+				screen.lock();
+			}
+		}).opacity(30);
+		
+		$('#set').center(400,300).show().animate({
+			attr:'o',
+			t:30,
+			step:10,
+			target:100
+		});
+		
+	});
+	$("#set .close").click(function(){
+		$('#set').animate({
+			attr:'o',
+			t:30,
+			step:10,
+			target:0,
+			fn:function(){
+				$("#set").hide();
+			}
+		});
+		
+		//解除锁屏
+		$('#screen').animate({
+			attr:'o',
+			target:0,
+			step:30,
+			t:10,
+			fn:function(){
+				$('#screen').unlock();
+			}
+		});
+		
+		
+		
+	});
 
 
 

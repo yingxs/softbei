@@ -602,68 +602,33 @@ function render_city(){
 						d3.select("#map svg g g.g_city_text .city_text_"+clazz_num).style("display","none");
 
 					}).on("click",function(){
-
-
-						$("#city_info .chart_panel .city_chart .svg_content .loading").show();
-						d3.select("#city_info .chart_panel .city_chart .svg_content svg").style("display","none");
-
-
-
 						var num = d3.select(this).attr("class").replace("city","");
-						//alert(d3.select("#map svg g g.g_city_text .city_text_"+num).text());
-						$('#city_info').animate({
-							t:20,
-							step:10,
-							mul:{
-								r:0,
-								o:90
-							},
-							fu:function(){
-
-							}
-						});
-
-						$('#city_info .chart_panel .airport_chart').animate({
-							t:30,
-							step:10,
-							mul:{
-								o:0,
-								y:20
-							}
-						});
-
-						ajax({
-							method:'get',
-							url:"/index.php?c=index&a=city_info",
-							data:{
-								city:d3.select("#map svg g g.g_city_text .city_text_"+num).text()
-							},
-							success : function(text){
-								var temp = JSON.parse(text);
-								console.log(temp);
-								$('#city_info .info_panel .city').html(temp.city);
-								$('#city_info .info_panel .country span').html(temp.country);
-
-
-
-
-								var str="";
-								temp.airport_list.forEach(function(d){
-									str += "<li>"+d+"</li>";
-								});
-								$('#city_info .info_panel .airport_list').html(str);
-								render_chart("#city_info .chart_panel .city_chart .svg_content",300,300,55,temp.enter_num,temp.out_num);
-
-
-							},
-							error : function(text){
-								alert("error"+text);
-							},
-							async:true
-						});
+						show_city_info(d3.select("#map svg g g.g_city_text .city_text_"+num).text());
 					});
 				d3.select("#map svg g g.g_city_text").append("text").classed("city_text_"+(num++),true).text(obj.qf_city).attr("transform","translate("+(point[0]-20)+","+(point[1]-5)+")").style("display","none").style("fill","#1da04f");
+			
 			});
+			
+			//解除锁屏
+			$('#screen').animate({
+				attr:'o',
+				target:0,
+				step:30,
+				t:10,
+				fn:function(){
+					$('#screen').unlock();
+				}
+			});
+
+			//地图出现
+			$('#map').animate({
+				attr:'o',
+				target:100,
+				step:30,
+				t:10
+
+			});
+			
 		},
 		error : function(text){
 			alert("error"+text);
@@ -672,6 +637,65 @@ function render_city(){
 	});
 
 }
+
+
+//显示城市出入港统计
+function show_city_info(city){
+
+
+	$("#city_info .chart_panel .city_chart .svg_content .loading").show();
+	d3.select("#city_info .chart_panel .city_chart .svg_content svg").style("display","none");
+
+
+
+	//alert(d3.select("#map svg g g.g_city_text .city_text_"+num).text());
+	$('#city_info').animate({
+		t:20,
+		step:10,
+		mul:{
+			r:0,
+			o:90
+		}
+	});
+
+	$('#city_info .chart_panel .airport_chart').animate({
+		t:30,
+		step:10,
+		mul:{
+			o:0,
+			y:20
+		}
+	});
+
+	ajax({
+		method:'get',
+		url:"/index.php?c=index&a=city_info",
+		data:{
+			city:city
+		},
+		success : function(text){
+			var temp = JSON.parse(text);
+			console.log(temp);
+			$('#city_info .info_panel .city').html(temp.city);
+			$('#city_info .info_panel .country span').html(temp.country);
+			var str="";
+			temp.airport_list.forEach(function(d){
+				str += "<li>"+d+"</li>";
+			});
+			$('#city_info .info_panel .airport_list').html(str);
+			render_chart("#city_info .chart_panel .city_chart .svg_content",300,300,55,temp.enter_num,temp.out_num);
+
+		},
+		error : function(text){
+			alert("error"+text);
+		},
+		async:true
+	});
+}
+
+
+
+
 
 //绘制条形统计图
 function render_chart(content,width,height,rectPadding,enter_num,out_num){

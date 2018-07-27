@@ -81,6 +81,7 @@ class IndexDao extends MySQLPDO{
         $city_array = [];
         foreach($array as $v){
             $sql = "SELECT `qf_city` ,`qf_longitude` ,`qf_latitude` FROM `m_flight` WHERE qf_city=\"$v\"  UNION SELECT `mb_city` ,`mb_longitude` ,`mb_latitude` FROM `m_flight`  WHERE mb_city=\"$v\"   UNION SELECT  `qf_city` ,`qf_longitude` ,`qf_latitude` FROM `m_flight_stop_over`  WHERE qf_city=\"$v\"    UNION  SELECT `mb_city`,`mb_longitude` ,`mb_latitude` FROM `m_flight_stop_over`  WHERE mb_city=\"$v\" ";
+            //echo $sql;
             $result = parent::fetchRow($sql);
             $city_array[] = $result;
         }
@@ -245,18 +246,36 @@ class IndexDao extends MySQLPDO{
     }
     
     public function testTable(){
-        $sql = "SELECT flight_number FROM `m_flight` UNION SELECT flight_number FROM `m_flight_stop_over` ";
+        $sql = "SELECT `id`,`flight_number` FROM `m_flight_copy_copy`  ";
         $result = parent::fetchAll($sql);
-        $number_array=[];
-        foreach ($result as $v){
-            foreach ($v as $vv){
-                $number_array[]=$vv;
-            }
+        
+        $sql = "SHOW TABLES LIKE 't_%'  ";
+        $result2 = parent::fetchAll($sql);
+        
+        $table_array=[];
+        $j=1;
+        foreach($result2 as $v){
+        	$table_array[$j++]=$v["Tables_in_fliht_data (t_%)"];
         }
         
-        foreach ($number_array as $v){
-            $result = parent::fetchAll("select * from t_$v");
+        
+        $sum=0;
+        
+        foreach($result as $v){
+        	//echo strtolower("t_".$v["flight_number"])."<br/>";
+        	$flag = array_search( strtolower("t_".$v["flight_number"]),$table_array);
+	        if($flag){
+	//      	echo "存在";
+	
+	        }else{
+	      	echo $v['flight_number']."不存在<br/>";
+	      	parent::exec( "delete from  m_flight_copy_copy where id=".$v["id"]);
+			$sum++;
+	        }
         }
+        
+        show($table_array);
+        echo $sum;
     }
 
 
@@ -549,6 +568,21 @@ class IndexDao extends MySQLPDO{
         return $result;
     }
     
+    //去重
+    function quchong(){
+    	$result = parent::fetchAll("SELECT `id`,`flight_number` FROM m_flight_copy_copy  ORDER BY flight_number ASC");
+    	//show($result);
+    	$num = 0;
+    	for($i = 1 ; $i<sizeof($result) ; $i++){
+    		
+    		if($result[$i]["flight_number"]==$result[$i-1]["flight_number"]){
+    			$num += parent::exec("delete from  m_flight_copy_copy where id=".$result[$i]["id"]);
+    		}
+    		
+    	}
+    	echo $num;
+    	
+    }
 
 
 
@@ -561,7 +595,6 @@ class IndexDao extends MySQLPDO{
 
 
 }
-
 
 
 

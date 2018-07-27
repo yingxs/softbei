@@ -81,13 +81,13 @@ class Index {
             $i++;
         }
 
-        $num_after_qf = sizeof($leave_delay['after']) / sizeof($result);
-        $num_on_qf = sizeof($leave_delay['on']) / sizeof($result);
-        $num_before_qf = sizeof($leave_delay['before']) / sizeof($result);
+        @$num_after_qf = sizeof($leave_delay['after']) / sizeof($result);
+        @$num_on_qf = sizeof($leave_delay['on']) / sizeof($result);
+        @$num_before_qf = sizeof($leave_delay['before']) / sizeof($result);
 
-        $num_after_dd = sizeof($arrive_delay['after']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
-        $num_on_dd = sizeof($arrive_delay['on']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
-        $num_before_dd = sizeof($arrive_delay['before']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
+        @$num_after_dd = sizeof($arrive_delay['after']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
+        @$num_on_dd = sizeof($arrive_delay['on']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
+        @$num_before_dd = sizeof($arrive_delay['before']) / (sizeof($arrive_delay['after'])+sizeof($arrive_delay['on'])+sizeof($arrive_delay['before']));
 
 
         $sum_dd = 0;$j=0;
@@ -114,22 +114,22 @@ class Index {
         $data = [
             "leave_delay"=>[
                 "delay"=>[
-                    ["id"=>"1","value"=> round($num_after_qf,4),"label"=>"延误率"],
-                    ["id"=>"2","value"=> round($num_on_qf,4),"label"=>"准时率"],
-                    ["id"=>"3","value"=> round($num_before_qf,4),"label"=>"提前率"]
+                    ["id"=>"1","value"=> @round($num_after_qf,4),"label"=>"延误率"],
+                    ["id"=>"2","value"=> @round($num_on_qf,4),"label"=>"准时率"],
+                    ["id"=>"3","value"=> @round($num_before_qf,4),"label"=>"提前率"]
                 ],
-                "len"=>round(($sum_qf/$i)*-1,2)
+                "len"=>@round(($sum_qf/$i)*-1,2)
             ],
             "arrive_delay"=>[
                 "delay"=>[
-                	["id"=>"1","value" => sprintf("%.4f", $num_after_dd ),"label"=>"延误率"],
-                	["id"=>"2","value" => sprintf("%.4f", $num_on_dd ),"label"=>"准时率"],
+                	["id"=>"1","value" => @sprintf("%.4f", $num_after_dd ),"label"=>"延误率"],
+                	["id"=>"2","value" => @sprintf("%.4f", $num_on_dd ),"label"=>"准时率"],
                 	["id"=>"3","value" => @sprintf("%.4f", $num_before_dd ),"label"=>"提前率"]
                 ],
-                "len"=>round(($sum_dd/$j)*-1,2)
+                "len"=>@round(($sum_dd/$j)*-1,2)
             ],
             "type_info"=>$type,
-            "avg_time"=>round((($time_lenth/$time_count)/60),2) 
+            "avg_time"=>@round((($time_lenth/$time_count)/60),2) 
         ];
         
 //         show($data);
@@ -377,6 +377,13 @@ class Index {
         $_SESSION=[];
         echo "<pre>";
         print_r($_SESSION);
+    }
+    //去重复
+    public function quchongAction(){
+    
+     	$dao = new IndexDao();
+
+        $dao->quchong();
     }
 
     public function display($file){
