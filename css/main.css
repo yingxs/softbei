@@ -613,15 +613,10 @@ svg {
     stroke: #ddd;
     stroke-width: .5px;
 }
-.line{
+.line,.line_plus{
      fill: none;
      stroke: #75baff;
-     stroke-width: 1px;
- }
-.line_plus{
-     fill: none;
-     stroke: #75baff;
-     stroke-width: 1px;
+     stroke-width: 0.1px;
  }
 .line_filter{
     fill: none;
@@ -1983,7 +1978,7 @@ svg {
 
 }
 #flight_info_plus div.flight_info_number {
-    width: 15%;
+    width: 8%;
     display: inline-block;
     /*border: 1px solid green;*/
 
@@ -1996,64 +1991,6 @@ svg {
     position: relative;
     top: -2.8rem;
 
-}
-#flight_info_plus .flight_info .flight_info_qf,.flight_info_dd {
-    width: 40%;
-    display: inline-block;
-    border: 1px solid #dddddd;
-    padding: 0.5rem;
-    box-shadow: 6px 10px 20px #ddd;
-}
-
-#flight_info_plus .flight_info .flight_info_qf,.flight_info_dd{
-    background: #f9f9f9;
-    border-radius: 3px;
-}
-
-#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city,.flight_info_dd .flight_info_dd_city{
-    font-weight: 600;
-    font-size: 2.0rem;
-    color: #4682b4;
-    display: inline-block;
-    width: 44%;
-    padding-left: 2rem;
-    cursor: pointer;
-}
-#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport,.flight_info_dd .flight_info_dd_airport{
-    margin-top: 1.5rem;
-    color: #7b9598;
-    font-size: 1.2rem;
-    font-weight: 400;
-    font-style: oblique;
-    cursor: pointer;
-}
-#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport:hover,.flight_info_dd .flight_info_dd_airport:hover{
-    color: #2e6369;
-}
-
-
-
-#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city:hover,.flight_info_dd .flight_info_dd_city:hover{
-    color: #376184;
-}
-
-
-#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_time,.flight_info_dd .flight_info_dd_time{
-    font-size: 1.3rem;
-    color: #888;
-    font-weight: 600;
-    display: inline-block;
-    width: 48%;
-
-}
-
-#flight_info_plus .flight_company{
-    font-size: 1.8rem;
-    font-weight: 300;
-    text-align: center;
-    margin-top: 2.9rem;
-    color: #666;
-    text-shadow: 5px 5px 5px #ccc;
 }
 
 #flight_info_plus .delay_lenght{
@@ -2106,6 +2043,130 @@ svg {
     text-align: center;
     color: #666;
 }
+
+
+
+
+
+
+
+#flight_info_plus .flight_info_panel {
+	border: 1px solid red;
+	text-align: center;
+}
+
+
+
+#flight_info_plus .flight_info_panel .flight_info_qf,.flight_info_dd {
+    width: 20%;
+    display: inline-block;
+    border: 1px solid #dddddd;
+    padding: 0.5rem;
+    box-shadow: 6px 10px 20px #ddd;
+}
+
+#flight_info_plus .flight_info_panel .flight_info_qf,.flight_info_dd{
+    background: #f9f9f9;
+    border-radius: 3px;
+}
+
+#flight_info_plus .flight_info_panel .flight_info_qf span,.flight_info_dd span{
+    display: inline-block;
+    color: #999;
+}
+#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_city,.flight_info_dd .flight_info_dd_city{
+    font-weight: 600;
+    font-size: 2.0rem;
+    color: #4682b4;
+    display: inline-block;
+    padding-left: 2rem;
+    cursor: pointer;
+    text-align: center;
+    width: 30%;
+}
+#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_airport,.flight_info_dd .flight_info_dd_airport{
+    margin-top: 1.5rem;
+    color: #7b9598;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: oblique;
+    cursor: pointer;
+}
+#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_airport:hover,.flight_info_dd .flight_info_dd_airport:hover{
+    color: #2e6369;
+}
+
+
+
+#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_city:hover,.flight_info_dd .flight_info_dd_city:hover{
+    color: #376184;
+}
+
+
+#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_time,.flight_info_dd .flight_info_dd_time{
+    font-size: 1.3rem;
+    color: #888;
+    font-weight: 600;
+    display: inline-block;
+    width: 43%;
+    text-align: right;
+
+}
+
+#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_time,.flight_info_dd .flight_info_dd_time{
+    font-size: 1.3rem;
+    color: #888;
+    font-weight: 600;
+    display: inline-block;
+    width: 43%;
+    text-align: right;
+}
+
+#flight_info_plus .flight_info_panel .flight_info_qf .text,.flight_info_dd .text{
+    width: 4.0rem;
+    display: inline-block;
+    color: #888;
+    font-size: 1.45rem;
+}
+
+#flight_info_plus .flight_info_panel .zz .flight_info_qf_city{
+	text-align: center;
+    width: 30%;
+}
+#flight_info_plus .flight_info_panel .zz .text{
+	width: 4.0rem;
+    display: inline-block;
+    color: #ea914f;
+    font-size: 1.45rem;
+}
+#flight_info_plus .flight_info_panel .zz{
+	display: none;
+}
+
+
+
+#flight_info_plus .flight_info_panel .flight_company{
+    font-size: 1.8rem;
+    font-weight: 300;
+    text-align: center;
+    margin-top: 2.9rem;
+    color: #666;
+    text-shadow: 5px 5px 5px #ccc;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

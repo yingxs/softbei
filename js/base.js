@@ -2120,6 +2120,15 @@ function show_flight_info(d,that){
 //航班信息面板隐藏
 function hide_flight_info(that){
 	//鼠标移出，线条颜色恢复.如果是筛选出的线条，就恢复高亮的颜色
+//	if( d3.select(that).attr('type')=='filter' ){
+//		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#14ffae").style("stroke-width","1px");
+//	}else if(d3.select(that).attr('type')=='filter_hide'){
+//		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+//	}else{
+//		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+//	}
+	
+	//鼠标移出，线条颜色恢复.如果是筛选出的线条，就恢复高亮的颜色
 	if( d3.select(that).attr('type')=='filter' ){
 		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#14ffae").style("stroke-width","1px");
 	}else if(d3.select(that).attr('type')=='filter_hide'){
