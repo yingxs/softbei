@@ -616,13 +616,25 @@ svg {
 .line,.line_plus{
      fill: none;
      stroke: #75baff;
-     stroke-width: 0.1px;
+     stroke-width: 0.5px;
  }
 .line_filter{
     fill: none;
     stroke: #14ffae;
     stroke-width: 1px;
 }
+
+.normal{
+	fill: none;
+    stroke: #14ffae;
+    stroke-width: 0.1px;
+}
+.Highlight{
+	fill: none;
+    stroke: #14ffae;
+    stroke-width: 0.1px;
+}
+
 .line_bg{
     fill: red;
     fill-opacity: 0;

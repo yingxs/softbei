@@ -634,7 +634,7 @@ function render_city(){
 			alert("error"+text);
 		},
 		async:true
-	});
+	},"m_5");
 
 }
 

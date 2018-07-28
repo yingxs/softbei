@@ -1,5 +1,8 @@
 <?php
+	
 require COMMON.'MySQLPDO.class.php';
+
+set_time_limit(0);
 
 class IndexDao extends MySQLPDO{
 
@@ -581,6 +584,48 @@ class IndexDao extends MySQLPDO{
     		
     	}
     	echo $num;
+    	
+    }
+    
+    function fenbiao(){
+    	
+    	$sum = 0;
+    	$count = 0;
+    	for($id=1;$id<=4255;$id+=2){
+    		$result = parent::fetchRow("SELECT `id`,flight_number,airline_company,qf_airport,qf_longitude,qf_latitude,qf_city,qf_country,mb_airport,mb_longitude,mb_latitude,mb_city,mb_country,leave_downtime,come_downtime FROM m_flight WHERE id=".$id);
+    		
+    		$id =  $result['id'];
+	    	$flight_number = $result['flight_number'];
+	    	$airline_company = $result['airline_company'];
+	    	$qf_airport = $result['qf_airport'];
+	    	$qf_longitude = $result['qf_longitude'];
+	    	$qf_latitude = $result['qf_latitude'];
+	    	$qf_city =  $result['qf_city'];
+	    	$qf_country = $result['qf_country'];
+	    	$mb_airport = $result['mb_airport'];
+	    	$mb_longitude = $result['mb_longitude'];
+	    	$mb_latitude = $result['mb_latitude'];
+	    	$mb_city = $result['mb_city'];
+	    	$mb_country = $result['mb_country'];
+	    	$leave_downtime = $result['leave_downtime'];
+	    	$come_downtime = $result['come_downtime'];
+	    	
+    		$sql = "insert into m_flight_1000 (id,flight_number,airline_company,qf_airport,qf_longitude,qf_latitude,qf_city,qf_country,mb_airport,mb_longitude,mb_latitude,mb_city,mb_country,leave_downtime,come_downtime) values ($id,'$flight_number','$airline_company',\"$qf_airport\",'$qf_longitude','$qf_latitude',\"$qf_city\",\"$qf_country\",\"$mb_airport\",'$mb_longitude','$mb_latitude',\"$mb_city\",\"$mb_country\",'$leave_downtime','$come_downtime')";
+    		$sum++;
+//  		$sum += parent::exec($sql);
+    		$count++;
+    		
+//  		echo $id."<br/>";
+    		if($id>=4252) {
+    			break;
+    			echo "<br/>强行终止4249+<br/>";	
+    		}
+    		
+    	}
+    	
+    	echo "sum:".$sum;
+		
+    	
     	
     }
 

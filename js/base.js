@@ -667,10 +667,8 @@ function filter_data(){
 	var filter_data,num= 0;
 	if(arguments.length==1){
 		filter_data = arguments[0];
-		//console.log("filter_data1:",filter_data);
 	}else{
 		filter_data = serializeFilter();
-		//console.log("filter_data2:",filter_data);
 	}
 
 	var note = true;
@@ -705,7 +703,6 @@ function filter_data(){
 
 		line_list.each(function(d,i){
 			flag = true,array_text=[];
-			//console.log(line_list);
 			var check_text1 = (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1,
 				check_text2 = (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  )>-1,
 				check_text3 = (  d.airline_company.toLowerCase()  ).indexOf( filter_data['airline_company'].toLowerCase()  )>-1;
@@ -722,54 +719,41 @@ function filter_data(){
 
 			if(array_text.length==1){
 				flag = array_text[0];
-				//console.log("一个条件,line：", d.flight_number,array_text[0],flag);
 			}else if(array_text.length==2){
 				flag = array_text[0] && array_text[1];
-//				console.log("两个条件,line：", d.flight_number,array_text[0],array_text[1],flag);
 			}else if(array_text.length==3){
 				flag = array_text[0] && array_text[1] && array_text[2];
-//				console.log("三个条件,line：", d.flight_number,array_text[0],array_text[1],array_text[2],flag);
 			}
 
 			if(filter_data['zz_text'] != ''){
 				flag=false;
 			}
-			//console.log("line:", d.flight_number,array_text[0],array_text[1],array_text[2],flag);
 			//获取直飞曲线ID
 			var line_id = d3.select(this).attr("id");
 			line_id = line_id.replace("line_","");
 			//直飞-高亮显示
 			if(filter_type=="show"){
-				//if(!note){
-					d3.selectAll("#svg_map g .line").style("display","block");
-					d3.selectAll("#svg_map g .line_bg").style("display","block");
-					d3.selectAll("#svg_map g .line_plus").style("display","block");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
+					d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg").style("display","block");
 					note=true;
-				//}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter").style("stroke","#14ffae");
+					d3.select(this).style("stroke","#14ffae");
 				}else{
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					d3.select(this).style("stroke","#75baff").attr("type",null);
 				}
 			//直飞-隐藏其他
 			}else if(filter_type=="hide"){
 				if(note){
-					d3.selectAll("#svg_map g .line").style("display","none");
-					d3.selectAll("#svg_map g .line_bg").style("display","none");
-					d3.selectAll("#svg_map g .line_plus").style("display","none");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
+					d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg").style("display","none");
 					note=false;
 				}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter_hide").attr("filter",null);
-					d3.select(this).style("display","block").style("stroke","#75baff");
+					d3.select(this).attr("type","filter_hide").style("display","block").style("stroke","#75baff");
 					d3.select("#line_bg_"+line_id).style("display","block");
 
 				}else{
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null).style("display","none");
+					d3.select(this).style("stroke","#75baff").attr("type",null).style("display","none");
 					d3.select("#line_bg_"+line_id).style("display","none");
 				}
 			}
@@ -819,37 +803,28 @@ function filter_data(){
 			line_plus_id = line_plus_id.replace("line_plus_","");
 			//经停-高亮显示
 			if(filter_type=="show"){
-				//if(!note){
-					d3.selectAll("#svg_map g .line").style("display","block");
-					d3.selectAll("#svg_map g .line_bg").style("display","block");
-					d3.selectAll("#svg_map g .line_plus").style("display","block");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
+					d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg").style("display","block");
 					note=true;
-				//}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter").style("stroke","#14ffae");
+					d3.select(this).style("stroke","#14ffae");
 				}else{
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					d3.select(this).style("stroke","#75baff").attr("type",null);
 				}
 			//经停-隐藏其他
 			}else if(filter_type=="hide"){
 				if(note){
-					d3.selectAll("#svg_map g .line").style("display","none");
-					d3.selectAll("#svg_map g .line_bg").style("display","none");
-					d3.selectAll("#svg_map g .line_plus").style("display","none");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
+					d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg").style("display","none");
 					note=false;
 				}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter_hide").attr("filter",null);
-					d3.select(this).style("display","block").style("stroke","#75baff");
+					d3.select(this).attr("type","filter_hide").style("display","block").style("stroke","#75baff");
 					d3.select("#line_plus_bg_"+line_plus_id).style("display","block");
 
 				}else{
 
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null).style("display","none");
+					d3.select(this).style("stroke","#75baff").attr("type",null).style("display","none");
 					d3.select("#line_plus_bg_"+line_plus_id).style("display","none");
 				}
 			}
@@ -868,14 +843,6 @@ function filter_data2(obj,check_fn){
 
 
 	var filter_data=obj,num= 0;
-	//if(arguments.length==1){
-	//	filter_data = arguments[0];
-	//	//console.log("filter_data1:",filter_data);
-	//}else{
-	//	filter_data = serializeFilter();
-	//	//console.log("filter_data2:",filter_data);
-	//}
-
 	var note = true;
 
 	var element = d3.select('#svg_map g');
@@ -900,27 +867,25 @@ function filter_data2(obj,check_fn){
 		mb_type = "mb_"+array_column[filter_data['mb_type']];
 
 		var flag,array_text;
-
-
-
+		
 		line_list.each(function(d,i){
 			flag = true,array_text=[];
 			//console.log(line_list);
 			//国际直飞航班
 			if(check_fn=="check_fn1"){
-				flag = check_fn1();
+				flag = check_fn1(d);
 			}
 			//出境直飞航班
 			if(check_fn=="check_fn2"){
-				flag = check_fn2();
+				flag = check_fn2(d);
 			}
 			//入境直飞航班
 			if(check_fn=="check_fn3"){
-				flag = check_fn3();
+				flag = check_fn3(d);
 			}
 			//港澳台直飞航班
 			if(check_fn=="check_fn4"){
-				flag = check_fn4();
+				flag = check_fn4(d);
 			}
 			//经停航班
 			if(check_fn=="check_fn5"){
@@ -931,71 +896,64 @@ function filter_data2(obj,check_fn){
 				flag = true;
 			}
 
-			function check_fn1(){
-						//国际直飞航班，起飞机场或降落机场不在国内
-				return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )==-1 || (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
-			}
-
-			function check_fn2(){
-						//出境直飞航班，起飞机场在国内,降落机场不在国内
-				return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1 && (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
-			}
-
-			function check_fn3(){
-						//入境直飞航班，起飞机场在国外,降落机场在国内
-				return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  ) == -1 && (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) > -1;
-			}
-
-			function check_fn4(){
-				//港澳台直飞航班
-				return (  (d["qf_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
-					(  (d["mb_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
-					(  (d["qf_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
-					(  (d["mb_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
-					(  (d["qf_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ||
-					(  (d["mb_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ;
-
-			}
+			
 
 			//获取直飞曲线ID
 			var line_id = d3.select(this).attr("id");
 			line_id = line_id.replace("line_","");
 			//直飞-高亮显示
 			if(filter_type=="show"){
-				//if(!note){
-					d3.selectAll("#svg_map g .line").style("display","block");
-					d3.selectAll("#svg_map g .line_bg").style("display","block");
-					d3.selectAll("#svg_map g .line_plus").style("display","block");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
+					d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg").style("display","block");
 					note=true;
-				//}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter").style("stroke","#14ffae");
+					d3.select(this).style("stroke","#14ffae");
 				}else{
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					d3.select(this).style("stroke","#75baff").attr("type",null);
 				}
 			//直飞-隐藏其他
 			}else if(filter_type=="hide"){
 				if(note){
-					d3.selectAll("#svg_map g .line").style("display","none");
-					d3.selectAll("#svg_map g .line_bg").style("display","none");
-					d3.selectAll("#svg_map g .line_plus").style("display","none");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
+					d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg").style("display","none");
 					note=false;
 				}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter_hide").attr("filter",null);
-					d3.select(this).style("display","block").style("stroke","#75baff");
+					d3.select(this).attr("type","filter_hide").style("display","block").style("stroke","#75baff");
 					d3.select("#line_bg_"+line_id).style("display","block");
-
 				}else{
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null).style("display","none");
+					d3.select(this).style("stroke","#75baff").attr("type",null).style("display","none");
 					d3.select("#line_bg_"+line_id).style("display","none");
 				}
 			}
 		});
+		
+		
+		function check_fn1(d){
+			//国际直飞航班，起飞机场或降落机场不在国内
+			return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )==-1 || (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
+		}
+
+		function check_fn2(d){
+			//出境直飞航班，起飞机场在国内,降落机场不在国内
+			return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1 && (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
+		}
+
+		function check_fn3(d){
+			//入境直飞航班，起飞机场在国外,降落机场在国内
+			return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  ) == -1 && (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) > -1;
+		}
+
+		function check_fn4(d){
+			//港澳台直飞航班
+			return (  (d["qf_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
+				(  (d["mb_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
+				(  (d["qf_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
+				(  (d["mb_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
+				(  (d["qf_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ||
+				(  (d["mb_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ;
+		}
+		
 	}
 
 	if(line_plus_list[0].length>0){
@@ -1008,19 +966,19 @@ function filter_data2(obj,check_fn){
 			flag = true,array_text=[];
 			//国际经停航班
 			if(check_fn=="check_fn1"){
-				flag = check_fn1();
+				flag = check_fn1(d);
 			}
 			//出境经停航班
 			if(check_fn=="check_fn2"){
-				flag = check_fn2();
+				flag = check_fn2(d);
 			}
 			//入境经停航班
 			if(check_fn=="check_fn3"){
-				flag = check_fn3();
+				flag = check_fn3(d);
 			}
 			//港澳台经停航班
 			if(check_fn=="check_fn4"){
-				flag = check_fn4();
+				flag = check_fn4(d);
 			}
 			//经停航班
 			if(check_fn=="check_fn5"){
@@ -1031,73 +989,62 @@ function filter_data2(obj,check_fn){
 				flag = false;
 			}
 
-
-			function check_fn1(){
-				//国际经停航班，起飞机场或降落机场不在国内
-				return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )==-1 || (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
-			}
-			function check_fn2(){
-				//出境经停航班，起飞机场在国内,降落机场不在国内
-				return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1 && (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
-			}
-
-			function check_fn3(){
-				//入境经停航班，起飞机场在国外,降落机场在国内
-				return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  ) == -1 && (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) > -1;
-			}
-
-			function check_fn4(){
-				//港澳台经停航班
-				return (  (d["qf_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
-					(  (d["mb_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
-					(  (d["zz_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
-					(  (d["qf_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
-					(  (d["mb_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
-					(  (d["zz_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
-					(  (d["qf_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ||
-					(  (d["mb_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ||
-					(  (d["zz_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ;
-			}
-
-
 			//获取经停曲线ID
 			var line_plus_id = d3.select(this).attr("id");
 			line_plus_id = line_plus_id.replace("line_plus_","");
 			//经停-高亮显示
 			if(filter_type=="show"){
-				//if(!note){
-					d3.selectAll("#svg_map g .line").style("display","block");
-					d3.selectAll("#svg_map g .line_bg").style("display","block");
-					d3.selectAll("#svg_map g .line_plus").style("display","block");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","block");
+					d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg").style("display","block");
 					note=true;
-				//}
 				if( flag ){
 					num++;
 					d3.select(this).attr("type","filter").style("stroke","#14ffae");
 				}else{
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null);
+					d3.select(this).style("stroke","#75baff").attr("type",null);
 				}
 			//经停-隐藏其他
 			}else if(filter_type=="hide"){
 				if(note){
-					d3.selectAll("#svg_map g .line").style("display","none");
-					d3.selectAll("#svg_map g .line_bg").style("display","none");
-					d3.selectAll("#svg_map g .line_plus").style("display","none");
-					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
+					d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg").style("display","none");
 					note=false;
 				}
 				if( flag ){
 					num++;
-					d3.select(this).attr("type","filter_hide").attr("filter",null);
-					d3.select(this).style("display","block").style("stroke","#75baff");
+					d3.select(this).attr("type","filter_hide").style("display","block").style("stroke","#75baff");
 					d3.select("#line_plus_bg_"+line_plus_id).style("display","block");
 				}else{
-					d3.select(this).style("stroke","#75baff").attr("type",null).attr("filter",null).style("display","none");
+					d3.select(this).style("stroke","#75baff").attr("type",null).style("display","none");
 					d3.select("#line_plus_bg_"+line_plus_id).style("display","none");
 				}
 			}
 		});
+		
+		function check_fn1(d){
+			//国际经停航班，起飞机场或降落机场不在国内
+			return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )==-1 || (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
+		}
+		function check_fn2(d){
+			//出境经停航班，起飞机场在国内,降落机场不在国内
+			return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  )>-1 && (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) == -1;
+		}
+
+		function check_fn3(d){
+			//入境经停航班，起飞机场在国外,降落机场在国内
+			return (  (d[qf_type]).toLowerCase()  ).indexOf( filter_data['qf_text'].toLowerCase()  ) == -1 && (  (d[mb_type]).toLowerCase()  ).indexOf( filter_data['mb_text'].toLowerCase()  ) > -1;
+		}
+
+		function check_fn4(d){
+			//港澳台经停航班
+			return (  (d["qf_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
+				(  (d["mb_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
+				(  (d["zz_city"]).toLowerCase()  ).indexOf( "Hong Kong".toLowerCase()  ) > -1 ||
+				(  (d["qf_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
+				(  (d["mb_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
+				(  (d["zz_city"]).toLowerCase()  ).indexOf( "Taiwan".toLowerCase()  ) > -1 ||
+				(  (d["qf_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ||
+				(  (d["mb_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ||
+				(  (d["zz_city"]).toLowerCase()  ).indexOf( "Macao".toLowerCase()  ) > -1 ;
+		}
 	}
 
 	if( num == 0 ){
@@ -1111,8 +1058,6 @@ function filter_data2(obj,check_fn){
 function getFlight_data(e){
 	$('#left_flat .from1_button .submit').html("正在查询...").css('background','#b5d6f1');
 	predef(e);
-//	console.log("result:") ;
-//	console.log(validate_search()) ;
 	ajax({
 		method:'get',
 		url:"/index.php?c=index&a=search",
@@ -1125,9 +1070,6 @@ function getFlight_data(e){
 				num_line_plus = line_plus_data.length,
 				num = num_line+num_line_plus;
 			console.log(temp);
-			//曲线生成模式1，无附加背景
-			//show_line(data);
-
 			//曲线生成模式2，附加背景,生成直飞航线
 			show_line_plus(line_data);
 			//曲线生成模式2，附加背景,生成经停航线
@@ -1285,17 +1227,6 @@ function show_line(data){
 		.data(data)
 		.attr("d",function(d){
 
-			/*
-			 //直连式
-			 //对两点之间进行相关计算，返回数组
-			 array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			 //将计算后的两地之间的坐标距离存入要进行绑定的数组
-			 //data[index++].len = array[9][0];
-			 //console.log(data);
-			 return array[0];
-			 */
-
-			//断开式
 			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			return array[0];
 
@@ -1306,7 +1237,6 @@ function show_line(data){
 		}).on('mouseenter',function(d){ show_flight_info(d,this); } ).on('mouseout',function(d){ hide_flight_info(this) });
 
 
-	//enter
 	index = 0;
 	d3.select('#svg_map g')
 		.selectAll("path.line")
@@ -1315,17 +1245,6 @@ function show_line(data){
 		.append("path")
 		.classed("line",true)
 		.attr("d",function(d){
-			/*
-			 //直连式
-			 //对两点之间进行相关计算，返回数组
-			 array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
-			 //将计算后的两地之间的坐标距离存入要进行绑定的数组
-			 data[index++].len = array[9][0];
-			 //console.log(data);
-			 return array[0];
-			 */
-
-			//断开式
 			array = getLine_xy_plus([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			return array[0];
 		})
@@ -1389,11 +1308,12 @@ function show_line_plus(data){
 			return "line_"+d.flight_number;
 		})
 		.attr("d",function(d){
-//			console.log(d.flight_number);
+			console.log(d.flight_number);
 			//计算两地之间的相关数据
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将两点之间的直线坐标距离存储在要绑定的数组里
 			data[index++].len = array[9][0];
+
 
 			show_line_bg(d,array[11],d.flight_number);
 
@@ -1548,7 +1468,7 @@ function show_line_plus2(data){
 			return "line_plus_"+d.flight_number;
 		})
 		.attr("d",function(d){
-//			console.log(d.flight_number);
+			console.log(d.flight_number);
 			//计算两地之间的相关数据
 			array1 = getLine_xy([d.qf_latitude,d.qf_longitude],[d.zz_latitude,d.zz_longitude]);
 			array2 = getLine_xy([d.zz_latitude,d.zz_longitude],[d.mb_latitude,d.mb_longitude]);
@@ -1585,43 +1505,6 @@ function show_line_plus2(data){
 
 
 			show_line_bg(d,path_bg,d.flight_number);
-
-			////x1
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[1][0])
-			//	.attr("cy",array[1][1])
-			//	.attr("r",5)
-			//	.style("fill","#000");
-			////x2
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[2][0])
-			//	.attr("cy",array[2][1])
-			//	.attr("r",5)
-			//	.style("fill","#000");
-			//
-			////三等分点1 距离x1近
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[3][0])
-			//	.attr("cy",array[3][1])
-			//	.attr("r",5)
-			//	.style("fill","red");
-			//
-			////三等分点2 距离x2近
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[4][0])
-			//	.attr("cy",array[4][1])
-			//	.attr("r",5)
-			//	.style("fill","orange");
-			//
-			////控制点的映射点
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[5][0])
-			//	.attr("cy",array[5][1])
-			//	.attr("r",5)
-			//	.style("fill","green");
-			//
-
-			//console.log(d.flight_number);
 
 			var path_line = "M "+
 				array1[1][0]+" "+array1[1][1]+
@@ -2112,7 +1995,7 @@ function show_flight_info(d,that){
 	//console.log(that);
 
 	//鼠标移入，线条颜色高亮
-	d3.select(that).attr("filter","url(#f1)").style("cursor","crosshair").transition().duration(300).style("stroke","#F0705D").style("stroke-width","2px");
+	d3.select(that).attr("filter","url(#f1)").transition().duration(300).style("stroke","#F0705D").style("stroke-width","1px");
 
 
 }
@@ -2130,11 +2013,11 @@ function hide_flight_info(that){
 	
 	//鼠标移出，线条颜色恢复.如果是筛选出的线条，就恢复高亮的颜色
 	if( d3.select(that).attr('type')=='filter' ){
-		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#14ffae").style("stroke-width","1px");
+		d3.select(that).attr("filter",false).transition().duration(300).style("stroke","#14ffae").style("stroke-width","0.5px");
 	}else if(d3.select(that).attr('type')=='filter_hide'){
-		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+		d3.select(that).attr("filter",false).transition().duration(300).style("stroke","#75baff").style("stroke-width","0.5px");
 	}else{
-		d3.select(that).attr("filter",false).style("cursor","pointer").transition().duration(300).style("stroke","#75baff").style("stroke-width","1px");
+		d3.select(that).attr("filter",false).transition().duration(300).style("stroke","#75baff").style("stroke-width","0.5px");
 	}
 
 	//console.log("出2");

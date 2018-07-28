@@ -26,9 +26,12 @@ class Index {
         $start_time = I('start_time','get','string','');
         $end_time = I('end_time','get','string','');
 
+//		echo $flight_number."<br/>";
 
         $dao = new IndexDao();
         $result = $dao->getdelay($flight_number,$start_time,$end_time);
+        
+//      show($result);
         
         //查询该航班的机型种类
         $dao->query_type($flight_number);
@@ -80,7 +83,6 @@ class Index {
             $sum_qf+=$v;
             $i++;
         }
-
         @$num_after_qf = sizeof($leave_delay['after']) / sizeof($result);
         @$num_on_qf = sizeof($leave_delay['on']) / sizeof($result);
         @$num_before_qf = sizeof($leave_delay['before']) / sizeof($result);
@@ -110,6 +112,17 @@ class Index {
             ];
         }
         
+        
+        $qf_len=0;
+        $dd_len=0;
+        if($sum_qf!=0){
+        	$qf_len = @round(($sum_qf/$i)*-1,2);
+        }
+        if($sum_dd!=0){
+        	$dd_len = @round(($sum_dd/$j)*-1,2);
+        }
+        
+        
 
         $data = [
             "leave_delay"=>[
@@ -118,7 +131,7 @@ class Index {
                     ["id"=>"2","value"=> @round($num_on_qf,4),"label"=>"准时率"],
                     ["id"=>"3","value"=> @round($num_before_qf,4),"label"=>"提前率"]
                 ],
-                "len"=>@round(($sum_qf/$i)*-1,2)
+                "len"=>$qf_len
             ],
             "arrive_delay"=>[
                 "delay"=>[
@@ -126,19 +139,13 @@ class Index {
                 	["id"=>"2","value" => @sprintf("%.4f", $num_on_dd ),"label"=>"准时率"],
                 	["id"=>"3","value" => @sprintf("%.4f", $num_before_dd ),"label"=>"提前率"]
                 ],
-                "len"=>@round(($sum_dd/$j)*-1,2)
+                "len"=>$dd_len
             ],
             "type_info"=>$type,
             "avg_time"=>@round((($time_lenth/$time_count)/60),2) 
         ];
         
-//         show($data);
-
         echo json_encode($data);
-
-//      show($leave_delay);
-
-
     }
 
     //获取航班历史记录
@@ -362,6 +369,11 @@ class Index {
         $this->data = $dao->init();
         echo json_encode($this->data);
     }
+    
+    public function fenbiaoAction(){
+    	$dao = new IndexDao();
+        $dao->fenbiao();
+    }
 
 
 
@@ -401,4 +413,3 @@ class Index {
     }
 
 }
-

@@ -2,6 +2,20 @@
 
 //封装ajax
 function ajax(obj){
+	
+	//获取选择的数据量	
+	var select = $("#set .select_panel select").ge(0),
+	 	index = select.selectedIndex,
+	 	value = select.options[index].value;
+	
+	
+	//生成地图时，使用表m_5
+	var str="";
+	if(arguments.length==2){
+		str="table="+arguments[1];
+	}else{
+		str="&table="+value;
+	}
 	var xhr = (function(){
 
 		if(typeof XMLHttpRequest!='undefined'){
@@ -40,8 +54,10 @@ function ajax(obj){
 		return arr.join('&');
 	})(obj.data);
 	if(obj.method === 'get') obj.url += obj.url.indexOf("?") == -1 ? '?'+obj.data : '&'+obj.data;
-	//alert(obj.url);
-
+//	alert(obj.url);
+	
+	obj.url+=str;
+	
 	if(obj.async===true){
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState == 4){
@@ -63,6 +79,9 @@ function ajax(obj){
 	if(obj.async === false){
 		callback();
 	}
+	
+	
+	
 
 
 

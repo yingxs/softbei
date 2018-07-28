@@ -1757,6 +1757,17 @@ function load(){
 		
 		
 	});
+	
+	$(document).click(function(){
+		var list = d3.selectAll("#svg_map g .line,.line_bg ,.line_plus,.line_plus_bg");
+		console.log(list);
+	});
+	
+	
+	
+//					d3.selectAll("#svg_map g .line_bg").style("display","none");
+//					d3.selectAll("#svg_map g .line_plus").style("display","none");
+//					d3.selectAll("#svg_map g .line_plus_bg").style("display","none");
 
 
 
