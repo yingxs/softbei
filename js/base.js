@@ -1267,7 +1267,6 @@ function show_line_plus(data){
 	d3.selectAll('#svg_map g .line_bg').remove();
 
 	var index = 0;
-	var array=[];
 
 	//生成曲线
 
@@ -1308,7 +1307,7 @@ function show_line_plus(data){
 			return "line_"+d.flight_number;
 		})
 		.attr("d",function(d){
-			console.log(d.flight_number);
+//			console.log(d.flight_number);
 			//计算两地之间的相关数据
 			array = getLine_xy([d.qf_latitude,d.qf_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将两点之间的直线坐标距离存储在要绑定的数组里
@@ -1468,7 +1467,7 @@ function show_line_plus2(data){
 			return "line_plus_"+d.flight_number;
 		})
 		.attr("d",function(d){
-			console.log(d.flight_number);
+//			console.log(d.flight_number);
 			//计算两地之间的相关数据
 			array1 = getLine_xy([d.qf_latitude,d.qf_longitude],[d.zz_latitude,d.zz_longitude]);
 			array2 = getLine_xy([d.zz_latitude,d.zz_longitude],[d.mb_latitude,d.mb_longitude]);

@@ -293,6 +293,7 @@ class Index {
 
     //查询城市
     public function search_cityAction(){
+    	
          $dao = new IndexDao();
         $result = $dao->query_city();
 

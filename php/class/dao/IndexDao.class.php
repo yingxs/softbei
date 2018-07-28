@@ -5,10 +5,14 @@ require COMMON.'MySQLPDO.class.php';
 set_time_limit(0);
 
 class IndexDao extends MySQLPDO{
+	
+	private $_table_name;
 
     //构造方法
     public function __construct(){
         parent::__construct();
+        $this->_table_name = I('table','get','string','');
+        
     }
 
 
@@ -25,10 +29,14 @@ class IndexDao extends MySQLPDO{
         $mb_column = parent::fetchColumn("select `column` from `query_type` where `id`=:mb_type",["mb_type"=>$array["mb_type"]]);
         $qf_column = "qf_".$qf_column;
         $mb_column = "mb_".$mb_column;
+        
+        
+        
+        
         //show($array);
         //echo $qf_column."<br/>";
         //echo $mb_column."<br/>";
-        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight` WHERE 1=1 ";
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `$this->_table_name` WHERE 1=1 ";
         $param = [];
         if($array["qf_text"]!='' && $array["qf_text"]!=null ){
             $sql.= " AND $qf_column LIKE :qf_text ";
@@ -71,7 +79,10 @@ class IndexDao extends MySQLPDO{
 
     //查询直飞航班表中的城市及其经纬坐标
     public function query_city(){
-        $sql = "SELECT `qf_city`  FROM `m_flight`  UNION SELECT `mb_city` FROM `m_flight`  UNION SELECT  `qf_city`  FROM `m_flight_stop_over`   UNION  SELECT `mb_city` FROM `m_flight_stop_over` ";
+    	
+//  	echo $this->_table_name."<br/>";
+    	
+        $sql = "SELECT `qf_city`  FROM `$this->_table_name`  UNION SELECT `mb_city` FROM `$this->_table_name`  UNION SELECT  `qf_city`  FROM `m_flight_stop_over`   UNION  SELECT `mb_city` FROM `m_flight_stop_over` ";
         $result = parent::fetchAll($sql);
         //show($result);
         $array = [];
@@ -83,7 +94,7 @@ class IndexDao extends MySQLPDO{
 
         $city_array = [];
         foreach($array as $v){
-            $sql = "SELECT `qf_city` ,`qf_longitude` ,`qf_latitude` FROM `m_flight` WHERE qf_city=\"$v\"  UNION SELECT `mb_city` ,`mb_longitude` ,`mb_latitude` FROM `m_flight`  WHERE mb_city=\"$v\"   UNION SELECT  `qf_city` ,`qf_longitude` ,`qf_latitude` FROM `m_flight_stop_over`  WHERE qf_city=\"$v\"    UNION  SELECT `mb_city`,`mb_longitude` ,`mb_latitude` FROM `m_flight_stop_over`  WHERE mb_city=\"$v\" ";
+            $sql = "SELECT `qf_city` ,`qf_longitude` ,`qf_latitude` FROM `$this->_table_name` WHERE qf_city=\"$v\"  UNION SELECT `mb_city` ,`mb_longitude` ,`mb_latitude` FROM `$this->_table_name`  WHERE mb_city=\"$v\"   UNION SELECT  `qf_city` ,`qf_longitude` ,`qf_latitude` FROM `m_flight_stop_over`  WHERE qf_city=\"$v\"    UNION  SELECT `mb_city`,`mb_longitude` ,`mb_latitude` FROM `m_flight_stop_over`  WHERE mb_city=\"$v\" ";
             //echo $sql;
             $result = parent::fetchRow($sql);
             $city_array[] = $result;
@@ -96,7 +107,7 @@ class IndexDao extends MySQLPDO{
     public function  get_num($param,$type,$qf_mb){
         
 //         $sql = " SELECT flight_number FROM `m_flight` WHERE {$qf_mb}_{$type}=\"$param\" UNION SELECT flight_number  FROM `m_flight_stop_over` WHERE {$qf_mb}_{$type}=\"$param\"  ";
-        $sql = " SELECT flight_number FROM `m_flight` WHERE {$qf_mb}_{$type}=\"$param\"   ";
+        $sql = " SELECT flight_number FROM `$this->_table_name` WHERE {$qf_mb}_{$type}=\"$param\"   ";
         
 //         echo "$sql<br/>";
         
@@ -214,8 +225,10 @@ class IndexDao extends MySQLPDO{
     
     //统计某个城市相关信息
     public function QueryParamInfo($param,$type){
-        $sql = "SELECT qf_city,qf_country,qf_airport FROM `m_flight` WHERE qf_{$type} = \"$param\" ".
-            " UNION SELECT mb_city,mb_country,mb_airport FROM `m_flight` WHERE mb_{$type} = \"$param\" ".
+//  	echo $this->_table_name."<br/>";
+    	
+        $sql = "SELECT qf_city,qf_country,qf_airport FROM `$this->_table_name` WHERE qf_{$type} = \"$param\" ".
+            " UNION SELECT mb_city,mb_country,mb_airport FROM `$this->_table_name` WHERE mb_{$type} = \"$param\" ".
             " UNION SELECT qf_city,qf_country,qf_airport FROM `m_flight_stop_over` WHERE qf_{$type} = \"$param\" ".
             " UNION SELECT mb_city,mb_country,mb_airport FROM `m_flight_stop_over` WHERE mb_{$type} = \"$param\"   ";
         //echo $sql;
@@ -365,7 +378,7 @@ class IndexDao extends MySQLPDO{
              $result = parent::fetchAll("SELECT distinct  $column FROM `m_flight_stop_over` WHERE $column LIKE :text limit 0 ,7"  ,["text"=>'%'.$array[1].'%']);
 
          }else{
-             $result = parent::fetchAll("SELECT distinct  $column FROM `m_flight` WHERE $column LIKE :text limit 0 ,7"  ,["text"=>'%'.$array[1].'%']);
+             $result = parent::fetchAll("SELECT distinct  $column FROM `$this->_table_name` WHERE $column LIKE :text limit 0 ,7"  ,["text"=>'%'.$array[1].'%']);
 
          }
          $array=[];
@@ -383,7 +396,7 @@ class IndexDao extends MySQLPDO{
     //查询航空公司
     public function queryCompanye($text){
 
-        $result = parent::fetchAll("select distinct airline_company from `m_flight` WHERE  airline_company LIKE :text limit 0,7",["text"=>'%'.$text.'%']);
+        $result = parent::fetchAll("select distinct airline_company from `$this->_table_name` WHERE  airline_company LIKE :text limit 0,7",["text"=>'%'.$text.'%']);
         //show($result);
         $array=[];
         foreach($result as $v){
@@ -463,7 +476,7 @@ class IndexDao extends MySQLPDO{
 
     //快速查询直飞航班信息
     function ks_queryFlight_data($type){
-        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight` WHERE  ";
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `$this->_table_name` WHERE  ";
         switch ($type){
             //国内直飞航班
             case "on_ch" : $sql .= " qf_country= 'China' AND mb_country= 'China' ";break;
@@ -511,7 +524,7 @@ class IndexDao extends MySQLPDO{
 
     //精确查询直飞航班信息
     function jq_queryFlight_data($str){
-        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight` WHERE  $str";
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`, `leave_downtime` ,`come_downtime` FROM `$this->_table_name` WHERE  $str";
 
         //echo $sql."<br/>";
         $result = parent::fetchAll($sql);
@@ -592,7 +605,7 @@ class IndexDao extends MySQLPDO{
     	$sum = 0;
     	$count = 0;
     	for($id=1;$id<=4255;$id+=2){
-    		$result = parent::fetchRow("SELECT `id`,flight_number,airline_company,qf_airport,qf_longitude,qf_latitude,qf_city,qf_country,mb_airport,mb_longitude,mb_latitude,mb_city,mb_country,leave_downtime,come_downtime FROM m_flight WHERE id=".$id);
+    		$result = parent::fetchRow("SELECT `id`,flight_number,airline_company,qf_airport,qf_longitude,qf_latitude,qf_city,qf_country,mb_airport,mb_longitude,mb_latitude,mb_city,mb_country,leave_downtime,come_downtime FROM $this->_table_name WHERE id=".$id);
     		
     		$id =  $result['id'];
 	    	$flight_number = $result['flight_number'];
