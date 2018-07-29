@@ -309,7 +309,7 @@ class IndexDao extends MySQLPDO{
         $zz_column = "zz_".$zz_column;
 
 
-        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`zz_airport`,`zz_city`,`zz_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`,`zz_longitude`, `zz_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight_stop_over` WHERE 1=1 ";
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`zz_airport`,`zz_city`,`zz_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`,`zz_longitude`, `zz_latitude`, `leave_downtime` ,`come_downtime`,`zz_leave_time` FROM `m_flight_stop_over` WHERE 1=1 ";
         $param = [];
         if($array["qf_text"]!='' && $array["qf_text"]!=null ){
             $sql.= " AND $qf_column LIKE :qf_text ";
@@ -500,7 +500,7 @@ class IndexDao extends MySQLPDO{
 
      //快速查询经停航班信息
         function ks_queryFlight_data_plus($type){
-             $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`zz_airport`,`zz_city`,`zz_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`,`zz_longitude`, `zz_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight_stop_over` WHERE  ";
+             $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`zz_airport`,`zz_city`,`zz_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`,`zz_longitude`, `zz_latitude`, `leave_downtime` ,`come_downtime`,`zz_leave_time` FROM `m_flight_stop_over` WHERE  ";
             switch ($type){
                 //国内航班
                 case "on_ch" : $sql .= " qf_country= 'China'       AND      mb_country= 'China' ";break;
@@ -532,9 +532,9 @@ class IndexDao extends MySQLPDO{
         return $result;
 
     }
-    //快速查询经停航班信息
+    //精确查询经停航班信息
     function jq_queryFlight_data_plus($str){
-        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`zz_airport`,`zz_city`,`zz_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`,`zz_longitude`, `zz_latitude`, `leave_downtime` ,`come_downtime` FROM `m_flight_stop_over` WHERE  $str";
+        $sql = "SELECT  `flight_number`,`airline_company` ,`qf_airport` ,`qf_city`,`qf_country`, `mb_airport`,`mb_city`,`mb_country`,`zz_airport`,`zz_city`,`zz_country`,`qf_longitude`, `qf_latitude`, `mb_longitude`, `mb_latitude`,`zz_longitude`, `zz_latitude`, `leave_downtime` ,`come_downtime` ,`zz_leave_time` FROM `m_flight_stop_over` WHERE  $str";
         //echo $sql."<br/>";
         $result = parent::fetchAll($sql);
         return $result;

@@ -1069,7 +1069,7 @@ function getFlight_data(e){
 				num_line = line_data.length,
 				num_line_plus = line_plus_data.length,
 				num = num_line+num_line_plus;
-			console.log(temp);
+//			console.log(temp);
 			//曲线生成模式2，附加背景,生成直飞航线
 			show_line_plus(line_data);
 			//曲线生成模式2，附加背景,生成经停航线
@@ -1163,9 +1163,9 @@ function getFlight_data2(e,search_type){
 
 //			console.log(temp);
 
-			//曲线生成模式2，附加背景,生成直飞航线
+			//曲线生成模式2，生成直飞航班曲线
 			show_line_plus(line_data);
-			//曲线生成模式2，附加背景,生成经停航线
+			//曲线生成模式2，生成经停航班曲线
 			show_line_plus2(line_plus_data);
 			if(num > 0){
 				$('#search_info h6').html("查询成功，共查询到"+num+"个航班；其中直飞航班"+num_line+"个，经停航班"+num_line_plus+"个。");
@@ -1260,7 +1260,7 @@ function show_line(data){
 
 }
 
-//曲线生成模式2,有附加背景(速度较慢，数据量小时使用，交互性好)
+//曲线生成模式2,有附加背景，直飞航班
 function show_line_plus(data){
 
 	//清空多余背景
@@ -1395,21 +1395,24 @@ function show_line_plus(data){
 						var data = JSON.parse(text);
 //						console.log(data);
 
+						//隐藏经停信息
+						d3.selectAll("#flight_info_plus .flight_info_panel .zz").style("display","none");
+
 						//起飞城市、时间、机场
-						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city").text(d.qf_city);
-						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_time").text(d.leave_downtime);
-						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport").text(d.qf_airport);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_city").text(d.qf_city);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_time").text(d.leave_downtime);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_airport").text(d.qf_airport);
 
 						//航班号
-						d3.select("#flight_info_plus .flight_info .flight_info_number .flight_number_h").text(d.flight_number);
+						d3.selectAll("#flight_info_plus .flight_info_panel .flight_info_number .flight_number_h").text(d.flight_number);
 
 						//到达城市、事件、机场
-						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_city").text(d.mb_city);
-						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_time").text(d.come_downtime);
-						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_airport").text(d.mb_airport);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_dd .flight_info_dd_city").text(d.mb_city);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_dd .flight_info_dd_time").text(d.come_downtime);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_dd .flight_info_dd_airport").text(d.mb_airport);
 
 						//航司
-						d3.select("#flight_info_plus .flight_info .flight_company .context").text(d.airline_company);
+						d3.select("#flight_info_plus .flight_info_panel .flight_company .context").text(d.airline_company);
 
 						//起飞平均延误时长
 						d3.select("#flight_info_plus .flight_info .delay_lenght .qf_delay_lenght .time_lenght .context").text(data["leave_delay"]["len"]);
@@ -1419,8 +1422,8 @@ function show_line_plus(data){
 
 						//平均飞行时长
 						d3.select("#flight_info_plus .flight_info .delay_lenght .avg_time_lenght .time_lenght .context").text(data["avg_time"]);
-
-
+						
+						
 						change(320,200,data["leave_delay"]["delay"],"#flight_info_plus .qf_delay_chart","qf_delaylen_chart","起飞状态统计图");
 						change(320,200,data["arrive_delay"]["delay"],"#flight_info_plus .dd_delay_chart","dd_delaylen_chart","到达状态统计图");
 						change(430,200,data["type_info"],"#flight_info_plus .delay_lenght .type_chart","type_len_chart","机型统计图");
@@ -1448,7 +1451,7 @@ function show_line_plus(data){
 }
 
 
-//曲线生成模式2,有附加背景(速度较慢，数据量小时使用，交互性好)
+//曲线生成模式2,有附加背景，经停航班
 function show_line_plus2(data){
 
 	//清空经停曲线所有背景
@@ -1527,7 +1530,7 @@ function show_line_plus2(data){
 			return "line_plus_"+d.flight_number;
 		})
 		.attr("d",function(d){
-//计算两地之间的相关数据
+			//计算两地之间的相关数据
 			array1 = getLine_xy([d.qf_latitude,d.qf_longitude],[d.zz_latitude,d.zz_longitude]);
 			array2 = getLine_xy([d.zz_latitude,d.zz_longitude],[d.mb_latitude,d.mb_longitude]);
 			//将两点之间的直线坐标距离存储在要绑定的数组里
@@ -1559,47 +1562,7 @@ function show_line_plus2(data){
 				x1_x+" "+x1_y+" Q "+x2_x+" "+x2_y+" "+x3_x+" "+x3_y+" Q "+x4_x+" "+x4_y+" "+x5_x+" "+x5_y+"L "+x6_x+" "+x6_y+
 				" Q "+x7_x+" "+x7_y+" "+x8_x+" "+x8_y+" Q "+x9_x+" "+x9_y+" "+x10_x+" "+x10_y+" Z";
 
-
-
-
 			show_line_bg(d,path_bg,d.flight_number);
-
-			////x1
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[1][0])
-			//	.attr("cy",array[1][1])
-			//	.attr("r",5)
-			//	.style("fill","#000");
-			////x2
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[2][0])
-			//	.attr("cy",array[2][1])
-			//	.attr("r",5)
-			//	.style("fill","#000");
-			//
-			////三等分点1 距离x1近
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[3][0])
-			//	.attr("cy",array[3][1])
-			//	.attr("r",5)
-			//	.style("fill","red");
-			//
-			////三等分点2 距离x2近
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[4][0])
-			//	.attr("cy",array[4][1])
-			//	.attr("r",5)
-			//	.style("fill","orange");
-			//
-			////控制点的映射点
-			//d3.select("svg g").append("circle")
-			//	.attr("cx",array[5][0])
-			//	.attr("cy",array[5][1])
-			//	.attr("r",5)
-			//	.style("fill","green");
-			//
-
-			//console.log(d.flight_number);
 
 			var path_line = "M "+
 				array1[1][0]+" "+array1[1][1]+
@@ -1685,22 +1648,32 @@ function show_line_plus2(data){
 					success:function(text){
 						var data = JSON.parse(text);
 //						console.log(data);
+						
+						//显示经停信息
+						d3.selectAll("#flight_info_plus .flight_info_panel .zz").style("display","inline-block");
 
 						//起飞城市、时间、机场
-						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_city").text(d.qf_city);
-						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_time").text(d.leave_downtime);
-						d3.select("#flight_info_plus .flight_info .flight_info_qf .flight_info_qf_airport").text(d.qf_airport);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_city").text(d.qf_city);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_time").text(d.leave_downtime);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_qf .flight_info_qf_airport").text(d.qf_airport);
 
 						//航班号
-						d3.select("#flight_info_plus .flight_info .flight_info_number .flight_number_h").text(d.flight_number);
+						d3.selectAll("#flight_info_plus .flight_info_panel .flight_info_number .flight_number_h").text(d.flight_number);
+
+						//经停城市、时间、机场
+						d3.selectAll("#flight_info_plus .flight_info_panel .zz_info .flight_info_qf_city").text(d.zz_city);
+						d3.selectAll("#flight_info_plus .flight_info_panel .zz_info .flight_info_qf_airport").text(d.zz_airport);
+						d3.selectAll("#flight_info_plus .flight_info_panel .zz_info .flight_info_qf_time").text(d.zz_leave_time);
+
+
 
 						//到达城市、事件、机场
-						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_city").text(d.mb_city);
-						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_time").text(d.come_downtime);
-						d3.select("#flight_info_plus .flight_info .flight_info_dd .flight_info_dd_airport").text(d.mb_airport);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_dd .flight_info_dd_city").text(d.mb_city);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_dd .flight_info_dd_time").text(d.come_downtime);
+						d3.select("#flight_info_plus .flight_info_panel .flight_info_dd .flight_info_dd_airport").text(d.mb_airport);
 
 						//航司
-						d3.select("#flight_info_plus .flight_info .flight_company .context").text(d.airline_company);
+						d3.select("#flight_info_plus .flight_info_panel .flight_company .context").text(d.airline_company);
 
 						//起飞平均延误时长
 						d3.select("#flight_info_plus .flight_info .delay_lenght .qf_delay_lenght .time_lenght .context").text(data["leave_delay"]["len"]);
@@ -1717,7 +1690,6 @@ function show_line_plus2(data){
 						change(430,200,data["type_info"],"#flight_info_plus .delay_lenght .type_chart","type_len_chart","机型统计图");
 
 						d3.select("#flight_info_plus .flight_info").style("animation","text_opacitytoone 1.2s ease forwards");
-
 
 
 						//console.log(data);
@@ -1974,8 +1946,11 @@ function show_flight_info(d,that){
 
 	if(d.zz_airport != undefined){
 		$('#flight_info .flight_zz_jc').show().html("<span>经停机场："+d.zz_airport+"</span>");
+		$('#flight_info .flight_zz_leave_time').show().html("<span>经停起飞时间："+d.zz_leave_time+"</span>");
+
 	}else{
 		$('#flight_info .flight_zz_jc').hide();
+		$('#flight_info .flight_zz_leave_time').hide();
 	}
 	//$('#flight_info .flight_len span').html(d.len);
 

@@ -522,7 +522,7 @@ function change(width,height,data,clazz,clazz_len,h) {
 
 	polyline.transition().duration(1000)
 		.attrTween("points", function(d){
-			console.log(d);
+//			console.log(d);
 			if(d.data.value==0){
 				return ;
 			}
