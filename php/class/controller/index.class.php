@@ -83,6 +83,9 @@ class Index {
             $sum_qf+=$v;
             $i++;
         }
+        
+//      show($leave_delay);
+        
         @$num_after_qf = sizeof($leave_delay['after']) / sizeof($result);
         @$num_on_qf = sizeof($leave_delay['on']) / sizeof($result);
         @$num_before_qf = sizeof($leave_delay['before']) / sizeof($result);
@@ -144,6 +147,8 @@ class Index {
             "type_info"=>$type,
             "avg_time"=>@round((($time_lenth/$time_count)/60),2) 
         ];
+        
+//      show($data);
         
         echo json_encode($data);
     }

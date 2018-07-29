@@ -10,12 +10,15 @@ function ajax(obj){
 	
 	
 	//生成地图时，使用表m_5
-	var str="";
-	if(arguments.length==2){
-		str="table="+arguments[1];
-	}else{
-		str="&table="+value;
-	}
+//	var str="";
+//	if(arguments.length==2){
+//		str="table="+arguments[1];
+//	}else{
+//		str="&table="+value;
+//	}
+	
+	var str="&table="+value;
+	
 	var xhr = (function(){
 
 		if(typeof XMLHttpRequest!='undefined'){

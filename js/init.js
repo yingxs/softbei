@@ -1005,15 +1005,36 @@ function load(){
 
 	//确认过滤
 	$('#left_flat .filter .filter_button .submit').click(function(e){
+		var screen = $('#screen');
+		screen.lock().resize(function(){
+			if(screen.css("display")=='block'){
+				screen.lock();
+			}
+		}).opacity(30);
+		$('#loading').show();
+		
 		//console.log(serializeFilter());
-		predef(e);
-		filter_data();
-		$('#left_bar').attr("type","filter");
-
-		var radio_list = d3.selectAll("#left_flat .filter .filter_checkbox table input");
-		radio_list.each(function(){
-			this.checked=false;
-		});
+		setTimeout(function(){
+			predef(e);
+			filter_data();
+			$('#left_bar').attr("type","filter");
+			var radio_list = d3.selectAll("#left_flat .filter .filter_checkbox table input");
+			radio_list.each(function(){
+				this.checked=false;
+			});
+			
+			$('#screen').animate({
+				attr:'o',
+				target:0,
+				step:30,
+				t:10,
+				fn:function(){
+					$('#screen').unlock();
+				}
+			});
+		},50);
+		
+		
 	});
 
 	//选择只显示筛选的数据
@@ -1154,36 +1175,8 @@ function load(){
 		//统一添加事件
 		$('#left_flat .search_dd_text_td .dd_jc').bind('blur',search_dd_text_blur);
 		$('#left_flat .search_qf_text_td .qf_text').bind('blur',search_qf_text_blur);
-//		console.log("document恢复起飞输入框的失去焦点函数");
-//		console.log("document恢复到达输入框的失去焦点函数");
-
-
-		//
 
 	});
-
-	//d3.selectAll('#map svg #g1 .line_bg').on('click',function(){
-	//	$('#flight_info').animate({
-	//		attr:'o',
-	//		target:0,
-	//		t:10,
-	//		step:30,
-	//		fn:function(){
-	//			$('#flight_info').hide();
-	//		}
-	//	});
-    //
-    //
-	//	$('#flight_info_plus').show().animate({
-	//		t:10,
-	//		step:30,
-	//		mul:{
-	//			y:0,
-	//			o:80
-	//		}
-	//	});
-    //
-	//});
 
 
 	d3.select('#flight_info_plus img').on('click',function(){
@@ -1194,30 +1187,6 @@ function load(){
 			.style("bottom","-45rem")
 			.style("opacity","0");
 	});
-
-	//$(document).click(function(){
-	//	var  data = [
-	//		{id: "1", value: "0.1949", label: "延误率"},
-	//		{id: "2", value: "0.3475", label: "准时率"},
-	//		{id: "3", value: "0.4576", label: "提前率"}
-	//	];
-	//
-	//});
-
-	//d3.selectAll('#left_flat .search_qf_text_td .search_qf_info .context li').on("mouseover",function(){
-	//	console.log(this);
-	//})
-
-
-
-
-
-	//d3.selectAll('body').on('click',function(){
-	//	var li = d3.selectAll('#left_flat .search_qf_text_td .search_qf_info .context li');
-	//	console.log(li);
-    //
-	//});
-
 
 	$('#left_flat .center').click(function(){
 
@@ -1263,9 +1232,6 @@ function load(){
 		alert("抱歉，该功能尚未完成.");
 	});
 
-	//$('.other').click(function(e){
-	//	alert("抱歉，该功能尚未完成.");
-	//});
 
 	$('#left_flat .h6_other').click(function(){
 		$(this).animate({
@@ -1367,11 +1333,6 @@ function load(){
 							}
 						});
 					},1500);
-
-
-
-
-
 				},
 				error : function(text){
 					alert("error"+text);
@@ -1379,16 +1340,9 @@ function load(){
 				async:true
 			});
 
-
-
-
 		}
 
 	});
-
-
-
-
 
 
 	var search_radio_input=$('#left_flat .ks_search strong input');

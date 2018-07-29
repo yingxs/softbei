@@ -637,15 +637,6 @@ function show_popover(clazz,that){
 //隐藏侧面注意事项面板
 function hide_popover(clazz){
 
-	//统一清理事件
-	//removeEvent($('#left_flat .search_qf_text_td .qf_text').ge(0),"blur",search_qf_text_blur);
-	//removeEvent($('#left_flat .search_dd_text_td .dd_jc').ge(0),"blur",search_dd_text_blur);
-
-	//统一添加事件
-	//$('#left_flat .search_dd_text_td .dd_jc').bind('blur',search_dd_text_blur);
-	//$('#left_flat .search_qf_text_td .qf_text').bind('blur',search_qf_text_blur);
-	//console.log("恢复起飞输入框的失去焦点函数");
-	//console.log("恢复到达输入框的失去焦点函数");
 
 	$(clazz).animate({
 		t:30,
@@ -1063,19 +1054,30 @@ function getFlight_data(e){
 		url:"/index.php?c=index&a=search",
 		data:serializeSearch(),
 		success : function(text){
-			var temp = JSON.parse(text),
-				line_data=temp.data.line,
-				line_plus_data=temp.data.line_plus,
-				num_line = line_data.length,
-				num_line_plus = line_plus_data.length,
+			var temp = JSON.parse(text),line_data,line_plus_data,num_line,num_line_plus,num;
+			console.log(temp);
+			 	if( temp.data.line==undefined ){
+			 		num_line = 0;
+			 		line_data=[];
+			 	}else{
+			 		line_data = temp.data.line;
+			 		num_line = line_data.length;
+			 	}
+			 	
+			 	if( temp.data.line_plus==undefined ){
+			 		num_line_plus = 0;
+			 		line_plus_data=[];
+			 	}else{
+			 		line_plus_data = temp.data.line_plus;
+			 		num_line_plus = line_plus_data.length;
+			 	}
+			 	
 				num = num_line+num_line_plus;
-//			console.log(temp);
-			//曲线生成模式2，附加背景,生成直飞航线
-			show_line_plus(line_data);
-			//曲线生成模式2，附加背景,生成经停航线
-			show_line_plus2(line_plus_data);
-
-
+				//曲线生成模式2，附加背景,生成直飞航线
+				show_line_plus(line_data);
+				//曲线生成模式2，附加背景,生成经停航线
+				show_line_plus2(line_plus_data);
+				
 			$('#left_flat .from1_button .submit').html("查询").css('background','#bbe1ff');
 			if(num > 0){
 				$('#search_info h6').html("查询成功，共查询到"+num+"个航班；其中直飞航班"+num_line+"个，经停航班"+num_line_plus+"个。");
@@ -1084,9 +1086,6 @@ function getFlight_data(e){
 			}
 			$('#search_info').animate({
 				t:10,
-				
-				
-				
 				step:30,
 				mul:{
 					y:0,
@@ -1380,9 +1379,6 @@ function show_line_plus(data){
 					end_time = filter_obj.end_time;
 				}
 
-
-
-
 				ajax({
 					method:'get',
 					url:"/index.php?c=index&a=getdelayInfo",
@@ -1405,6 +1401,8 @@ function show_line_plus(data){
 
 						//航班号
 						d3.selectAll("#flight_info_plus .flight_info_panel .flight_info_number .flight_number_h").text(d.flight_number);
+						//历史信息面板航班号
+						d3.selectAll("#history .title span").text(d.flight_number);
 
 						//到达城市、事件、机场
 						d3.select("#flight_info_plus .flight_info_panel .flight_info_dd .flight_info_dd_city").text(d.mb_city);
@@ -1583,8 +1581,6 @@ function show_line_plus2(data){
 		.remove();
 
 
-
-
 	function show_line_bg(data,path,flight_number){
 
 		var line_id;
@@ -1659,6 +1655,8 @@ function show_line_plus2(data){
 
 						//航班号
 						d3.selectAll("#flight_info_plus .flight_info_panel .flight_info_number .flight_number_h").text(d.flight_number);
+						//历史信息面板航班号
+						d3.select("#history .title span").text(d.flight_number);
 
 						//经停城市、时间、机场
 						d3.selectAll("#flight_info_plus .flight_info_panel .zz_info .flight_info_qf_city").text(d.zz_city);

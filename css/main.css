@@ -220,8 +220,8 @@ html, body {
  #left_flat span:nth-child(1){
      width: 380px;
      height: 100%;
-    /*left:-380px;*/
-    left:36px;
+    left:-380px;
+    /*left:36px;*/
     background: #f3f3f3;
      border-right: 1px solid #eeeeee;
      box-shadow: 0 0 4px #dbdada;
