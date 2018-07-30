@@ -1389,7 +1389,7 @@ function show_line_plus(data){
 					},
 					success:function(text){
 						var data = JSON.parse(text);
-//						console.log(data);
+						console.log(data);
 
 						//隐藏经停信息
 						d3.selectAll("#flight_info_plus .flight_info_panel .zz").style("display","none");
@@ -2837,6 +2837,7 @@ function validate_search(){
 //	console.log(flag);
 	result_qf = validate_col('#left_flat .search_qf_text_td .qf_text');
 	result_dd = validate_col('#left_flat .search_dd_text_td .dd_jc');
+	result_zz = validate_col('#left_flat .td_zz  .zz_jc');
 	if(result_qf == 1 || result_dd == 1 ){
 		flag[0] = false;
 		flag[1] = "起飞和到达地理信息不能含特殊字符和数字,长度不能超过50!";
@@ -2848,6 +2849,11 @@ function validate_search(){
 		flag[0] = true;
 		flag[1] = "";
 		
+	}
+	
+	if(result_qf == 1 ){
+		flag[0] = false;
+		flag[1] = "经停信息不能含特殊字符和数字,长度不能超过50!";
 	}
 	
 //	console.log(flag);
@@ -2895,16 +2901,6 @@ function validate_search(){
 		flag[1] = "抱歉，未知错误！";
 		return flag;
 	}
-//	console.log(result_qf);
-//	console.log(result_dd);
-//	console.log(flag);
-	
-	//console.log(flag);
-
-	
-
-
-
 
 }
 

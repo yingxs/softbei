@@ -30,9 +30,6 @@ class IndexDao extends MySQLPDO{
         $qf_column = "qf_".$qf_column;
         $mb_column = "mb_".$mb_column;
         
-        
-        
-        
         //show($array);
         //echo $qf_column."<br/>";
         //echo $mb_column."<br/>";

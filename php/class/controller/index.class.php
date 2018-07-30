@@ -343,9 +343,7 @@ class Index {
             $type = I('type','get','string','');
             $text = I('text','get','string','');
             $state = I('state','get','string','');
-
-
-
+            
             $dao = new IndexDao();
 
             if($type=="company"){
@@ -353,21 +351,7 @@ class Index {
             }else{
                 $name = $dao->queryName([$type,$text,$state]);
             }
-
-
-
-
         }
-
-    public function testAction(){
-        //获取查询条件
-
-
-
-
-
-
-    }
 
     public function index2Action(){
         //取出所有航班数据
@@ -376,12 +360,6 @@ class Index {
         echo json_encode($this->data);
     }
     
-    public function fenbiaoAction(){
-    	$dao = new IndexDao();
-        $dao->fenbiao();
-    }
-
-
 
     //查看session
     public function sessionAction(){
@@ -395,13 +373,6 @@ class Index {
         $_SESSION=[];
         echo "<pre>";
         print_r($_SESSION);
-    }
-    //去重复
-    public function quchongAction(){
-    
-     	$dao = new IndexDao();
-
-        $dao->quchong();
     }
 
     public function display($file){

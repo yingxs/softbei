@@ -1,6 +1,6 @@
 
 
-
+//直连式曲线
 function getLine_xy(qf,dd){
 	var width =$('svg').attr("width") ;
 	var height = $('svg').attr("height") ;
@@ -173,6 +173,7 @@ function getLine_xy(qf,dd){
 	//return ["M " + projection(qf)[0]+","+projection(qf)[1]+" Q "+cx+","+cy+projection(dd)[0]+","+projection(dd)[1]];
 }
 
+//断开式曲线
 function getLine_xy_plus(qf,dd){
 	//alert(qf+","+dd);
 	var width =$('svg').attr("width") ;

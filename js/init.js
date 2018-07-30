@@ -93,7 +93,7 @@ function init2(){
 	var path = d3.geo.path().projection(projection);
 
 	//地图绘制
-	d3.json("/d3/map/world-50m.json",function(error,world){
+	d3.json("/js/world-50m.json",function(error,world){
 
 		g.append("path")
 			.datum(topojson.feature(world,world.objects.land))
@@ -989,6 +989,25 @@ function load(){
 
 	//查询
 	$('#left_flat .from1_button .submit').click(function(e){
+		var flag = validate_search();
+		//关闭数据验证
+//		if(flag[0]){
+//			//console.log(serializeSearch());
+//			var screen = $('#screen');
+//			screen.lock().resize(function(){
+//				if(screen.css("display")=='block'){
+//					screen.lock();
+//				}
+//			}).opacity(30);
+//			$('#loading').show();
+//			
+//			getFlight_data(e,"form");
+//			//leftBox_anim(left_box.search,10,30,-380,100);
+//			$('#left_bar').attr("type","search");
+//		}else{
+//			
+//		}
+		
 		//console.log(serializeSearch());
 		var screen = $('#screen');
 		screen.lock().resize(function(){
@@ -1001,6 +1020,8 @@ function load(){
 		getFlight_data(e,"form");
 		//leftBox_anim(left_box.search,10,30,-380,100);
 		$('#left_bar').attr("type","search");
+	
+		
 	});
 
 	//确认过滤
